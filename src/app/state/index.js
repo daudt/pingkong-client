@@ -1,7 +1,7 @@
 import {observable} from 'mobx'
 
 class State {
-  @observable data = []
+  @observable leaderboard = []
 }
 
 export default new State()

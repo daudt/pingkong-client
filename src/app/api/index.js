@@ -18,7 +18,9 @@ class Api {
         }
         console.log(res.body[0])
         // state.data = new Api(res.body)
-        state.data = res.body
+        state.leaderboard = res.body.sort(function(a, b) {
+          return b.rating - a.rating
+        })
       })
   }
 }

@@ -1,12 +1,24 @@
 body {
-  background-color: pink;
+  background-color: #336699;
+  color: white;
 }
 
 #leaderboard div {
+  align-items: center;
+  color: black;
   display: flex;
-  justify-content: space-around;
-  width: 10vw;
+
+  &:nth-of-type(odd) {
+    background: lightgray;
+  }
+  &:nth-of-type(even) {
+    background: darkgray;
+  }
+
   span {
-    width: 5vw;
+    padding: 0 1vw;
+  }
+  img {
+    border-radius: 100%;
   }
 }
