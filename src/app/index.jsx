@@ -3,6 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import ActionMenu from './actionMenu'
+import Game from './game'
 import Leaderboard from './leaderboard'
 import state from './state/'
 
@@ -13,9 +14,7 @@ class App extends React.Component {
   render() {
     if (state.page === 'game') {
       return (
-        <div>
-          Game
-        </div>
+        <Game />
       )
     }
     else {
