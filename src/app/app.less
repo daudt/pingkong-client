@@ -53,11 +53,15 @@ h1 {
     justify-content: space-around;
     div {
       align-items: center;
+      border: 5px solid transparent;
       display: flex;
       height: 50vh;
       width: 40%;
       &:hover {
         background-color: white;
+      }
+      &.selected {
+        border: 5px solid pink;
       }
     }
   }
