@@ -27,9 +27,23 @@ module.exports = {
   ],
 
   'rules': {
-    'comma-dangle': 'off',
-    'react/prop-types': 'off',
-    'require-jsdoc': 'off',
-    'semi': 'off'
+    'brace-style': [
+      2,
+      'stroustrup'
+    ],
+    'curly': 2,
+    'comma-dangle': 0,
+    'max-len': 0,
+    'quotes': [
+      2,
+      'single',
+      {
+        'allowTemplateLiterals': true,
+        'avoidEscape': true
+      }
+    ],
+    'react/prop-types': 0,
+    'require-jsdoc': 0,
+    'semi': 0
   }
 }

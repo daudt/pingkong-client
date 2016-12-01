@@ -1,18 +1,23 @@
 body {
   background-color: #336699;
+}
+
+h1 {
   color: white;
 }
 
 #leaderboard div {
   align-items: center;
-  color: black;
   display: flex;
 
   &:nth-of-type(odd) {
-    background: lightgray;
+    background-color: lightgray;
   }
   &:nth-of-type(even) {
-    background: darkgray;
+    background-color: darkgray;
+  }
+  &.selected {
+    background-color: blue;
   }
 
   span {
@@ -21,4 +26,13 @@ body {
   img {
     border-radius: 100%;
   }
+}
+
+#actionMenu {
+  background-color: pink;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  text-align: center;
+  width: 100%;
 }
