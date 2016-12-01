@@ -8,6 +8,7 @@ h1 {
 
 #leaderboard div {
   align-items: center;
+  border: 3px solid transparent;
   cursor: pointer;
   display: flex;
 
@@ -19,6 +20,9 @@ h1 {
   }
   &.selected {
     background-color: blue;
+  }
+  &:hover {
+    border: 3px solid pink;
   }
 
   span {
@@ -51,11 +55,16 @@ h1 {
   div {
     display: flex;
     justify-content: space-around;
-    div {
+
+    div, h3 {
       align-items: center;
-      border: 5px solid transparent;
       display: flex;
       height: 50vh;
+    }
+
+    div {
+      border: 5px solid transparent;
+      cursor: pointer;
       width: 40%;
       &:hover {
         background-color: white;
