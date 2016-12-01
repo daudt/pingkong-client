@@ -12,20 +12,14 @@ import './app.less'
 @observer
 class App extends React.Component {
   render() {
-    if (state.page === 'game') {
-      return (
-        <Game />
-      )
-    }
-    else {
-      return (
-        <section>
-          <h1>King of Pong Mountain</h1>
-          <Leaderboard />
-          <ActionMenu />
-        </section>
-      )
-    }
+    return (
+      <section>
+        <h1>King of Pong Mountain</h1>
+        {
+          state.page === 'game' ? <Game /> : <section><Leaderboard /><ActionMenu /></section>
+        }
+      </section>
+    )
   }
 }
 
