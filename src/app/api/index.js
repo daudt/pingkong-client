@@ -28,6 +28,7 @@ class Api {
     // TODO: Send request to server
     state.page = 'leaderboard'
     state.winner = null
+    state.selectedPlayers = []
   }
 }
 
