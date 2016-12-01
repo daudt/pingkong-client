@@ -4,7 +4,7 @@ const BUILD_DIR = path.resolve(__dirname, 'src')
 const APP_DIR = path.resolve(__dirname, 'src/app')
 
 const config = {
-  entry: `${APP_DIR}/index.js`,
+  entry: `${APP_DIR}/index.jsx`,
   output: {
     path: BUILD_DIR,
     filename: 'bundle.js'
@@ -12,7 +12,7 @@ const config = {
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         include: APP_DIR,
         loader: 'babel-loader'
       },
@@ -23,7 +23,7 @@ const config = {
     ]
   },
   resolve: {
-    extensions: ['', '.js', '.less']
+    extensions: ['', '.js', '.jsx', '.less']
   }
 }
 

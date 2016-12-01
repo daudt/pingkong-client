@@ -1,14 +1,11 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import {observer} from 'mobx-react'
 
 import Api from './api/'
 import state from './state/'
 
-import './app.less'
-
 @observer
-class App extends React.Component {
+class Leaderboard extends React.Component {
   constructor() {
     super()
 
@@ -16,22 +13,20 @@ class App extends React.Component {
   }
 
   render() {
-    const data = state.data.map(function(item) {
+    const leaderboard = state.data.map(function(item) {
       return (
         <div key={item.email}>
+          <span>{item.rating}</span>
           <span>{item.name}</span>
         </div>
       )
     })
     return (
-      <section>
-        <h1>King of Pong Mountain</h1>
-        {data}
+      <section id='leaderboard'>
+        {leaderboard}
       </section>
     )
   }
 }
 
-ReactDOM.render((
-  <App />
-), document.querySelector('main'))
+export default Leaderboard
