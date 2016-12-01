@@ -46,7 +46,22 @@ h1 {
   height: 100vh;
 }
 
-#game div {
-  display: flex;
-  justify-content: space-around;
+#game {
+  div {
+    display: flex;
+    justify-content: space-around;
+    div {
+      align-items: center;
+      display: flex;
+      height: 50vh;
+      width: 40%;
+      &:hover {
+        background-color: white;
+      }
+    }
+  }
+  button {
+    height: 10vh;
+    width: 100%;
+  }
 }

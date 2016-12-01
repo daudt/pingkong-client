@@ -10,9 +10,9 @@ class Game extends React.Component {
       <section id="game">
         <h3>PICK A WINNER</h3>
         <div>
-          <p>{state.selectedPlayers[0].name}</p>
+          <div>{state.selectedPlayers[0].name}</div>
           <h3>VS.</h3>
-          <p>{state.selectedPlayers[1].name}</p>
+          <div>{state.selectedPlayers[1].name}</div>
         </div>
         <button>SAVE GAME</button>
       </section>
