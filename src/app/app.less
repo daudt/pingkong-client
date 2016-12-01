@@ -6,43 +6,58 @@ h1 {
   color: white;
 }
 
-#leaderboard .user {
-  border: 3px solid transparent;
-  cursor: pointer;
+#leaderboard {
+  height: 90vh;
+  .user {
+    border: 3px solid transparent;
+    cursor: pointer;
 
-  &:nth-of-type(odd) {
-    background-color: lightgray;
-  }
-  &:nth-of-type(even) {
-    background-color: darkgray;
-  }
-  &.selected {
-    background-color: blue;
-  }
-  &:hover {
-    border: 3px solid pink;
-  }
+    &:nth-of-type(odd) {
+      background-color: lightgray;
+    }
+    &:nth-of-type(even) {
+      background-color: darkgray;
+    }
+    &.selected {
+      background-color: blue;
+    }
+    &:hover {
+      border: 3px solid pink;
+    }
 
-  div:first-child {
-    align-items: center;
-    display: flex;
-  }
+    div:first-child {
+      align-items: center;
+      display: flex;
 
-  span {
-    padding: 0 1vw;
-  }
-  img {
-    border-radius: 100%;
+      span {
+        padding: 0 1vw;
+      }
+      img {
+        border-radius: 100%;
+      }
+    }
+
+    div:nth-child(2) {
+      height: 50vh;
+    }
   }
 }
 
 #actionMenu {
+  align-items: center;
   background-color: pink;
   bottom: 0;
+  display: flex;
+  height: 10vh;
+  justify-content: center;
   left: 0;
-  position: absolute;
+  position: fixed;
   text-align: center;
   width: 100%;
+
+  h3 {
+    margin: 0;
+  }
 }
 
 #background {
