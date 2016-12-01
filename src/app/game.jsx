@@ -1,6 +1,7 @@
 import {observer} from 'mobx-react'
 import React from 'react'
 
+import Api from './api/'
 import state from './state/'
 
 @observer
@@ -24,14 +25,19 @@ class Game extends React.Component {
             {state.selectedPlayers[1].name}
           </div>
         </div>
-        <button>SAVE GAME</button>
+        <button onClick={this._submitGame.bind(this)}>
+          SAVE GAME
+        </button>
       </section>
     )
   }
 
-  _handleClick(winner, evt) {
-    console.warn('click', winner)
+  _handleClick(winner) {
     state.winner = winner
+  }
+
+  _submitGame() {
+    Api.postScore()
   }
 }
 

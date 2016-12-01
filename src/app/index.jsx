@@ -13,6 +13,7 @@ import './app.less'
 @observer
 class App extends React.Component {
   render() {
+    console.warn(state.page)
     return (
       <section>
         <Background />
