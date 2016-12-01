@@ -10,20 +10,28 @@ class Leaderboard extends React.Component {
     super()
 
     Api.getData()
+
+    this.state = {
+      expandedPlayer: null
+    }
   }
 
   render() {
-    const leaderboard = state.leaderboard.map((item, index) => {
+    console.warn('expandedPlayer', this.state.expandedPlayer)
+    const leaderboard = state.leaderboard.map((user, index) => {
       return (
-        <div
-          key={item.email}
-          onClick={this._handleClick.bind(this, item)}
-          className={state.selectedPlayers.includes(item) ? 'selected': null}
-        >
-          <span>{index + 1}</span>
-          <img src={item.image} />
-          <span>{item.rating}</span>
-          <span>{item.name} ({item.nickname})</span>
+        <div className='user' key={user.email}>
+          <div
+            onClick={this._handleClick.bind(this, user)}
+            className={state.selectedPlayers.includes(user) ? 'selected': null}
+          >
+            <span>{index + 1}</span>
+            <img src={user.image} />
+            <span>{user.rating}</span>
+            <span>{user.name} ({user.nickname})</span>
+            <button onClick={this._openStats.bind(this, user)}>Open Stats</button>
+          </div>
+          {this.state.expandedPlayer === user ? <div>Expanded info</div>: null }
         </div>
       )
     })
@@ -35,13 +43,21 @@ class Leaderboard extends React.Component {
     )
   }
 
-  _handleClick(item, evt) {
-    if (state.selectedPlayers.includes(item)) {
-      state.selectedPlayers.pop(item)
+  _handleClick(user, evt) {
+    if (state.selectedPlayers.includes(user)) {
+      state.selectedPlayers.pop(user)
     }
     else {
-      state.selectedPlayers.push(item)
+      state.selectedPlayers.push(user)
     }
+  }
+
+  _openStats(user, evt) {
+    console.warn('_openStats', user.name)
+    this.setState({
+      expandedPlayer: user
+    })
+    evt.stopPropagation()
   }
 }
 
