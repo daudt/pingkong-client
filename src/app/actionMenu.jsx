@@ -33,7 +33,7 @@ class ActionMenu extends React.Component {
   }
 
   _handleClick(evt) {
-    console.warn('click')
+    state.page = 'game'
   }
 }
 
