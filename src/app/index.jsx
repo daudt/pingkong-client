@@ -3,6 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import ActionMenu from './actionMenu'
+import Background from './background'
 import Game from './game'
 import Leaderboard from './leaderboard'
 import state from './state/'
@@ -14,6 +15,7 @@ class App extends React.Component {
   render() {
     return (
       <section>
+        <Background />
         <h1>King of Pong Mountain</h1>
         {
           state.page === 'game' ? <Game /> : <section><Leaderboard /><ActionMenu /></section>
