@@ -26,7 +26,12 @@ class Game extends React.Component {
           onClick={this._submitGame.bind(this)}
           className={state.winner ? 'ready' : null}
         >
-          {state.winner ? 'Click here to save the game!': 'Who was the winner?!'}
+          <span>
+            <img src="/app/king-pong-logo-wide.png" className="logo" />
+          </span>
+          <span>
+            {state.winner ? 'Click here to save the game!': 'Who was the winner?!'}
+          </span>
         </header>
         <div>
           <div
