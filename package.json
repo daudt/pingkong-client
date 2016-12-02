@@ -2,7 +2,8 @@
   "scripts": {
     "dist": "node_modules/.bin/webpack",
     "lint": "node_modules/.bin/eslint src/**/*.js",
-    "start": "node_modules/.bin/webpack-dev-server --history-api-fallback --config webpack.config.js --content-base src --progress --color --inline --hot --host 0.0.0.0 --port 7464"
+    "start": "node_modules/.bin/webpack-dev-server --history-api-fallback --config webpack.config.js --content-base src --progress --color --inline --hot --host 0.0.0.0 --port 7464",
+    "unit": "node_modules/.bin/karma start test/unit/karma.unit.conf.js"
   },
   "devDependencies": {
     "babel-core": "^6.18.2",
@@ -17,6 +18,11 @@
     "eslint": "^3.10.1",
     "eslint-config-google": "^0.7.0",
     "eslint-plugin-react": "^6.7.1",
+    "jasmine-core": "^2.5.2",
+    "karma": "^1.3.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-jasmine": "^1.0.2",
+    "karma-mocha-reporter": "^2.2.1",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "mobx": "^2.6.3",
