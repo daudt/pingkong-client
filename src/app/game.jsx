@@ -6,6 +6,19 @@ import state from './state/'
 
 @observer
 class Game extends React.Component {
+
+  _getLabel(playerIndex) {
+    if (state.winner) {
+      if (state.winner === state.selectedPlayers[playerIndex]) {
+        return 'WINNER'
+      } else {
+        return 'LOSER'
+      }
+    } else {
+      return ''
+    }
+  }
+
   render() {
     return (
       <section id="game">
@@ -21,14 +34,14 @@ class Game extends React.Component {
             className={state.winner === state.selectedPlayers[0] ? 'winner': null}
           >
             {state.selectedPlayers[0].name}
-            <h1>{state.winner === state.selectedPlayers[0] ? 'WINNER' : 'LOSER'}</h1>
+            <h1>{this._getLabel(0)}</h1>
           </div>
           <div
             onClick={this._handleClick.bind(this, state.selectedPlayers[1])}
             className={state.winner === state.selectedPlayers[1] ? 'winner': null}
           >
             {state.selectedPlayers[1].name}
-            <h1>{state.winner === state.selectedPlayers[1] ? 'WINNER' : 'LOSER'}</h1>
+            <h1>{this._getLabel(1)}</h1>
           </div>
         </div>
       </section>
