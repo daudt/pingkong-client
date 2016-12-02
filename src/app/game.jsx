@@ -9,25 +9,28 @@ class Game extends React.Component {
   render() {
     return (
       <section id="game">
-        <header>PICK A WINNER</header>
+        <header
+          onClick={this._submitGame.bind(this)}
+          className={state.winner ? 'ready' : null}
+        >
+          {state.winner ? 'Save game!': 'Who was the winner?!'}
+        </header>
         <div>
           <div
             onClick={this._handleClick.bind(this, state.selectedPlayers[0])}
-            className={state.winner === state.selectedPlayers[0] ? 'selected': null}
+            className={state.winner === state.selectedPlayers[0] ? 'winner': null}
           >
             {state.selectedPlayers[0].name}
+            <h1>{state.winner === state.selectedPlayers[0] ? 'WINNER' : 'LOSER'}</h1>
           </div>
-          <h3>VS.</h3>
           <div
             onClick={this._handleClick.bind(this, state.selectedPlayers[1])}
-            className={state.winner === state.selectedPlayers[1] ? 'selected': null}
+            className={state.winner === state.selectedPlayers[1] ? 'winner': null}
           >
             {state.selectedPlayers[1].name}
+            <h1>{state.winner === state.selectedPlayers[1] ? 'WINNER' : 'LOSER'}</h1>
           </div>
         </div>
-        <button onClick={this._submitGame.bind(this)}>
-          SAVE GAME
-        </button>
       </section>
     )
   }

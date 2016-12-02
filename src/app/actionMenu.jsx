@@ -18,7 +18,7 @@ class ActionMenu extends React.Component {
         text = 'Select 1 more player!'
         break
       case 2:
-        text = "Let's play a game!"
+        text = 'Click here to play a game!'
         break
       default:
         text = "That's too many players! Select 2 to begin a game."

@@ -16,8 +16,6 @@ const DEFAULT_PAGE = 'logo'
 @observer
 class App extends React.Component {
   render() {
-    console.warn('state.page:', state.page)
-
     const PAGE_TEMPLATES = {
       logo: (
         <section className="logoContainer">

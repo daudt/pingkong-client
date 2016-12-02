@@ -5,7 +5,7 @@ class State {
   @observable page = ''
   @observable selectedPlayers = []
   @observable userRankings = []
-  @observable winner = {}
+  @observable winner = null
 }
 
 export default new State()

@@ -35,7 +35,7 @@ class ExpandedInfo extends React.Component {
         labels: created,
         datasets: [
             {
-              label: 'Elo Rankings Over Time',
+              label: 'Elo Rating',
               data: data,
               // borderColor: 'pink',
               // backgroundColor: 'blue'
