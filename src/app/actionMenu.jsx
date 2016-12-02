@@ -34,8 +34,11 @@ class ActionMenu extends React.Component {
     }
     return (
       <header className={klass}>
-        <span>
+        <span className="wideLogo">
           <img src="/app/king-pong-logo-wide.png" className="logo" />
+          <span className="emoji">
+            🏓
+          </span>
         </span>
         <span>
           {text}

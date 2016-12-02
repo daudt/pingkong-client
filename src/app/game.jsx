@@ -43,9 +43,13 @@ class Game extends React.Component {
     return (
       <section id="game">
         <header className={state.winner ? 'ready' : 'null'}>
-          <span>
+          <span className="wideLogo">
             <img src="/app/king-pong-logo-wide.png" className="logo" />
+            <span className="emoji">
+              🏓
+            </span>
           </span>
+
           <span>
             {state.winner ? (<button onClick={this._handleRecordMatch.bind(this)}>RECORD MATCH</button>) : 'Who won?'}
             <button onClick={this._handleCancel.bind(this)}>CANCEL</button>
