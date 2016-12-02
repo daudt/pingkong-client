@@ -1,3 +1,7 @@
+@selected-color: #BBDEFB;
+@hover-color: #90CAF9;
+@ready-color: #4DB6AC;
+
 body {
   background-color: #224466;
   margin: 0;
@@ -23,10 +27,10 @@ h1 {
       background-color: darkgray;
     }
     &.selected {
-      background-color: blue;
+      background-color: @selected-color;
     }
     &:hover {
-      border: 3px solid pink;
+      border: 3px solid @hover-color;
     }
 
     div {
@@ -71,7 +75,7 @@ h1 {
 
 #actionMenu {
   align-items: center;
-  background-color: pink;
+  background-color: white;
   cursor: pointer;
   display: flex;
   height: 10vh;
@@ -84,6 +88,9 @@ h1 {
 
   h3 {
     margin: 0;
+  }
+  &.ready {
+    background-color: @ready-color;
   }
 }
 
@@ -111,7 +118,7 @@ h1 {
         background-color: white;
       }
       &.selected {
-        border: 5px solid pink;
+        border: 5px solid @hover-color;
       }
     }
   }

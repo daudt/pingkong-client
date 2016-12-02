@@ -25,7 +25,11 @@ class ActionMenu extends React.Component {
 
     }
     return (
-      <section id='actionMenu' onClick={this._handleClick.bind(this)}>
+      <section
+        id='actionMenu'
+        onClick={this._handleClick.bind(this)}
+        className={state.selectedPlayers.length === 2 ? 'ready' : null}
+      >
         <h3>{text}</h3>
       </section>
     )
