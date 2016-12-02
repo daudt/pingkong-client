@@ -2,21 +2,25 @@ import * as request from 'superagent'
 
 import state from '../state'
 
+const SERVER_URL = 'http://localhost:3000'
+
 class Api {
-  static getRankings() {
-    request
-      .get('https://private-9f7d0-pingkong.apiary-mock.com/rankings')
-      .set('Accept', 'application/json')
-      .end((err, res) => {
-        if (err) {
-          console.error(err)
-        }
-        console.log(res.body[0])
-        // state.data = new Api(res.body)
-        state.leaderboard = res.body.sort(function(a, b) {
-          return b.rating - a.rating
+  static getLeaderboard() {
+    this._get('users', '_embed=rankings').then((users) => {
+      state.leaderboard = users.map((user) => {
+        Object.assign(user, {
+          rating: user.rankings.sort((a, b) => b.created_at - a.created_at)[0].rating
         })
+        delete user.rankings
+        return user
       })
+    })
+  }
+
+  static getRankingsByUser(user) {
+    this._get('rankings', `userId=${user.id}`).then((rankings) => {
+      state.userRankings = rankings.sort((a, b) => b.created_at - a.created_at)
+    })
   }
 
   static postScore() {
@@ -26,16 +30,25 @@ class Api {
     state.selectedPlayers = []
   }
 
-  static getRankingsByUser(user) {
-    request
-      .get(`https://private-9f7d0-pingkong.apiary-mock.com/rankings/${user.user_id}`)
-      .set('Accept', 'application/json')
-      .end((err, res) => {
-        console.log(res.body[0])
-        state.userRankings = res.body.sort(function(a, b) {
-          return b['created_at'] - a['created_at']
+  static _get(endpoint, query) {
+    return new Promise((resolve, reject) => {
+      let url = `${SERVER_URL}/${endpoint}`
+      if (query) {
+        url = `${url}/?${query}`
+      }
+
+      request.get(url)
+        .set('Accept', 'application/json')
+        .end((err, res) => {
+          if (err) {
+            console.error(err)
+            reject(err)
+          }
+
+          console.debug('Request:', url, res.body[0])
+          resolve(res.body)
         })
-      })
+    })
   }
 }
 

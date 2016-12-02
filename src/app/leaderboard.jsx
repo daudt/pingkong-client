@@ -11,7 +11,7 @@ class Leaderboard extends React.Component {
   @observable _expandedUser
 
   componentWillMount() {
-    Api.getRankings()
+    Api.getLeaderboard()
   }
 
   render() {
@@ -20,7 +20,7 @@ class Leaderboard extends React.Component {
 
       return (
         <div
-          key={user.email}
+          key={user.id}
           className={state.selectedPlayers.includes(user) ? 'user selected': 'user'}
           onClick={this._handleClick.bind(this, user)}
         >
