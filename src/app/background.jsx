@@ -6,7 +6,7 @@ import './background.less'
 
 import * as THREE from 'three'
 
-const INIT_DELAY_MS = 500
+const INIT_DELAY_MS = 1500
 
 const CLEAR_COLOR_RGB = 0x224466
 
