@@ -13,7 +13,7 @@ class Api {
         })
         delete user.rankings
         return user
-      })
+      }).sort((a, b) => b.rating - a.rating)
     })
   }
 
