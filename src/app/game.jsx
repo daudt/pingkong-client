@@ -90,7 +90,7 @@ class Game extends React.Component {
 
   @action
   _navigateBack() {
-    state.winner = null
+    // state.winner = null
     state.selectedPlayers = []
     state.page = 'logo'
   }

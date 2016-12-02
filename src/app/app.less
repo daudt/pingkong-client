@@ -32,7 +32,7 @@ header {
   width: 100%;
 
   &.ready {
-    background-color: @selected-color;
+    // background-color: @selected-color;
     color: black;
   }
 
@@ -101,14 +101,20 @@ button {
         &:nth-of-type(2) {
           flex-basis: 80vw;
         }
-        &:nth-of-type(3) {
+        &.rating {
           flex-basis: 5vw;
         }
-        &:nth-of-type(4) {
+        &.arrow {
           flex-basis: 1vw;
           &:hover {
             color: @ready-color;
           }
+        }
+        &.increase {
+          color: @ready-color;
+        }
+        &.decrease {
+          color: @warning-color;
         }
       }
 

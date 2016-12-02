@@ -27,7 +27,7 @@ class Api {
 
   static addMatch(winner, loser) {
     const created = new Date().toISOString()
-    const change = parseInt(Math.random() * 10) + 10
+    // const change = parseInt(Math.random() * 10) + 10
 
     // create the match
     this._post('matches', {
@@ -38,23 +38,35 @@ class Api {
           matchId: match.id,
           userId: winner.id
         })
-      }, 100)
+      }, 200)
 
       window.setTimeout(() => {
         this._post('match_users', {
           matchId: match.id,
           userId: loser.id
         })
-      }, 200)
+      }, 400)
 
       window.setTimeout(() => {
         this._post('winners', {
           matchId: match.id,
           userId: winner.id
         })
-      }, 300)
+      }, 600)
 
       window.setTimeout(() => {
+        // let change = null
+        // if (loser.rating > winner.rating) {
+        //   // this is an upset
+        //   change = Math.round((winner.rating - loser.rating)/25)
+        //   console.warn('winner loss (upset)', change)
+        // }
+        // else {
+        //   // this usually happens
+        //   change = Math.round((winner.rating - loser.rating)/100)
+        //   console.warn('winner won (normal)', change)
+        // }
+        const change = parseInt(Math.random() * 10) + 10
         this._get('rankings', `userId=${winner.id}`).then((rankings) => {
           rankings = rankings.sort(this._sortDateDesc)
           this._post('rankings', {
@@ -62,10 +74,20 @@ class Api {
             rating: rankings[0].rating + change,
             created_at: created
           })
+          state.winner = winner
+          state.winner.diff = change
         })
-      }, 400)
+      }, 800)
 
       window.setTimeout(() => {
+        // let change = null
+        // if (loser.rating > winner.rating) {
+        //   change = -Math.round((loser.rating-winner.rating)/50)
+        // }
+        // else {
+        //   change = Math.round((loser.rating-winner.rating)/100)
+        // }
+        const change = parseInt(Math.random() * 10) + 10
         this._get('rankings', `userId=${loser.id}`).then((rankings) => {
           rankings = rankings.sort(this._sortDateDesc)
           this._post('rankings', {
@@ -73,8 +95,10 @@ class Api {
             rating: rankings[0].rating - change,
             created_at: created
           })
+          state.loser = loser
+          state.loser.diff = change
         })
-      }, 500)
+      }, 1000)
     })
   }
 

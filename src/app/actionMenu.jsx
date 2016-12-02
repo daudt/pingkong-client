@@ -54,6 +54,7 @@ class ActionMenu extends React.Component {
   _handleClick(evt) {
     if (state.selectedPlayers.length === 2) {
       state.page = 'game'
+      state.winner = null
     }
     else {
       alert('Not ready to play game yet. Select more players')

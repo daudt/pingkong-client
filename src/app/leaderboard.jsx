@@ -28,8 +28,11 @@ class Leaderboard extends React.Component {
             <span>{index + 1}</span>
             <img className="avatar" src={user.image} />
             <span className="userName">{user.nickname}<div className="subtle">{user.name}</div></span>
-            <span>{user.rating}</span>
-            <span onClick={this._handleStatsClick.bind(this, user)}>
+            {state.winner && state.loser && state.winner.id !== user.id && state.loser.id !== user.id ? <span></span> : null}
+            {state.winner && state.winner.id === user.id ? <span className="increase">+{state.winner.diff}</span> : null}
+            {state.loser && state.loser.id === user.id ? <span className="decrease">-{state.loser.diff}</span> : null}
+            <span className="rating">{user.rating}</span>
+            <span className="arrow" onClick={this._handleStatsClick.bind(this, user)}>
               {isExpandedUser ? String.fromCharCode('9650') : String.fromCharCode('9660')}
             </span>
           </div>
