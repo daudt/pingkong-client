@@ -19,7 +19,12 @@ class ActionMenu extends React.Component {
         text = 'Select 1 more player!'
         break
       case 2:
-        text = 'Click here to play a game!!!'
+        text = (
+          <section>
+            <button onClick={this._handleClick.bind(this)}>PLAY</button>
+            <button onClick={this._handleCancel.bind(this)}>CANCEL</button>
+          </section>
+        )
         klass = 'ready'
         break
       default:
@@ -28,10 +33,7 @@ class ActionMenu extends React.Component {
 
     }
     return (
-      <header
-        onClick={this._handleClick.bind(this)}
-        className={klass}
-      >
+      <header className={klass}>
         <span>
           <img src="/app/king-pong-logo-wide.png" className="logo" />
         </span>
@@ -40,6 +42,10 @@ class ActionMenu extends React.Component {
         </span>
       </header>
     )
+  }
+
+  _handleCancel() {
+    state.selectedPlayers = []
   }
 
   _handleClick(evt) {
