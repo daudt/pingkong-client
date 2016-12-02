@@ -1,0 +1,541 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Rafael",
+      "email": "daudt@daudt.com",
+      "nickname": "Tuca",
+      "image": "https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-9/1688401_10152134446803290_487310119_n.jpg?oh=8a96a490ca9e4221cbf190e4aecb23b1&oe=58C1426C"
+    },
+    {
+      "id": 2,
+      "name": "Scott",
+      "email": "sbalay@gmail.com",
+      "nickname": "ZenBlender",
+      "image": "https://avatars2.githubusercontent.com/u/1471363?v=3&s=460"
+    },
+    {
+      "id": 3,
+      "name": "Alex",
+      "email": "akessock@gmail.com",
+      "nickname": "Keysox",
+      "image": "https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-9/557930_557548097589943_1576463450_n.jpg?oh=9513622365667f2f9d25cbe1b8085389&oe=58C08B73"
+    },
+    {
+      "id": 4,
+      "name": "Jim",
+      "email": "jim.casey@gmail.com",
+      "nickname": "jimcasey",
+      "image": "https://avatars2.githubusercontent.com/u/1511191?v=3&s=460"
+    },
+    {
+      "id": 5,
+      "name": "Eli",
+      "email": "eli@example.com",
+      "nickname": "eklein",
+      "image": "https://avatars2.githubusercontent.com/u/918620?v=3&s=460"
+    }
+  ],
+  "rankings": [
+    {
+      "userId": 1,
+      "rating": 2741,
+      "created_at": "2016-08-05T21:49:43Z"
+    },
+    {
+      "userId": 1,
+      "rating": 2132,
+      "created_at": "2016-03-07T00:26:38Z"
+    },
+    {
+      "userId": 1,
+      "rating": 2005,
+      "created_at": "2015-12-24T22:24:16Z"
+    },
+    {
+      "userId": 1,
+      "rating": 2798,
+      "created_at": "2016-05-24T09:18:51Z"
+    },
+    {
+      "userId": 1,
+      "rating": 1115,
+      "created_at": "2016-02-13T22:46:15Z"
+    },
+    {
+      "userId": 1,
+      "rating": 2923,
+      "created_at": "2016-01-30T10:53:18Z"
+    },
+    {
+      "userId": 1,
+      "rating": 2382,
+      "created_at": "2016-11-09T09:31:24Z"
+    },
+    {
+      "userId": 1,
+      "rating": 1698,
+      "created_at": "2016-08-10T03:31:26Z"
+    },
+    {
+      "userId": 1,
+      "rating": 2625,
+      "created_at": "2016-01-24T04:46:23Z"
+    },
+    {
+      "userId": 1,
+      "rating": 1455,
+      "created_at": "2016-09-01T05:56:17Z"
+    },
+    {
+      "userId": 2,
+      "rating": 2059,
+      "created_at": "2015-12-25T00:02:47Z"
+    },
+    {
+      "userId": 2,
+      "rating": 1792,
+      "created_at": "2016-02-20T08:41:23Z"
+    },
+    {
+      "userId": 2,
+      "rating": 1739,
+      "created_at": "2016-04-28T21:19:51Z"
+    },
+    {
+      "userId": 2,
+      "rating": 2265,
+      "created_at": "2016-03-06T00:41:35Z"
+    },
+    {
+      "userId": 2,
+      "rating": 1126,
+      "created_at": "2016-04-07T19:46:41Z"
+    },
+    {
+      "userId": 2,
+      "rating": 2212,
+      "created_at": "2016-02-28T20:42:00Z"
+    },
+    {
+      "userId": 2,
+      "rating": 2924,
+      "created_at": "2015-11-01T21:23:21Z"
+    },
+    {
+      "userId": 2,
+      "rating": 1165,
+      "created_at": "2016-09-23T08:38:11Z"
+    },
+    {
+      "userId": 2,
+      "rating": 2434,
+      "created_at": "2016-11-28T08:57:48Z"
+    },
+    {
+      "userId": 2,
+      "rating": 2154,
+      "created_at": "2016-01-26T00:51:29Z"
+    },
+    {
+      "userId": 2,
+      "rating": 1301,
+      "created_at": "2015-11-06T08:24:53Z"
+    },
+    {
+      "userId": 2,
+      "rating": 2723,
+      "created_at": "2016-02-15T14:06:05Z"
+    },
+    {
+      "userId": 2,
+      "rating": 2884,
+      "created_at": "2016-10-27T01:34:53Z"
+    },
+    {
+      "userId": 2,
+      "rating": 1037,
+      "created_at": "2016-02-04T23:33:04Z"
+    },
+    {
+      "userId": 3,
+      "rating": 2905,
+      "created_at": "2016-10-06T10:33:57Z"
+    },
+    {
+      "userId": 3,
+      "rating": 2539,
+      "created_at": "2016-04-08T22:10:51Z"
+    },
+    {
+      "userId": 3,
+      "rating": 2805,
+      "created_at": "2015-11-19T20:50:33Z"
+    },
+    {
+      "userId": 3,
+      "rating": 2937,
+      "created_at": "2016-05-06T17:53:20Z"
+    },
+    {
+      "userId": 3,
+      "rating": 2869,
+      "created_at": "2016-10-03T05:50:30Z"
+    },
+    {
+      "userId": 3,
+      "rating": 1695,
+      "created_at": "2015-12-29T12:37:32Z"
+    },
+    {
+      "userId": 3,
+      "rating": 2429,
+      "created_at": "2016-02-27T11:38:40Z"
+    },
+    {
+      "userId": 3,
+      "rating": 2677,
+      "created_at": "2016-01-27T09:20:54Z"
+    },
+    {
+      "userId": 3,
+      "rating": 2928,
+      "created_at": "2016-02-05T14:30:36Z"
+    },
+    {
+      "userId": 3,
+      "rating": 1564,
+      "created_at": "2015-12-26T14:43:07Z"
+    },
+    {
+      "userId": 3,
+      "rating": 1391,
+      "created_at": "2016-01-07T16:51:51Z"
+    },
+    {
+      "userId": 3,
+      "rating": 2172,
+      "created_at": "2016-04-23T19:46:35Z"
+    },
+    {
+      "userId": 3,
+      "rating": 2139,
+      "created_at": "2016-07-30T12:00:33Z"
+    },
+    {
+      "userId": 3,
+      "rating": 2497,
+      "created_at": "2016-03-26T07:15:03Z"
+    },
+    {
+      "userId": 3,
+      "rating": 2564,
+      "created_at": "2016-01-30T13:14:25Z"
+    },
+    {
+      "userId": 3,
+      "rating": 2873,
+      "created_at": "2016-07-31T08:25:46Z"
+    },
+    {
+      "userId": 3,
+      "rating": 2711,
+      "created_at": "2016-04-29T00:00:02Z"
+    },
+    {
+      "userId": 3,
+      "rating": 2132,
+      "created_at": "2016-08-10T23:20:21Z"
+    },
+    {
+      "userId": 3,
+      "rating": 2216,
+      "created_at": "2016-08-09T20:47:44Z"
+    },
+    {
+      "userId": 3,
+      "rating": 1957,
+      "created_at": "2015-12-31T10:19:21Z"
+    },
+    {
+      "userId": 3,
+      "rating": 2624,
+      "created_at": "2016-03-04T10:20:38Z"
+    },
+    {
+      "userId": 3,
+      "rating": 1260,
+      "created_at": "2015-12-03T22:58:24Z"
+    },
+    {
+      "userId": 3,
+      "rating": 2177,
+      "created_at": "2016-01-19T09:28:53Z"
+    },
+    {
+      "userId": 3,
+      "rating": 2511,
+      "created_at": "2015-12-28T13:19:35Z"
+    },
+    {
+      "userId": 3,
+      "rating": 1726,
+      "created_at": "2016-08-03T11:08:56Z"
+    },
+    {
+      "userId": 4,
+      "rating": 1349,
+      "created_at": "2015-11-02T06:09:48Z"
+    },
+    {
+      "userId": 4,
+      "rating": 2863,
+      "created_at": "2016-11-03T12:59:53Z"
+    },
+    {
+      "userId": 4,
+      "rating": 1664,
+      "created_at": "2016-11-30T08:42:40Z"
+    },
+    {
+      "userId": 4,
+      "rating": 1257,
+      "created_at": "2016-08-10T10:54:23Z"
+    },
+    {
+      "userId": 4,
+      "rating": 1022,
+      "created_at": "2016-08-22T13:02:05Z"
+    },
+    {
+      "userId": 4,
+      "rating": 1489,
+      "created_at": "2015-12-27T15:32:06Z"
+    },
+    {
+      "userId": 4,
+      "rating": 1853,
+      "created_at": "2016-07-10T13:24:51Z"
+    },
+    {
+      "userId": 4,
+      "rating": 2872,
+      "created_at": "2016-11-22T14:46:57Z"
+    },
+    {
+      "userId": 4,
+      "rating": 1825,
+      "created_at": "2016-06-24T06:42:36Z"
+    },
+    {
+      "userId": 4,
+      "rating": 2546,
+      "created_at": "2016-11-23T08:25:01Z"
+    },
+    {
+      "userId": 4,
+      "rating": 2301,
+      "created_at": "2016-03-22T19:07:46Z"
+    },
+    {
+      "userId": 4,
+      "rating": 2219,
+      "created_at": "2016-08-16T09:44:12Z"
+    },
+    {
+      "userId": 4,
+      "rating": 2768,
+      "created_at": "2015-11-03T18:02:05Z"
+    },
+    {
+      "userId": 4,
+      "rating": 2564,
+      "created_at": "2015-11-03T01:41:22Z"
+    },
+    {
+      "userId": 4,
+      "rating": 2762,
+      "created_at": "2016-08-02T22:12:06Z"
+    },
+    {
+      "userId": 4,
+      "rating": 1039,
+      "created_at": "2016-06-24T18:03:08Z"
+    },
+    {
+      "userId": 4,
+      "rating": 1174,
+      "created_at": "2015-12-11T09:03:30Z"
+    },
+    {
+      "userId": 4,
+      "rating": 2297,
+      "created_at": "2016-09-06T01:11:28Z"
+    },
+    {
+      "userId": 4,
+      "rating": 2550,
+      "created_at": "2016-03-10T19:15:41Z"
+    },
+    {
+      "userId": 4,
+      "rating": 1838,
+      "created_at": "2016-06-21T12:36:40Z"
+    },
+    {
+      "userId": 4,
+      "rating": 2451,
+      "created_at": "2016-08-13T03:05:13Z"
+    },
+    {
+      "userId": 4,
+      "rating": 1784,
+      "created_at": "2016-04-11T23:13:19Z"
+    },
+    {
+      "userId": 5,
+      "rating": 2708,
+      "created_at": "2016-02-19T00:12:30Z"
+    },
+    {
+      "userId": 5,
+      "rating": 1194,
+      "created_at": "2016-04-19T18:20:52Z"
+    },
+    {
+      "userId": 5,
+      "rating": 2563,
+      "created_at": "2016-04-27T10:12:02Z"
+    },
+    {
+      "userId": 5,
+      "rating": 1490,
+      "created_at": "2016-04-26T12:36:42Z"
+    },
+    {
+      "userId": 5,
+      "rating": 1801,
+      "created_at": "2015-11-06T04:30:42Z"
+    },
+    {
+      "userId": 5,
+      "rating": 1350,
+      "created_at": "2016-09-10T08:46:26Z"
+    },
+    {
+      "userId": 5,
+      "rating": 2876,
+      "created_at": "2016-07-18T02:02:07Z"
+    },
+    {
+      "userId": 5,
+      "rating": 2431,
+      "created_at": "2016-03-13T11:37:14Z"
+    },
+    {
+      "userId": 5,
+      "rating": 2170,
+      "created_at": "2016-09-21T02:04:10Z"
+    },
+    {
+      "userId": 5,
+      "rating": 2324,
+      "created_at": "2016-03-16T12:32:21Z"
+    },
+    {
+      "userId": 5,
+      "rating": 1814,
+      "created_at": "2016-05-10T16:21:22Z"
+    },
+    {
+      "userId": 5,
+      "rating": 1619,
+      "created_at": "2016-04-10T15:05:58Z"
+    },
+    {
+      "userId": 5,
+      "rating": 1669,
+      "created_at": "2016-08-29T11:07:45Z"
+    },
+    {
+      "userId": 5,
+      "rating": 2497,
+      "created_at": "2016-02-21T12:11:47Z"
+    },
+    {
+      "userId": 5,
+      "rating": 2084,
+      "created_at": "2016-07-23T11:15:02Z"
+    },
+    {
+      "userId": 5,
+      "rating": 2129,
+      "created_at": "2016-03-21T10:29:06Z"
+    },
+    {
+      "userId": 5,
+      "rating": 1125,
+      "created_at": "2016-08-22T08:34:04Z"
+    },
+    {
+      "userId": 5,
+      "rating": 1731,
+      "created_at": "2016-06-22T00:35:31Z"
+    },
+    {
+      "userId": 5,
+      "rating": 1443,
+      "created_at": "2016-02-19T22:33:48Z"
+    },
+    {
+      "userId": 5,
+      "rating": 2778,
+      "created_at": "2016-01-22T04:32:08Z"
+    },
+    {
+      "userId": 5,
+      "rating": 2644,
+      "created_at": "2016-11-01T11:42:16Z"
+    },
+    {
+      "userId": 5,
+      "rating": 1634,
+      "created_at": "2015-12-28T06:03:48Z"
+    },
+    {
+      "userId": 5,
+      "rating": 1270,
+      "created_at": "2016-05-12T11:27:34Z"
+    },
+    {
+      "userId": 5,
+      "rating": 2957,
+      "created_at": "2016-06-04T22:57:38Z"
+    },
+    {
+      "userId": 5,
+      "rating": 2055,
+      "created_at": "2015-12-12T15:45:58Z"
+    },
+    {
+      "userId": 5,
+      "rating": 1960,
+      "created_at": "2016-03-11T06:03:52Z"
+    },
+    {
+      "userId": 5,
+      "rating": 1203,
+      "created_at": "2016-03-16T02:39:03Z"
+    },
+    {
+      "userId": 5,
+      "rating": 1143,
+      "created_at": "2016-09-24T04:41:54Z"
+    },
+    {
+      "userId": 5,
+      "rating": 1697,
+      "created_at": "2016-10-15T15:03:50Z"
+    }
+  ]
+}
