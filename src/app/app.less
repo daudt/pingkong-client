@@ -52,10 +52,10 @@ header {
     cursor: pointer;
 
     &:hover {
-      background-color: @hover-color;
+      background-color: fade(@hover-color, 50%);
     }
     &.selected {
-      background-color: @selected-color;
+      background-color: fade(@selected-color, 75%);
 
       img {
         background: url(/app/checkmark.svg) @hover-color;
