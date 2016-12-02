@@ -29,9 +29,9 @@ class Leaderboard extends React.Component {
             <img src={user.image} />
             <span>{user.name} ({user.nickname})</span>
             <span>{user.rating}</span>
-            <button onClick={this._handleStatsClick.bind(this, user)}>
-              {isExpandedUser ? 'Close Stats' : 'Open Stats'}
-            </button>
+            <span onClick={this._handleStatsClick.bind(this, user)}>
+              {isExpandedUser ? String.fromCharCode('9650') : String.fromCharCode('9660')}
+            </span>
           </div>
           {isExpandedUser ? <ExpandedInfo user={user} />: null }
         </div>

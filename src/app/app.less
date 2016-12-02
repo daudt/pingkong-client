@@ -27,6 +27,7 @@ h1 {
   div {
     align-items: center;
     display: flex;
+    padding: 1vh 0;
 
     span {
       padding: 0 1vw;
@@ -39,16 +40,18 @@ h1 {
       &:nth-of-type(3) {
         flex-basis: 5vw;
       }
+      &:nth-of-type(4) {
+        flex-basis: 1vw;
+        &:hover {
+          color: white;
+        }
+      }
     }
 
     img {
       border-radius: 100%;
       flex-basis: 5vw;
       width: 50px;
-    }
-
-    button {
-      flex-basis: 10vw;
     }
   }
 }
