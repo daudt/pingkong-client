@@ -10,6 +10,7 @@ class ActionMenu extends React.Component {
   }
   render() {
     let text = null
+    let klass = null
     switch (state.selectedPlayers.length) {
       case 0:
         text = 'Select 2 players to begin.'
@@ -19,15 +20,17 @@ class ActionMenu extends React.Component {
         break
       case 2:
         text = 'Click here to play a game!!!'
+        klass = 'ready'
         break
       default:
         text = "That's too many players! Select 2 to begin a game."
+        klass = 'invalid'
 
     }
     return (
       <header
         onClick={this._handleClick.bind(this)}
-        className={state.selectedPlayers.length === 2 ? 'ready' : null}
+        className={klass}
       >
         <span>
           <img src="/app/king-pong-logo-wide.png" className="logo" />
