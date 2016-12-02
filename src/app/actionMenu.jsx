@@ -7,27 +7,26 @@ import state from './state/'
 class ActionMenu extends React.Component {
   constructor() {
     super()
-
-    this.text = ''
   }
   render() {
+    let text = null
     switch (state.selectedPlayers.length) {
       case 0:
-        this.text = 'Select 2 players to begin'
+        text = 'Select 2 players to begin'
         break
       case 1:
-        this.text = 'Select 1 more player!'
+        text = 'Select 1 more player!'
         break
       case 2:
-        this.text = "Let's play a game!"
+        text = "Let's play a game!"
         break
       default:
-        this.text = 'Shit broke'
+        text = "That's too many players! Select 2 to begin a game."
 
     }
     return (
       <section id='actionMenu' onClick={this._handleClick.bind(this)}>
-        <h3>{this.text}</h3>
+        <h3>{text}</h3>
       </section>
     )
   }
