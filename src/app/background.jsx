@@ -18,11 +18,17 @@ class Background extends React.Component {
     this._init()
   }
 
-  _setScene(sceneData) {
-    this._sceneData = sceneData
+  _transformSceneData(sceneData) {
     sceneData.children.forEach((child) => {
       child.material = new THREE.MeshLambertMaterial({color: MATERIAL_RGB});
+      child.translateY(4.0) // move top of mountain so it stays centered when rotated
     })
+    return sceneData
+  }
+
+  _setScene(sceneData) {
+    this._sceneData = this._transformSceneData(sceneData)
+
     const container = document.querySelector("#background");
     const canvas = document.querySelector("#backgroundCanvas");
 
