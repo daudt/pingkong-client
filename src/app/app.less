@@ -13,10 +13,6 @@ body {
   margin: 0;
 }
 
-h1 {
-  color: white;
-}
-
 header {
   align-items: center;
   background-color: #ea3e3a;
@@ -107,7 +103,7 @@ header {
 
     div {
       align-items: center;
-      background-color: @hover-color;
+      background-color: @selected-color;
       border: 1px solid white;
       cursor: pointer;
       display: flex;
@@ -116,9 +112,10 @@ header {
       justify-content: center;
       width: 40%;
 
-      // &.winner {
-      //   background-color: @ready-color;
-      // }
+      &:hover, &.winner {
+        background-color: @hover-color;
+        color: white;
+      }
     }
   }
 }
