@@ -76,7 +76,9 @@ class Game extends React.Component {
   }
 
   _submitGame() {
-    Api.postScore()
+    const loser = (state.selectedPlayers[0] !== state.winner) ?
+      state.selectedPlayers[0] : state.selectedPlayers[1]
+    Api.addMatch(state.winner, loser)
   }
 }
 
