@@ -17,9 +17,10 @@ class App extends React.Component {
     return (
       <section>
         <Background />
-        <h1>King of Pong Mountain</h1>
         {
-          state.page === 'game' ? <Game /> : <section><Leaderboard /><ActionMenu /></section>
+          state.page === 'game'
+            ? <section className="UIOverlay"><Game /></section>
+            : <section className="UIOverlay"><Leaderboard /><ActionMenu /></section>
         }
       </section>
     )
