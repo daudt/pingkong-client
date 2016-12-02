@@ -7,6 +7,13 @@ import * as THREE from 'three'
 const MATERIAL_RGB = 0x336699
 const CLEAR_COLOR_RGB = 0x224466
 
+const POS_X = 0
+const START_POS_Y = -10
+const END_POS_Y = -6
+const POS_Z = -9
+
+const MATERIAL = new THREE.MeshLambertMaterial({color: MATERIAL_RGB})
+
 class Background extends React.Component {
 
   constructor() {
@@ -15,15 +22,28 @@ class Background extends React.Component {
     this._sceneData = null  // Scene data from file
     this._camera = null
     this._renderer = null
+
+    this._currY = START_POS_Y
+
     this._init()
   }
 
   _transformSceneData(sceneData) {
     sceneData.children.forEach((child) => {
-      child.material = new THREE.MeshLambertMaterial({color: MATERIAL_RGB});
+      child.material = MATERIAL
       child.translateY(4.0) // move top of mountain so it stays centered when rotated
     })
     return sceneData
+  }
+
+  _setPos() {
+    this._sceneData.position.setX(POS_X)
+    this._sceneData.position.setY(this._currY)
+    this._sceneData.position.setZ(POS_Z)
+  }
+
+  _stepPos() {
+    this._currY += (END_POS_Y - this._currY) / 30
   }
 
   _setScene(sceneData) {
@@ -49,7 +69,9 @@ class Background extends React.Component {
     const light1 = new THREE.PointLight(0xffffff, 0.5);
     this._scene.add(light1);
 
-    sceneData.position.set(0, -5, -9);
+    console.log('!', sceneData.position)
+
+    this._setPos()
 
     this._scene.add(sceneData);
 
@@ -57,6 +79,8 @@ class Background extends React.Component {
   }
 
   _renderThree() {
+    this._setPos()
+    this._stepPos()
     this._sceneData.rotation.y += 0.005;
     this._renderer.render(this._scene, this._camera);
     requestAnimationFrame(this._renderThree.bind(this));
