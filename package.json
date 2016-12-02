@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dist": "node_modules/.bin/webpack",
+    "dist": "node dist",
     "lint": "node_modules/.bin/eslint src/**/*.js",
     "start": "node_modules/.bin/webpack-dev-server --history-api-fallback --config webpack.config.js --content-base src --progress --color --inline --hot --host 0.0.0.0 --port 7464",
     "unit": "node_modules/.bin/karma start test/unit/karma.unit.conf.js"
