@@ -55,18 +55,13 @@ class Api {
       }, 600)
 
       window.setTimeout(() => {
-        // let change = null
-        // if (loser.rating > winner.rating) {
-        //   // this is an upset
-        //   change = Math.round((winner.rating - loser.rating)/25)
-        //   console.warn('winner loss (upset)', change)
-        // }
-        // else {
-        //   // this usually happens
-        //   change = Math.round((winner.rating - loser.rating)/100)
-        //   console.warn('winner won (normal)', change)
-        // }
-        const change = parseInt(Math.random() * 10) + 10
+        let change = null
+        if (loser.rating > winner.rating) {
+          change = -Math.round((winner.rating - loser.rating)/25)
+        }
+        else {
+          change = Math.round((winner.rating - loser.rating)/125)
+        }
         this._get('rankings', `userId=${winner.id}`).then((rankings) => {
           rankings = rankings.sort(this._sortDateDesc)
           this._post('rankings', {
@@ -80,14 +75,13 @@ class Api {
       }, 800)
 
       window.setTimeout(() => {
-        // let change = null
-        // if (loser.rating > winner.rating) {
-        //   change = -Math.round((loser.rating-winner.rating)/50)
-        // }
-        // else {
-        //   change = Math.round((loser.rating-winner.rating)/100)
-        // }
-        const change = parseInt(Math.random() * 10) + 10
+        let change = null
+        if (loser.rating > winner.rating) {
+          change = -Math.round((winner.rating - loser.rating)/50)
+        }
+        else {
+          change = Math.round((winner.rating - loser.rating)/100)
+        }
         this._get('rankings', `userId=${loser.id}`).then((rankings) => {
           rankings = rankings.sort(this._sortDateDesc)
           this._post('rankings', {
