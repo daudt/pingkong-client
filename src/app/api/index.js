@@ -5,6 +5,10 @@ import state from '../state'
 
 const SERVER_URL = 'http://localhost:3000'
 
+// update these to change how the ELO ratings are affected
+const WINNER_SCORE = 1
+const LOSER_SCORE = 0
+
 class Api {
   static getLeaderboard() {
     this._get('users', '_embed=rankings').then((users) => {
@@ -28,7 +32,7 @@ class Api {
   static addMatch(winner, loser) {
     const created = new Date().toISOString()
 
-    const eloRating = new EloRating(winner.rating, loser.rating, 1, 0)
+    const eloRating = new EloRating(winner.rating, loser.rating, WINNER_SCORE, LOSER_SCORE)
     const newRatings = eloRating.getNewRatings()
     const winnerRating = newRatings.winners
     const loserRating = newRatings.losers
