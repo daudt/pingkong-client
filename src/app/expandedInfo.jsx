@@ -7,12 +7,10 @@ import state from './state/'
 
 @observer
 class ExpandedInfo extends React.Component {
-  constructor() {
-    super()
+  _userRankings = null
 
-    this._userRankings = null
-
-    Api.getRankingsByUser()
+  componentWillMount() {
+    Api.getRankingsByUser(this.props.user)
   }
 
   render() {

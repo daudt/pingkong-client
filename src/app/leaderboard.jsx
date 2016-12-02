@@ -32,7 +32,7 @@ class Leaderboard extends React.Component {
               {isExpandedUser ? 'Close Stats' : 'Open Stats'}
             </button>
           </div>
-          {isExpandedUser ? <ExpandedInfo />: null }
+          {isExpandedUser ? <ExpandedInfo user={user} />: null }
         </div>
       )
     })

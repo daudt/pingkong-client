@@ -26,9 +26,9 @@ class Api {
     state.selectedPlayers = []
   }
 
-  static getRankingsByUser() {
+  static getRankingsByUser(user) {
     request
-      .get('https://private-9f7d0-pingkong.apiary-mock.com/rankings/user_id')
+      .get(`https://private-9f7d0-pingkong.apiary-mock.com/rankings/${user.user_id}`)
       .set('Accept', 'application/json')
       .end((err, res) => {
         console.log(res.body[0])
