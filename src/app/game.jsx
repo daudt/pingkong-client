@@ -13,7 +13,7 @@ class Game extends React.Component {
           onClick={this._submitGame.bind(this)}
           className={state.winner ? 'ready' : null}
         >
-          {state.winner ? 'Save game!': 'Who was the winner?!'}
+          {state.winner ? 'Click here to save the game!': 'Who was the winner?!'}
         </header>
         <div>
           <div

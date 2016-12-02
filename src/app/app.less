@@ -19,6 +19,7 @@ header {
   background-color: darken(#ea3e3a, 30%);
   cursor: pointer;
   display: flex;
+  font-size: 2em;
   height: @header-height;
   justify-content: center;
   left: 0;
@@ -28,9 +29,6 @@ header {
   width: 100%;
   .logo {
     height: @header-logo-height;
-  }
-  h3 {
-    margin: 0;
   }
   &.ready {
     background-color: @ready-color;
@@ -96,7 +94,7 @@ header {
 }
 
 #game {
-  div, h3 {
+  div {
     margin-top: @header-height;
   }
 
