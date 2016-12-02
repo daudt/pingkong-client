@@ -46,21 +46,21 @@ class Api {
           matchId: match.id,
           userId: winner.id
         })
-      }, 200)
+      }, 100)
 
       window.setTimeout(() => {
         this._post('match_users', {
           matchId: match.id,
           userId: loser.id
         })
-      }, 400)
+      }, 200)
 
       window.setTimeout(() => {
         this._post('winners', {
           matchId: match.id,
           userId: winner.id
         })
-      }, 600)
+      }, 300)
 
       window.setTimeout(() => {
         this._post('rankings', {
@@ -70,7 +70,7 @@ class Api {
         })
         state.winner = winner
         state.winner.diff = winnerRating - winner.rating
-      }, 800)
+      }, 400)
 
       window.setTimeout(() => {
         this._post('rankings', {
@@ -80,7 +80,7 @@ class Api {
         })
         state.loser = loser
         state.loser.diff = loser.rating - loserRating
-      }, 1000)
+      }, 500)
     })
   }
 
