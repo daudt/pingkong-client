@@ -15,6 +15,17 @@ class Leaderboard extends React.Component {
   }
 
   render() {
+    if (state.lastWinner) {
+      console.warn('winner:', state.lastWinner.name,
+        'old rating:', state.lastWinner.oldRating,
+        'new rating: ', state.lastWinner.newRating)
+    }
+    if (state.lastLoser) {
+      console.warn('loser:', state.lastLoser.name,
+        'old rating:', state.lastLoser.oldRating,
+        'new rating: ', state.lastLoser.newRating)
+    }
+
     const leaderboard = state.leaderboard.map((user, index) => {
       const isExpandedUser = (this._expandedUser === user)
 

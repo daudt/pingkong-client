@@ -2,6 +2,7 @@
   "scripts": {
     "dist": "node dist",
     "lint": "node_modules/.bin/eslint src/**/*.js",
+    "generate-data": "rm -rf mocks/db.json && ./mocks/generate.sh > mocks/db.json",
     "mock-api": "node_modules/.bin/json-server --watch mocks/db.json",
     "start": "node_modules/.bin/webpack-dev-server --history-api-fallback --config webpack.config.js --content-base src --progress --color --inline --hot --host 0.0.0.0 --port 7464",
     "unit": "node_modules/.bin/karma start test/unit/karma.unit.conf.js"

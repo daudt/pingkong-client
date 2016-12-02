@@ -26,8 +26,8 @@ class ExpandedInfo extends React.Component {
     const data = state.userRankings.map(function(point) {
       return point.rating
     })
-    const created = state.userRankings.map(function(point) {
-      return new Date(point['created_at']).toDateString()
+    const created = state.userRankings.map((point) => {
+      return this._getFormattedDate(new Date(point['created_at']))
     })
     Chart.defaults.global.defaultFontColor = 'white'
     new Chart(document.getElementById('myChart'), {
@@ -50,6 +50,16 @@ class ExpandedInfo extends React.Component {
       }
     })
   }
+
+  _getFormattedDate(date) {
+    const year = date.getFullYear();
+    let month = (1 + date.getMonth()).toString();
+    month = month.length > 1 ? month : '0' + month;
+    let day = date.getDate().toString();
+    day = day.length > 1 ? day : '0' + day;
+    return year + '-' + month + '-' + day;
+}
+
 }
 
 export default ExpandedInfo

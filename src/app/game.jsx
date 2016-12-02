@@ -90,8 +90,11 @@ class Game extends React.Component {
   }
 
   _handleRecordMatch() {
-    Api.postScore(state.selectedPlayers, state.winner)
-    this._navigateBack()
+    const loser = (state.selectedPlayers[0] !== state.winner) ?
+      state.selectedPlayers[0] : state.selectedPlayers[1]
+    Api.addMatch(state.winner, loser)
+    // TODO: we set state.page = 'leaderboard' in Api.addMatch()
+    // this._navigateBack()
   }
 
   _handleCancel() {
