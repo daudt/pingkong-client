@@ -30,6 +30,18 @@ class Api {
     state.winner = null
     state.selectedPlayers = []
   }
+
+  static getRankingsByUser() {
+    request
+      .get('https://private-9f7d0-pingkong.apiary-mock.com/rankings/user_id')
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        console.log(res.body[0])
+        state.userRankings = res.body.sort(function(a, b) {
+          return b['created_at'] - a['created_at']
+        })
+      })
+  }
 }
 
 export default Api
