@@ -10,18 +10,33 @@ import state from './state/'
 
 import './app.less'
 
+const DEFAULT_PAGE = 'leaderboard'
+
 @observer
 class App extends React.Component {
   render() {
     console.warn(state.page)
+
+    const PAGE_TEMPLATES = {
+      game: (
+        <section className="UIOverlay">
+          <Game />
+        </section>
+      ),
+      leaderboard: (
+        <section className="UIOverlay">
+          <Leaderboard />
+          <ActionMenu />
+        </section>
+      )
+    }
+
+    const pageTemplate = PAGE_TEMPLATES[state.page] || PAGE_TEMPLATES[DEFAULT_PAGE]
+
     return (
       <section>
         <Background />
-        {
-          state.page === 'game'
-            ? <section className="UIOverlay"><Game /></section>
-            : <section className="UIOverlay"><Leaderboard /><ActionMenu /></section>
-        }
+        {pageTemplate}
       </section>
     )
   }

@@ -69,8 +69,6 @@ class Background extends React.Component {
     const light1 = new THREE.PointLight(0xffffff, 0.5);
     this._scene.add(light1);
 
-    console.log('!', sceneData.position)
-
     this._setPos()
 
     this._scene.add(sceneData);
