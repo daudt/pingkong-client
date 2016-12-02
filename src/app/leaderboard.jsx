@@ -1,3 +1,4 @@
+import {observable} from 'mobx'
 import {observer} from 'mobx-react'
 import React from 'react'
 
@@ -7,18 +8,16 @@ import state from './state/'
 
 @observer
 class Leaderboard extends React.Component {
-  constructor() {
-    super()
+  @observable _expandedUser
 
-    Api.getData()
-
-    this.state = {
-      expandedPlayer: null
-    }
+  componentWillMount() {
+    Api.getRankings()
   }
 
   render() {
     const leaderboard = state.leaderboard.map((user, index) => {
+      const isExpandedUser = (this._expandedUser === user)
+
       return (
         <div className='user' key={user.email}>
           <div
@@ -29,9 +28,11 @@ class Leaderboard extends React.Component {
             <img src={user.image} />
             <span>{user.rating}</span>
             <span>{user.name} ({user.nickname})</span>
-            <button onClick={this._openStats.bind(this, user)}>Open Stats</button>
+            <button onClick={this._handleStatsClick.bind(this, user)}>
+              {isExpandedUser ? 'Close Stats' : 'Open Stats'}
+            </button>
           </div>
-          {this.state.expandedPlayer === user ? <ExpandedInfo />: null }
+          {isExpandedUser ? <ExpandedInfo />: null }
         </div>
       )
     })
@@ -52,12 +53,9 @@ class Leaderboard extends React.Component {
     }
   }
 
-  _openStats(user, evt) {
-    console.warn('_openStats', user.name)
-    this.setState({
-      expandedPlayer: user
-    })
+  _handleStatsClick(user, evt) {
     evt.stopPropagation()
+    this._expandedUser = (this._expandedUser !== user) ? user : null
   }
 }
 

@@ -3,12 +3,7 @@ import * as request from 'superagent'
 import state from '../state'
 
 class Api {
-
-  constructor(fromServer) {
-
-  }
-
-  static getData() {
+  static getRankings() {
     request
       .get('https://private-9f7d0-pingkong.apiary-mock.com/rankings')
       .set('Accept', 'application/json')
