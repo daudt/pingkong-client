@@ -17,21 +17,38 @@ body {
 header {
   align-items: center;
   background-color: darken(#ea3e3a, 30%);
+  color: white;
   cursor: pointer;
   display: flex;
   font-size: 2em;
   height: @header-height;
-  justify-content: center;
+  justify-content: space-around;
   left: 0;
   position: fixed;
   text-align: center;
   top: 0;
   width: 100%;
-  .logo {
-    height: @header-logo-height;
-  }
+
   &.ready {
     background-color: @ready-color;
+    color: black;
+  }
+
+  img {
+    height: @header-logo-height;
+  }
+
+  span {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    &:first-child {
+      width: 40vw;
+    }
+    &:last-child {
+      width: 60vw;
+    }
   }
 }
 
