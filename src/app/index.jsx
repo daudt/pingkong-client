@@ -6,11 +6,12 @@ import ActionMenu from './actionMenu'
 import Background from './background'
 import Game from './game'
 import Leaderboard from './leaderboard'
+import Logo from './logo'
 import state from './state/'
 
 import './app.less'
 
-const DEFAULT_PAGE = 'leaderboard'
+const DEFAULT_PAGE = 'logo'
 
 @observer
 class App extends React.Component {
@@ -18,6 +19,11 @@ class App extends React.Component {
     console.warn(state.page)
 
     const PAGE_TEMPLATES = {
+      logo: (
+        <section className="logoContainer">
+          <Logo />
+        </section>
+      ),
       game: (
         <section className="UIOverlay">
           <Game />
