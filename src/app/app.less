@@ -16,7 +16,7 @@ body {
 
 header {
   align-items: center;
-  background-color: darken(#ea3e3a, 30%);
+  background-color: @hover-color;
   color: white;
   cursor: pointer;
   display: flex;
@@ -31,7 +31,7 @@ header {
   width: 100%;
 
   &.ready {
-    background-color: @ready-color;
+    background-color: @selected-color;
     color: black;
   }
 
@@ -117,7 +117,7 @@ header {
 
     div {
       align-items: center;
-      background-color: @selected-color;
+      background-color: @warning-color;
       border: 1px solid white;
       cursor: pointer;
       display: flex;
@@ -127,7 +127,7 @@ header {
       width: 40%;
 
       &:hover, &.winner {
-        background-color: @hover-color;
+        background-color: @ready-color;
         color: white;
       }
     }
