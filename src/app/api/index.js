@@ -26,70 +26,54 @@ class Api {
 
   static addMatch(winner, loser) {
     const created = new Date().toISOString()
+    const change = parseInt(Math.random() * 10) + 10
 
     // create the match
-    return this._post('matches', {
+    this._post('matches', {
       created_at: created
     }).then((match) => {
-      const change = parseInt(Math.random() * 10) + 10
-
-      let oldWinnerRating
-      let newWinnerRating
-      let oldLoserRating
-      let newLoserRating
-
-      // add the users, winner and update rankings
-      const promises = [
+      window.setTimeout(() => {
         this._post('match_users', {
           matchId: match.id,
           userId: winner.id
-        }),
+        })
+      }, 100)
+
+      window.setTimeout(() => {
         this._post('match_users', {
           matchId: match.id,
           userId: loser.id
-        }),
+        })
+      }, 200)
+
+      window.setTimeout(() => {
         this._post('winners', {
           matchId: match.id,
           userId: winner.id
-        }),
+        })
+      }, 300)
+
+      window.setTimeout(() => {
         this._get('rankings', `userId=${winner.id}`).then((rankings) => {
           rankings = rankings.sort((a, b) => b.created_at - a.created_at)
-          oldWinnerRating = rankings[0].rating
-          newWinnerRating = oldWinnerRating + change
-          return this._post('rankings', {
+          this._post('rankings', {
             userId: winner.id,
-            rating: newWinnerRating,
+            rating: rankings[0].rating + change,
             created_at: created
-          }).then(() => {
-            return this._get('rankings', `userId=${loser.id}`).then((rankings) => {
-              rankings = rankings.sort((a, b) => b.created_at - a.created_at)
-              oldLoserRating = rankings[0].rating
-              newLoserRating = oldLoserRating - change
-              return this._post('rankings', {
-                userId: loser.id,
-                rating: newLoserRating,
-                created_at: created
-              })
-            })
           })
         })
-      ]
+      }, 400)
 
-      return Promise.all(promises).then(() => {
-        Object.assign(winner, {
-          oldRating: oldWinnerRating,
-          newRating: newWinnerRating
+      window.setTimeout(() => {
+        this._get('rankings', `userId=${loser.id}`).then((rankings) => {
+          rankings = rankings.sort((a, b) => b.created_at - a.created_at)
+          this._post('rankings', {
+            userId: loser.id,
+            rating: rankings[0].rating - change,
+            created_at: created
+          })
         })
-        Object.assign(loser, {
-          oldRating: oldLoserRating,
-          newRating: newLoserRating
-        })
-
-        return {
-          winner,
-          loser
-        }
-      })
+      }, 500)
     })
   }
 

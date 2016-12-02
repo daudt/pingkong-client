@@ -95,15 +95,8 @@ class Game extends React.Component {
     const loser = (state.selectedPlayers[0] !== state.winner) ?
       state.selectedPlayers[0] : state.selectedPlayers[1]
 
-    Api.addMatch(state.winner, loser).then((lastMatch) => {
-      console.warn('winner:', lastMatch.winner.name,
-        'old rating:', lastMatch.winner.oldRating,
-        'new rating: ', lastMatch.winner.newRating)
-      console.warn('loser:', lastMatch.loser.name,
-        'old rating:', lastMatch.loser.oldRating,
-        'new rating: ', lastMatch.loser.newRating)
-      this._navigateBack()
-    })
+    Api.addMatch(state.winner, loser)
+    this._navigateBack()
   }
 
   _handleCancel() {
