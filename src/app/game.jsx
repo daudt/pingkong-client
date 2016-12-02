@@ -54,7 +54,7 @@ class Game extends React.Component {
             onClick={this._handleClick.bind(this, state.selectedPlayers[0])}
             className={this._getClass(0)}
           >
-            <img />
+            <img className='avatar' src={state.selectedPlayers[0].image} />
             {state.selectedPlayers[0].name}
             <h1>{this._getLabel(0)}</h1>
           </div>
@@ -62,7 +62,7 @@ class Game extends React.Component {
             onClick={this._handleClick.bind(this, state.selectedPlayers[1])}
             className={this._getClass(1)}
           >
-            <img />
+            <img className='avatar' src={state.selectedPlayers[1].image} />
             {state.selectedPlayers[1].name}
             <h1>{this._getLabel(1)}</h1>
           </div>
