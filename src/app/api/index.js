@@ -57,10 +57,10 @@ class Api {
       window.setTimeout(() => {
         let change = null
         if (loser.rating > winner.rating) {
-          change = -Math.round((winner.rating - loser.rating)/25)
+          change = Math.ceil(-Math.ceil(winner.rating - loser.rating)/10)
         }
         else {
-          change = Math.round((winner.rating - loser.rating)/125)
+          change = Math.ceil(Math.ceil(winner.rating - loser.rating)/100)
         }
         this._get('rankings', `userId=${winner.id}`).then((rankings) => {
           rankings = rankings.sort(this._sortDateDesc)
@@ -77,10 +77,10 @@ class Api {
       window.setTimeout(() => {
         let change = null
         if (loser.rating > winner.rating) {
-          change = -Math.round((winner.rating - loser.rating)/50)
+          change = Math.ceil(-Math.ceil(winner.rating - loser.rating)/25)
         }
         else {
-          change = Math.round((winner.rating - loser.rating)/100)
+          change = Math.ceil(Math.ceil(winner.rating - loser.rating)/125)
         }
         this._get('rankings', `userId=${loser.id}`).then((rankings) => {
           rankings = rankings.sort(this._sortDateDesc)
