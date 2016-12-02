@@ -8,8 +8,9 @@ class Api {
   static getLeaderboard() {
     this._get('users', '_embed=rankings').then((users) => {
       state.leaderboard = users.map((user) => {
+        const rankings = user.rankings.sort((a, b) => b.created_at - a.created_at)
         Object.assign(user, {
-          rating: user.rankings.sort((a, b) => b.created_at - a.created_at)[0].rating
+          rating: (rankings.length) ? rankings[0].rating : 0
         })
         delete user.rankings
         return user
