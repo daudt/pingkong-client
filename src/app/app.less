@@ -9,6 +9,7 @@ h1 {
 
 #leaderboard {
   height: 90vh;
+  margin-top: 10vh;
   overflow-y: auto;
 
   .user {
@@ -63,13 +64,14 @@ h1 {
 
 #chart-container {
   height: 50vh;
-  width: 50vw;
+}
+#myChart {
+  user-select: none;
 }
 
 #actionMenu {
   align-items: center;
   background-color: pink;
-  bottom: 0;
   cursor: pointer;
   display: flex;
   height: 10vh;
@@ -77,6 +79,7 @@ h1 {
   left: 0;
   position: fixed;
   text-align: center;
+  top: 0;
   width: 100%;
 
   h3 {
