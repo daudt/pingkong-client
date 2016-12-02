@@ -26,7 +26,7 @@ class Leaderboard extends React.Component {
         >
           <div>
             <span>{index + 1}</span>
-            <img src={user.image} />
+            <img className="avatar" src={user.image} />
             <span>{user.name} ({user.nickname})</span>
             <span>{user.rating}</span>
             <span onClick={this._handleStatsClick.bind(this, user)}>
