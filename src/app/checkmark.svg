@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="14px" height="11px" viewBox="0 0 14 11" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
-    <title>Check</title>
+    <title>Artboard</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Messages" transform="translate(-61.000000, -161.000000)" fill="#2AE38B">
-            <polygon id="Check" points="62.575 165.725 61 167.3 65.2 171.5 74.65 162.575 73.075 161 65.2 168.35"></polygon>
+        <g id="Artboard" fill="#2AE38B">
+            <polygon id="Check" points="17.6519231 24.5326923 15.5 26.6846154 21.2384615 32.4230769 34.15 20.2288462 31.9980769 18.0769231 21.2384615 28.1192308"></polygon>
         </g>
     </g>
 </svg>
