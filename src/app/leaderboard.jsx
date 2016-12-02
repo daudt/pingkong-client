@@ -47,7 +47,7 @@ class Leaderboard extends React.Component {
 
   _handleClick(user, evt) {
     if (state.selectedPlayers.includes(user)) {
-      state.selectedPlayers.pop(user)
+      state.selectedPlayers = state.selectedPlayers.filter((player) => (player !== user))
     }
     else {
       state.selectedPlayers.push(user)
