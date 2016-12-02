@@ -24,11 +24,8 @@ class Api {
     })
   }
 
-  static postScore() {
+  static postScore(players, winner) {
     // TODO: Send request to server
-    state.page = 'logo'
-    state.winner = null
-    state.selectedPlayers = []
   }
 
   static _get(endpoint, query) {

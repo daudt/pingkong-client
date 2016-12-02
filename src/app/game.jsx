@@ -38,17 +38,16 @@ class Game extends React.Component {
   }
 
   render() {
+
     return (
       <section id="game">
-        <header
-          onClick={this._submitGame.bind(this)}
-          className={state.winner ? 'ready' : 'null'}
-        >
+        <header className={state.winner ? 'ready' : 'null'}>
           <span>
             <img src="/app/king-pong-logo-wide.png" className="logo" />
           </span>
           <span>
-            {state.winner ? 'Click here to save the game!': 'Who was the winner?!'}
+            {state.winner ? (<button onClick={this._handleRecordMatch.bind(this)}>RECORD MATCH</button>) : 'Who won?'}
+            <button onClick={this._handleCancel.bind(this)}>CANCEL</button>
           </span>
         </header>
         <div>
@@ -78,9 +77,21 @@ class Game extends React.Component {
     state.winner = winner
   }
 
-  _submitGame() {
-    Api.postScore()
+  _navigateBack() {
+    state.winner = null
+    state.selectedPlayers = []
+    state.page = 'logo'
   }
+
+  _handleRecordMatch() {
+    Api.postScore(state.selectedPlayers, state.winner)
+    this._navigateBack()
+  }
+
+  _handleCancel() {
+    this._navigateBack()
+  }
+
 }
 
 export default Game
