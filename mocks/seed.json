@@ -1,0 +1,74 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Rafael",
+      "email": "daudt@daudt.com",
+      "nickname": "Tuca",
+      "image": "https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-9/1688401_10152134446803290_487310119_n.jpg?oh=8a96a490ca9e4221cbf190e4aecb23b1&oe=58C1426C"
+    },
+    {
+      "id": 2,
+      "name": "Scott",
+      "email": "sbalay@gmail.com",
+      "nickname": "ZenBlender",
+      "image": "https://avatars2.githubusercontent.com/u/1471363?v=3&s=460"
+    },
+    {
+      "id": 3,
+      "name": "Alex",
+      "email": "akessock@gmail.com",
+      "nickname": "Keysox",
+      "image": "https://scontent-dft4-2.xx.fbcdn.net/v/t1.0-9/557930_557548097589943_1576463450_n.jpg?oh=9513622365667f2f9d25cbe1b8085389&oe=58C08B73"
+    },
+    {
+      "id": 4,
+      "name": "Jim",
+      "email": "jim.casey@gmail.com",
+      "nickname": "jimcasey",
+      "image": "https://avatars2.githubusercontent.com/u/1511191?v=3&s=460"
+    },
+    {
+      "id": 5,
+      "name": "Eli",
+      "email": "eli@example.com",
+      "nickname": "eklein",
+      "image": "https://avatars2.githubusercontent.com/u/918620?v=3&s=460"
+    }
+  ],
+  "rankings": [
+    {
+      "id": 1,
+      "userId": 1,
+      "rating": 1500,
+      "created_at": "2016-11-13T12:00:00Z"
+    },
+    {
+      "id": 2,
+      "userId": 2,
+      "rating": 1500,
+      "created_at": "2016-11-13T12:00:00Z"
+    },
+    {
+      "id": 3,
+      "userId": 3,
+      "rating": 1500,
+      "created_at": "2016-11-13T12:00:00Z"
+    },
+    {
+      "id": 4,
+      "userId": 4,
+      "rating": 1500,
+      "created_at": "2016-11-13T12:00:00Z"
+    },
+    {
+      "id": 5,
+      "userId": 5,
+      "rating": 1500,
+      "created_at": "2016-11-13T12:00:00Z"
+    }
+  ],
+  "matches": [],
+  "match_users": [],
+  "winners": []
+}
