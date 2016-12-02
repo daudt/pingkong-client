@@ -29,6 +29,7 @@ class ExpandedInfo extends React.Component {
     const created = state.userRankings.map(function(point) {
       return new Date(point['created_at']).toDateString()
     })
+    Chart.defaults.global.defaultFontColor = 'white'
     new Chart(document.getElementById('myChart'), {
       type: 'line',
       data: {
@@ -37,8 +38,9 @@ class ExpandedInfo extends React.Component {
             {
               label: 'Elo Rating',
               data: data,
-              // borderColor: 'pink',
-              // backgroundColor: 'blue'
+              // borderColor: '#ea3e3a',
+              // borderWidth: 1,
+              backgroundColor: '#2AE38B'
             }
         ]
       },
