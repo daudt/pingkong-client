@@ -36,12 +36,12 @@ class ExpandedInfo extends React.Component {
       type: 'line',
       data: {
         labels: created,
-        // labels: ["January", "February", "March", "April", "May", "June", "July"],
         datasets: [
             {
               label: 'Elo Rankings Over Time',
-              data: data
-              // data: [65, 59, 80, 81, 56, 55, 40]
+              data: data,
+              // borderColor: 'pink',
+              // backgroundColor: 'blue'
             }
         ]
       },
