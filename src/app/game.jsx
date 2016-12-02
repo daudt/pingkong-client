@@ -56,7 +56,10 @@ class Game extends React.Component {
             className={this._getClass(0)}
           >
             <img className='avatar' src={state.selectedPlayers[0].image} />
-            {state.selectedPlayers[0].name}
+            <span className="userName">
+              {state.selectedPlayers[0].nickname}
+              <div className="subtle">{state.selectedPlayers[0].name}</div>
+            </span>
             <h1>{this._getLabel(0)}</h1>
           </div>
           <div className="spacer" />
@@ -65,7 +68,10 @@ class Game extends React.Component {
             className={this._getClass(1)}
           >
             <img className='avatar' src={state.selectedPlayers[1].image} />
-            {state.selectedPlayers[1].name}
+            <span className="userName">
+              {state.selectedPlayers[1].nickname}
+              <div className="subtle">{state.selectedPlayers[1].name}</div>
+            </span>
             <h1>{this._getLabel(1)}</h1>
           </div>
         </div>

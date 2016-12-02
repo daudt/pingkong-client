@@ -1,5 +1,5 @@
 @primary-color: #224466;
-@bright-primary-color: #336699;
+@subtle-color: #8AC;
 
 @selected-color: #3c77b3; // lighten(@primary-color, 20%)
 @hover-color: #152a40; // darken(@primary-color, 10%)
@@ -107,6 +107,11 @@ button {
   }
 }
 
+.userName .subtle {
+  font-size: 70%;
+  color: rgba(255, 255, 255, 0.5);
+}
+
 .avatar {
   border-radius: 100%;
   max-width: 50px;
@@ -120,11 +125,8 @@ button {
 }
 
 #game {
-  div {
-    margin-top: @header-height - 5vh;
-  }
-
   > div {
+    margin-top: @header-height + 10vh;
     display: flex;
     justify-content: center;
 
