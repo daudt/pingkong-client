@@ -9,7 +9,6 @@ h1 {
 #leaderboard {
   height: 90vh;
   .user {
-    border: 3px solid transparent;
     cursor: pointer;
 
     &:nth-of-type(odd) {
@@ -18,16 +17,18 @@ h1 {
     &:nth-of-type(even) {
       background-color: darkgray;
     }
-    &.selected {
-      background-color: blue;
-    }
-    &:hover {
-      border: 3px solid pink;
-    }
 
     div:first-child {
       align-items: center;
+      border: 3px solid transparent;
       display: flex;
+
+      &.selected {
+        background-color: blue;
+      }
+      &:hover {
+        border: 3px solid pink;
+      }
 
       span {
         padding: 0 1vw;

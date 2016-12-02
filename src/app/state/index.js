@@ -4,6 +4,7 @@ class State {
   @observable leaderboard = []
   @observable page = ''
   @observable selectedPlayers = []
+  @observable userRankings = []
   @observable winner = {}
 }
 
