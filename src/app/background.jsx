@@ -87,7 +87,7 @@ class Background extends React.Component {
 
 		for ( var i = 0, l = imageData.length; i < l; i += 4 ) {
 
-			var v = ~~ ( Math.random() * 5 );
+			var v = ~~ ( Math.random() * 20 );
 
 			imageData[ i ] += v;
 			imageData[ i + 1 ] += v;
@@ -168,7 +168,7 @@ class Background extends React.Component {
     const container = document.querySelector("#background");
     const canvas = document.querySelector("#backgroundCanvas");
 
-    this._renderer = new THREE.WebGLRenderer({canvas, antialias: false, alpha: false});
+    this._renderer = new THREE.WebGLRenderer({canvas, antialias: true, alpha: false});
     this._renderer.setClearColor(CLEAR_COLOR_RGB);
     this._renderer.setSize(canvas.offsetWidth, canvas.offsetHeight)
 

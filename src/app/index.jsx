@@ -19,7 +19,7 @@ class App extends React.Component {
     const PAGE_TEMPLATES = {
       logo: (
         <section className="logoContainer">
-          <Logo />
+          <Logo dest="leaderboard" />
         </section>
       ),
       game: (

@@ -54,7 +54,7 @@ class Logo extends React.Component {
     } else if (currStage === 'out') {
       this._setMarginTop(currentMargin - (this._img.offsetHeight / 10))
       if (rect.bottom < -this._img.offsetHeight) {
-        state.page = 'leaderboard'
+        state.page = this.props.dest
         return
       }
     }

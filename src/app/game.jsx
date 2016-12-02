@@ -22,31 +22,32 @@ class Game extends React.Component {
   }
 
   _getClass(playerIndex) {
+    const classes = ['player']
     if (state.winner) {
       if (state.winner === state.selectedPlayers[playerIndex]) {
-        return 'winner'
+        classes.push('winner')
       }
       else {
-        return 'loser'
+        classes.push('loser')
       }
     }
     else {
-      return 'initial'
+      classes.push('initial')
     }
+    return classes.join(' ')
   }
 
   render() {
+
     return (
       <section id="game">
-        <header
-          onClick={this._submitGame.bind(this)}
-          className={state.winner ? 'ready' : 'null'}
-        >
+        <header className={state.winner ? 'ready' : 'null'}>
           <span>
             <img src="/app/king-pong-logo-wide.png" className="logo" />
           </span>
           <span>
-            {state.winner ? 'Click here to save the game!': 'Who was the winner?!'}
+            {state.winner ? (<button onClick={this._handleRecordMatch.bind(this)}>RECORD MATCH</button>) : 'Who won?'}
+            <button onClick={this._handleCancel.bind(this)}>CANCEL</button>
           </span>
         </header>
         <div>
@@ -54,15 +55,16 @@ class Game extends React.Component {
             onClick={this._handleClick.bind(this, state.selectedPlayers[0])}
             className={this._getClass(0)}
           >
-            <img />
+            <img className='avatar' src={state.selectedPlayers[0].image} />
             {state.selectedPlayers[0].name}
             <h1>{this._getLabel(0)}</h1>
           </div>
+          <div className="spacer" />
           <div
             onClick={this._handleClick.bind(this, state.selectedPlayers[1])}
             className={this._getClass(1)}
           >
-            <img />
+            <img className='avatar' src={state.selectedPlayers[1].image} />
             {state.selectedPlayers[1].name}
             <h1>{this._getLabel(1)}</h1>
           </div>
@@ -75,11 +77,24 @@ class Game extends React.Component {
     state.winner = winner
   }
 
-  _submitGame() {
+  _navigateBack() {
+    state.winner = null
+    state.selectedPlayers = []
+    state.page = 'logo'
+  }
+
+  _handleRecordMatch() {
     const loser = (state.selectedPlayers[0] !== state.winner) ?
       state.selectedPlayers[0] : state.selectedPlayers[1]
     Api.addMatch(state.winner, loser)
+    // TODO: we set state.page = 'leaderboard' in Api.addMatch()
+    // this._navigateBack()
   }
+
+  _handleCancel() {
+    this._navigateBack()
+  }
+
 }
 
 export default Game
