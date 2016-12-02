@@ -6,6 +6,7 @@
 @warning-color: #ea3e3a;
 
 @header-height: 10vh;
+@header-logo-height: 8vh;
 
 body {
   background-color: @primary-color;
@@ -15,7 +16,7 @@ body {
 
 header {
   align-items: center;
-  background-color: #ea3e3a;
+  background-color: darken(#ea3e3a, 30%);
   cursor: pointer;
   display: flex;
   height: @header-height;
@@ -25,7 +26,9 @@ header {
   text-align: center;
   top: 0;
   width: 100%;
-
+  .logo {
+    height: @header-logo-height;
+  }
   h3 {
     margin: 0;
   }

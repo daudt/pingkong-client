@@ -29,6 +29,7 @@ class ActionMenu extends React.Component {
         onClick={this._handleClick.bind(this)}
         className={state.selectedPlayers.length === 2 ? 'ready' : null}
       >
+        <img src="/app/king-pong-logo-wide.png" className="logo" />
         <h3>{text}</h3>
       </header>
     )
