@@ -27,8 +27,8 @@ class Leaderboard extends React.Component {
           <div>
             <span>{index + 1}</span>
             <img src={user.image} />
-            <span>{user.rating}</span>
             <span>{user.name} ({user.nickname})</span>
+            <span>{user.rating}</span>
             <button onClick={this._handleStatsClick.bind(this, user)}>
               {isExpandedUser ? 'Close Stats' : 'Open Stats'}
             </button>

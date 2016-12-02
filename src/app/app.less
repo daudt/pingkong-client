@@ -24,16 +24,31 @@ h1 {
     border: 3px solid pink;
   }
 
-  div:first-child {
+  div {
     align-items: center;
     display: flex;
 
     span {
       padding: 0 1vw;
+      &:nth-of-type(1) {
+        flex-basis: 2vw;
+      }
+      &:nth-of-type(2) {
+        flex-basis: 80vw;
+      }
+      &:nth-of-type(3) {
+        flex-basis: 5vw;
+      }
     }
+
     img {
       border-radius: 100%;
+      flex-basis: 5vw;
       width: 50px;
+    }
+
+    button {
+      flex-basis: 10vw;
     }
   }
 }
