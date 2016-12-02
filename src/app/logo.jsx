@@ -10,7 +10,7 @@ const STAGES = [
   'out'
 ]
 
-const REST_MS = 1000
+const REST_MS = 2000
 
 class Logo extends React.Component {
 

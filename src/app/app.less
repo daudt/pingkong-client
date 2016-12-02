@@ -12,11 +12,12 @@ body {
   background-color: @primary-color;
   font-family: sans-serif;
   margin: 0;
+  overflow-y: hidden; // remove vertical scrollbar on page load
 }
 
 header {
   align-items: center;
-  background-color: darken(#ea3e3a, 30%);
+  background-color: @hover-color;
   color: white;
   cursor: pointer;
   display: flex;
@@ -31,7 +32,7 @@ header {
   width: 100%;
 
   &.ready {
-    background-color: @ready-color;
+    background-color: @selected-color;
     color: black;
   }
 
@@ -57,7 +58,7 @@ header {
       background-color: @selected-color;
 
       img {
-        background: url(https://openclipart.org/download/257462/Checkmark.svg);
+        background: url(/app/checkmark.svg) @hover-color;
         background-size: cover; // stay below background
         box-sizing: border-box;
         height: 50px;
@@ -96,8 +97,7 @@ header {
 
 .avatar {
   border-radius: 100%;
-  flex-basis: 5vw;
-  width: 50px;
+  max-width: 50px;
 }
 
 #chart-container {
@@ -118,7 +118,7 @@ header {
 
     div {
       align-items: center;
-      background-color: @selected-color;
+      background-color: @warning-color;
       border: 1px solid white;
       cursor: pointer;
       display: flex;
@@ -127,8 +127,13 @@ header {
       justify-content: center;
       width: 40%;
 
-      &:hover, &.winner {
+      &.initial {
         background-color: @hover-color;
+        color: white;
+      }
+
+      &:hover, &.winner {
+        background-color: @ready-color;
         color: white;
       }
     }
@@ -137,6 +142,7 @@ header {
 
 .logo {
   position: relative;
+  -webkit-filter: drop-shadow(5px 5px 5px rgba(0,0,0,0.5));
 }
 
 .UIOverlay {
