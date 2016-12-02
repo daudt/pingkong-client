@@ -1,5 +1,4 @@
 import * as request from 'superagent'
-import { action } from 'mobx'
 
 import state from '../state'
 
@@ -29,7 +28,7 @@ class Api {
     const created = new Date().toISOString()
 
     // create the match
-    this._post('matches', {
+    return this._post('matches', {
       created_at: created
     }).then((match) => {
       const change = parseInt(Math.random() * 10) + 10
@@ -61,21 +60,22 @@ class Api {
             userId: winner.id,
             rating: newWinnerRating,
             created_at: created
-          })
-        }),
-        this._get('rankings', `userId=${loser.id}`).then((rankings) => {
-          rankings = rankings.sort((a, b) => b.created_at - a.created_at)
-          oldLoserRating = rankings[0].rating
-          newLoserRating = oldLoserRating - change
-          return this._post('rankings', {
-            userId: loser.id,
-            rating: newLoserRating,
-            created_at: created
+          }).then(() => {
+            return this._get('rankings', `userId=${loser.id}`).then((rankings) => {
+              rankings = rankings.sort((a, b) => b.created_at - a.created_at)
+              oldLoserRating = rankings[0].rating
+              newLoserRating = oldLoserRating - change
+              return this._post('rankings', {
+                userId: loser.id,
+                rating: newLoserRating,
+                created_at: created
+              })
+            })
           })
         })
       ]
 
-      Promise.all(promises).then(() => {
+      return Promise.all(promises).then(() => {
         Object.assign(winner, {
           oldRating: oldWinnerRating,
           newRating: newWinnerRating
@@ -85,16 +85,12 @@ class Api {
           newRating: newLoserRating
         })
 
-        this._loadLastMatch(winner, loser)
+        return {
+          winner,
+          loser
+        }
       })
     })
-  }
-
-  @action
-  static _loadLastMatch(winner, loser) {
-    state.lastWinner = winner
-    state.lastLoser = loser
-    state.page = 'leaderboard'
   }
 
   static _get(endpoint, query) {

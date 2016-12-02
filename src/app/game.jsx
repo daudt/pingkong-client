@@ -1,4 +1,5 @@
-import {observer} from 'mobx-react'
+import { action } from 'mobx'
+import { observer } from 'mobx-react'
 import React from 'react'
 
 import Api from './api/'
@@ -54,7 +55,7 @@ class Game extends React.Component {
           <div
             onClick={this._handleClick.bind(this, state.selectedPlayers[0])}
             className={this._getClass(0)}
-          >
+            >
             <img className='avatar' src={state.selectedPlayers[0].image} />
             {state.selectedPlayers[0].name}
             <h1>{this._getLabel(0)}</h1>
@@ -63,7 +64,7 @@ class Game extends React.Component {
           <div
             onClick={this._handleClick.bind(this, state.selectedPlayers[1])}
             className={this._getClass(1)}
-          >
+            >
             <img className='avatar' src={state.selectedPlayers[1].image} />
             {state.selectedPlayers[1].name}
             <h1>{this._getLabel(1)}</h1>
@@ -77,6 +78,7 @@ class Game extends React.Component {
     state.winner = winner
   }
 
+  @action
   _navigateBack() {
     state.winner = null
     state.selectedPlayers = []
@@ -86,9 +88,16 @@ class Game extends React.Component {
   _handleRecordMatch() {
     const loser = (state.selectedPlayers[0] !== state.winner) ?
       state.selectedPlayers[0] : state.selectedPlayers[1]
-    Api.addMatch(state.winner, loser)
-    // TODO: we set state.page = 'leaderboard' in Api.addMatch()
-    // this._navigateBack()
+
+    Api.addMatch(state.winner, loser).then((lastMatch) => {
+      console.warn('winner:', lastMatch.winner.name,
+        'old rating:', lastMatch.winner.oldRating,
+        'new rating: ', lastMatch.winner.newRating)
+      console.warn('loser:', lastMatch.loser.name,
+        'old rating:', lastMatch.loser.oldRating,
+        'new rating: ', lastMatch.loser.newRating)
+      this._navigateBack()
+    })
   }
 
   _handleCancel() {
