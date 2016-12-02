@@ -21,6 +21,20 @@ class Game extends React.Component {
     }
   }
 
+  _getClass(playerIndex) {
+    if (state.winner) {
+      if (state.winner === state.selectedPlayers[playerIndex]) {
+        return 'winner'
+      }
+      else {
+        return 'loser'
+      }
+    }
+    else {
+      return 'initial'
+    }
+  }
+
   render() {
     return (
       <section id="game">
@@ -38,17 +52,17 @@ class Game extends React.Component {
         <div>
           <div
             onClick={this._handleClick.bind(this, state.selectedPlayers[0])}
-            className={state.winner === state.selectedPlayers[0] ? 'winner': 'initial'}
+            className={this._getClass(0)}
           >
-            <img className="avatar" src={state.selectedPlayers[0].image} />
+            <img />
             {state.selectedPlayers[0].name}
             <h1>{this._getLabel(0)}</h1>
           </div>
           <div
             onClick={this._handleClick.bind(this, state.selectedPlayers[1])}
-            className={state.winner === state.selectedPlayers[1] ? 'winner': 'initial'}
+            className={this._getClass(1)}
           >
-            <img className="avatar" src={state.selectedPlayers[1].image} />
+            <img />
             {state.selectedPlayers[1].name}
             <h1>{this._getLabel(1)}</h1>
           </div>
