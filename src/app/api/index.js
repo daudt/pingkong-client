@@ -1,9 +1,7 @@
 import * as request from 'superagent'
-import Elo from 'elo-js'
+import EloRating from './eloRating'
 
 import state from '../state'
-
-const elo = new Elo()
 
 const SERVER_URL = 'http://localhost:3000'
 
@@ -29,8 +27,11 @@ class Api {
 
   static addMatch(winner, loser) {
     const created = new Date().toISOString()
-    const winnerRating = elo.ifWins(winner.rating, loser.rating)
-    const loserRating = elo.ifLoses(loser.rating, winner.rating)
+
+    const eloRating = new EloRating(winner.rating, loser.rating, 1, 0)
+    const newRatings = eloRating.getNewRatings()
+    const winnerRating = newRatings.winners
+    const loserRating = newRatings.losers
 
     // create the match
     this._post('matches', {
