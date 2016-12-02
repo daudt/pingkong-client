@@ -1,6 +1,9 @@
 import * as request from 'superagent'
+import Elo from 'elo-js'
 
 import state from '../state'
+
+const elo = new Elo()
 
 const SERVER_URL = 'http://localhost:3000'
 
@@ -9,7 +12,6 @@ class Api {
     this._get('users', '_embed=rankings').then((users) => {
       state.leaderboard = users.map((user) => {
         const rankings = user.rankings.sort(this._sortDateDesc)
-        console.log(user.name, rankings[0].rating, rankings[0].created_at)
         Object.assign(user, {
           rating: (rankings.length) ? rankings[0].rating : 0
         })
@@ -27,7 +29,8 @@ class Api {
 
   static addMatch(winner, loser) {
     const created = new Date().toISOString()
-    // const change = parseInt(Math.random() * 10) + 10
+    const winnerRating = elo.ifWins(winner.rating, loser.rating)
+    const loserRating = elo.ifLoses(loser.rating, winner.rating)
 
     // create the match
     this._post('matches', {
@@ -55,43 +58,23 @@ class Api {
       }, 600)
 
       window.setTimeout(() => {
-        let change = null
-        if (loser.rating > winner.rating) {
-          change = Math.ceil(-Math.ceil(winner.rating - loser.rating)/10)
-        }
-        else {
-          change = Math.ceil(Math.ceil(winner.rating - loser.rating)/100)
-        }
-        this._get('rankings', `userId=${winner.id}`).then((rankings) => {
-          rankings = rankings.sort(this._sortDateDesc)
-          this._post('rankings', {
-            userId: winner.id,
-            rating: rankings[0].rating + change,
-            created_at: created
-          })
-          state.winner = winner
-          state.winner.diff = change
+        this._post('rankings', {
+          userId: winner.id,
+          rating: winnerRating,
+          created_at: created
         })
+        state.winner = winner
+        state.winner.diff = winnerRating - winner.rating
       }, 800)
 
       window.setTimeout(() => {
-        let change = null
-        if (loser.rating > winner.rating) {
-          change = Math.ceil(-Math.ceil(winner.rating - loser.rating)/25)
-        }
-        else {
-          change = Math.ceil(Math.ceil(winner.rating - loser.rating)/125)
-        }
-        this._get('rankings', `userId=${loser.id}`).then((rankings) => {
-          rankings = rankings.sort(this._sortDateDesc)
-          this._post('rankings', {
-            userId: loser.id,
-            rating: rankings[0].rating - change,
-            created_at: created
-          })
-          state.loser = loser
-          state.loser.diff = change
+        this._post('rankings', {
+          userId: loser.id,
+          rating: loserRating,
+          created_at: created
         })
+        state.loser = loser
+        state.loser.diff = loserRating - loser.rating
       }, 1000)
     })
   }
