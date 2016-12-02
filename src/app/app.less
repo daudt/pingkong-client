@@ -1,11 +1,15 @@
-@selected-color: #BBDEFB;
-@hover-color: #90CAF9;
-@ready-color: #4DB6AC;
+@primary-color: #224466;
+
+@selected-color: #3c77b3; // lighten(@primary-color, 20%)
+@hover-color: #152a40; // darken(@primary-color, 10%)
+@ready-color: #2AE38B;
+@warning-color: #ea3e3a;
 
 @header-height: 10vh;
 
 body {
-  background-color: #224466;
+  background-color: @primary-color;
+  font-family: sans-serif;
   margin: 0;
 }
 
@@ -15,7 +19,7 @@ h1 {
 
 header {
   align-items: center;
-  background-color: white;
+  background-color: #ea3e3a;
   cursor: pointer;
   display: flex;
   height: @header-height;
@@ -40,20 +44,16 @@ header {
   overflow-y: auto;
 
   .user {
-    border: 3px solid transparent;
+    background-color: @primary-color;
+    border-bottom: 1px solid fade(white, 50%);
+    color: white;
     cursor: pointer;
 
-    &:nth-of-type(odd) {
-      background-color: lightgray;
-    }
-    &:nth-of-type(even) {
-      background-color: darkgray;
+    &:hover {
+      background-color: @hover-color;
     }
     &.selected {
       background-color: @selected-color;
-    }
-    &:hover {
-      border: 3px solid @hover-color;
     }
 
     div {
@@ -130,6 +130,7 @@ header {
     }
   }
   button {
+    background-color: white;
     border: none;
     bottom: 0;
     cursor: pointer;

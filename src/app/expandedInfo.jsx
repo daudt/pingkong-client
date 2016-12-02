@@ -29,7 +29,6 @@ class ExpandedInfo extends React.Component {
     const created = state.userRankings.map(function(point) {
       return new Date(point['created_at']).toDateString()
     })
-    console.warn('created', created)
     new Chart(document.getElementById('myChart'), {
       type: 'line',
       data: {
