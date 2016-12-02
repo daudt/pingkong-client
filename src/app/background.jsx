@@ -4,6 +4,8 @@ import './background.less'
 
 import * as THREE from 'three'
 
+const INIT_DELAY_MS = 5000
+
 const MATERIAL_RGB = 0x336699
 const CLEAR_COLOR_RGB = 0x224466
 
@@ -25,7 +27,7 @@ class Background extends React.Component {
 
     this._currY = START_POS_Y
 
-    this._init()
+    setTimeout(this._init.bind(this), INIT_DELAY_MS)
   }
 
   _transformSceneData(sceneData) {
