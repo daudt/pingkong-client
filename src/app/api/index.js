@@ -8,7 +8,8 @@ class Api {
   static getLeaderboard() {
     this._get('users', '_embed=rankings').then((users) => {
       state.leaderboard = users.map((user) => {
-        const rankings = user.rankings.sort((a, b) => b.created_at - a.created_at)
+        const rankings = user.rankings.sort(this._sortDateDesc)
+        console.log(user.name, rankings[0].rating, rankings[0].created_at)
         Object.assign(user, {
           rating: (rankings.length) ? rankings[0].rating : 0
         })
@@ -20,7 +21,7 @@ class Api {
 
   static getRankingsByUser(user) {
     this._get('rankings', `userId=${user.id}`).then((rankings) => {
-      state.userRankings = rankings.sort((a, b) => b.created_at - a.created_at)
+      state.userRankings = rankings.sort(this._sortDateAsc)
     })
   }
 
@@ -55,7 +56,7 @@ class Api {
 
       window.setTimeout(() => {
         this._get('rankings', `userId=${winner.id}`).then((rankings) => {
-          rankings = rankings.sort((a, b) => b.created_at - a.created_at)
+          rankings = rankings.sort(this._sortDateDesc)
           this._post('rankings', {
             userId: winner.id,
             rating: rankings[0].rating + change,
@@ -66,7 +67,7 @@ class Api {
 
       window.setTimeout(() => {
         this._get('rankings', `userId=${loser.id}`).then((rankings) => {
-          rankings = rankings.sort((a, b) => b.created_at - a.created_at)
+          rankings = rankings.sort(this._sortDateDesc)
           this._post('rankings', {
             userId: loser.id,
             rating: rankings[0].rating - change,
@@ -114,6 +115,14 @@ class Api {
           resolve(res.body)
         })
     })
+  }
+
+  static _sortDateAsc(a, b) {
+    return new Date(a.created_at) - new Date(b.created_at)
+  }
+
+  static _sortDateDesc(a, b) {
+    return new Date(b.created_at) - new Date(a.created_at)
   }
 }
 
