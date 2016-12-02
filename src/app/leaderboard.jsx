@@ -2,6 +2,7 @@ import {observer} from 'mobx-react'
 import React from 'react'
 
 import Api from './api/'
+import ExpandedInfo from './expandedInfo'
 import state from './state/'
 
 @observer
@@ -17,7 +18,6 @@ class Leaderboard extends React.Component {
   }
 
   render() {
-    console.warn('expandedPlayer', this.state.expandedPlayer)
     const leaderboard = state.leaderboard.map((user, index) => {
       return (
         <div className='user' key={user.email}>
@@ -31,7 +31,7 @@ class Leaderboard extends React.Component {
             <span>{user.name} ({user.nickname})</span>
             <button onClick={this._openStats.bind(this, user)}>Open Stats</button>
           </div>
-          {this.state.expandedPlayer === user ? <div>Expanded info</div>: null }
+          {this.state.expandedPlayer === user ? <ExpandedInfo />: null }
         </div>
       )
     })
