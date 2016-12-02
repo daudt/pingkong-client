@@ -19,11 +19,12 @@ class Leaderboard extends React.Component {
       const isExpandedUser = (this._expandedUser === user)
 
       return (
-        <div className='user' key={user.email}>
-          <div
-            onClick={this._handleClick.bind(this, user)}
-            className={state.selectedPlayers.includes(user) ? 'selected': null}
-          >
+        <div
+          key={user.email}
+          className={state.selectedPlayers.includes(user) ? 'user selected': 'user'}
+          onClick={this._handleClick.bind(this, user)}
+        >
+          <div>
             <span>{index + 1}</span>
             <img src={user.image} />
             <span>{user.rating}</span>
