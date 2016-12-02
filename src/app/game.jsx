@@ -22,17 +22,19 @@ class Game extends React.Component {
   }
 
   _getClass(playerIndex) {
+    const classes = ['player']
     if (state.winner) {
       if (state.winner === state.selectedPlayers[playerIndex]) {
-        return 'winner'
+        classes.push('winner')
       }
       else {
-        return 'loser'
+        classes.push('loser')
       }
     }
     else {
-      return 'initial'
+      classes.push('initial')
     }
+    return classes.join(' ')
   }
 
   render() {
@@ -58,6 +60,7 @@ class Game extends React.Component {
             {state.selectedPlayers[0].name}
             <h1>{this._getLabel(0)}</h1>
           </div>
+          <div className="spacer" />
           <div
             onClick={this._handleClick.bind(this, state.selectedPlayers[1])}
             className={this._getClass(1)}

@@ -1,4 +1,5 @@
 @primary-color: #224466;
+@bright-primary-color: #336699;
 
 @selected-color: #3c77b3; // lighten(@primary-color, 20%)
 @hover-color: #152a40; // darken(@primary-color, 10%)
@@ -116,25 +117,35 @@ header {
     display: flex;
     justify-content: center;
 
-    div {
+    .spacer {
+      width: 10px;
+    }
+
+    .player {
       align-items: center;
-      background-color: @warning-color;
-      border: 1px solid white;
+      background-color: fade(@warning-color, 75%);
+      border: 1px solid @bright-primary-color;
+      border-radius: 10px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       height: 60vh;
       justify-content: center;
       width: 40%;
+      box-sizing: border-box;
 
       &.initial {
-        background-color: @hover-color;
+        background-color: fade(@hover-color, 75%);
         color: white;
       }
 
-      &:hover, &.winner {
-        background-color: @ready-color;
+      &.winner {
+        background-color: fade(@ready-color, 75%);
         color: white;
+      }
+
+      &:hover {
+        border: 5px solid @ready-color;
       }
     }
   }
