@@ -74,7 +74,7 @@ class Api {
           created_at: created
         })
         state.loser = loser
-        state.loser.diff = loserRating - loser.rating
+        state.loser.diff = loser.rating - loserRating
       }, 1000)
     })
   }
