@@ -26,7 +26,7 @@ class Api {
 
   static postScore() {
     // TODO: Send request to server
-    state.page = 'leaderboard'
+    state.page = 'logo'
     state.winner = null
     state.selectedPlayers = []
   }
