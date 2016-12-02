@@ -9,7 +9,7 @@ class Game extends React.Component {
   render() {
     return (
       <section id="game">
-        <h3>PICK A WINNER</h3>
+        <header>PICK A WINNER</header>
         <div>
           <div
             onClick={this._handleClick.bind(this, state.selectedPlayers[0])}
