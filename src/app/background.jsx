@@ -191,13 +191,21 @@ class Background extends React.Component {
   _addBall(scene, highestCoords) {
     const geometry = new THREE.SphereGeometry(200, 50, 50);
 
-    const mesh = new THREE.Mesh(geometry, this._ballMaterial);
-    mesh.position.x = (highestCoords.x - (TERRAIN_WIDTH / 2)) * (MOUNTAIN_GRID_SIZE / TERRAIN_WIDTH)
-    mesh.position.z = (highestCoords.y - (TERRAIN_WIDTH / 2)) * (MOUNTAIN_GRID_SIZE / TERRAIN_WIDTH)
-    mesh.position.y = highestCoords.height * 15
-    this._ballMesh = mesh
+    const ballMesh = new THREE.Mesh(geometry, this._ballMaterial);
+    ballMesh.position.x = (highestCoords.x - (TERRAIN_WIDTH / 2)) * (MOUNTAIN_GRID_SIZE / TERRAIN_WIDTH)
+    ballMesh.position.z = (highestCoords.y - (TERRAIN_WIDTH / 2)) * (MOUNTAIN_GRID_SIZE / TERRAIN_WIDTH)
+    ballMesh.position.y = highestCoords.height * 15
+    this._ballMesh = ballMesh
 
-    scene.add(mesh)
+    const outlineMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.BackSide })
+  	const outlineMesh = new THREE.Mesh( geometry, outlineMaterial )
+    outlineMesh.position.x = ballMesh.position.x
+    outlineMesh.position.y = ballMesh.position.y
+    outlineMesh.position.z = ballMesh.position.z
+  	outlineMesh.scale.multiplyScalar(1.05)
+
+    scene.add(ballMesh)
+    scene.add(outlineMesh)
   }
 
   _createMesh() {
