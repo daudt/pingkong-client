@@ -1,6 +1,9 @@
+import mobx from 'mobx'
+import { observer } from 'mobx-react'
 import React from 'react'
 
 import ImprovedNoise from './improvedNoise'
+import state from './state/'
 
 import './background.less'
 
@@ -13,22 +16,40 @@ const CLEAR_COLOR_RGB = 0x224466
 const START_POS_Y = -5000
 const END_POS_Y = 0
 
+const MOUNTAIN_GRID_SIZE = 7500
 const TERRAIN_WIDTH = 256
 const TERRAIN_DEPTH = 256
 
+const WHITE_BALL_MATERIAL = new THREE.MeshLambertMaterial({color: 0xFFFFFF})
+
+@observer
 class Background extends React.Component {
 
   constructor() {
     super()
-    this._heightData = null
-    this._scene = null      // Three.js Scene instance
-    this._sceneData = null  // Scene data from file
-    this._camera = null
-    this._renderer = null
+    this._scene         = null  // Three.js Scene instance
+    this._sceneData     = null  // Scene data from file
+    this._camera        = null
+    this._renderer      = null
+    this._currY         = START_POS_Y
+    this._ballMaterial  = WHITE_BALL_MATERIAL
+    this._ballMesh      = null
+    this._leaderImage   = null
 
-    this._currY = START_POS_Y
+    mobx.autorun(this._updateBall.bind(this))
 
     setTimeout(this._init.bind(this), INIT_DELAY_MS)
+  }
+
+  _updateBall() {
+    const leaderImage = this._getLeaderImage() || null
+    if (leaderImage !== this._leaderImage) {
+      this._ballMaterial = this._createLeaderBallMaterial(leaderImage)
+      this._leaderImage = leaderImage
+      if (this._ballMesh) {
+        this._ballMesh.material = this._ballMaterial
+      }
+    }
   }
 
   _generateTexture( data, width, height ) {
@@ -101,52 +122,101 @@ class Background extends React.Component {
 
 	}
 
-  _generateHeight(width, height) {
+  _generateHeightData(width, height) {
 		const size = width * height
-    const data = new Uint16Array(size)
+    const heights = new Uint16Array(size)
 		const perlin = new ImprovedNoise()
-    var quality = 1
+    let quality = 1
     const z = Math.random() * 100
 
     const center = TERRAIN_WIDTH / 2
     const maxDist = Math.sqrt(2 * Math.pow(center, 2))
 
-		for ( var j = 0; j < 4; j ++ ) {
-			for ( var i = 0; i < size; i ++ ) {
+		for ( let j = 0; j < 4; j ++ ) {
+			for ( let i = 0; i < size; i ++ ) {
 				const x = i % width
         const y = ~~ ( i / width )
-				data[ i ] += Math.abs(perlin.noise( x / quality, y / quality, z ) * quality * 1.75)
+				heights[ i ] += Math.abs(perlin.noise( x / quality, y / quality, z ) * quality * 1.75)
 			}
 			quality *= 5;
 		}
 
-    for ( var i = 0; i < size; i ++ ) {
+    let highestHeight = null
+    let highestCoords = null
+
+    for ( let i = 0; i < size; i ++ ) {
       const x = i % width
       const y = ~~ ( i / width )
       const distFromCenter = Math.sqrt(Math.pow(center - x, 2) + Math.pow(center - y, 2))
       const distDelta = Math.max((maxDist - distFromCenter) / maxDist, 0) * 350
-      data[i] += distDelta
+      heights[i] += distDelta
+      if (highestHeight === null || heights[i] > highestHeight) {
+        highestHeight = heights[i]
+        highestCoords = { x, y, height: highestHeight }
+      }
     }
 
-		return data;
+		return { heights, highestCoords }
 	}
 
-  _createMesh() {
-    this._heightData = this._generateHeight(TERRAIN_WIDTH, TERRAIN_DEPTH)
-    const geometry = new THREE.PlaneBufferGeometry( 7500, 7500, TERRAIN_WIDTH - 1, TERRAIN_DEPTH - 1 )
-    geometry.rotateX(-Math.PI/2)
-    const vertices = geometry.attributes.position.array;
-		for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
-			vertices[ j + 1 ] = this._heightData[ i ] * 15;
-		}
-    const texture = new THREE.CanvasTexture(this._generateTexture( this._heightData, TERRAIN_WIDTH, TERRAIN_DEPTH ))
-		texture.wrapS = THREE.ClampToEdgeWrapping
-		texture.wrapT = THREE.ClampToEdgeWrapping
+  _createMountainMaterial(heights) {
+    const texture = new THREE.CanvasTexture(this._generateTexture(heights, TERRAIN_WIDTH, TERRAIN_DEPTH))
+    texture.wrapS = THREE.ClampToEdgeWrapping
+    texture.wrapT = THREE.ClampToEdgeWrapping
+    return new THREE.MeshBasicMaterial({ map: texture })
+  }
 
-    const material = new THREE.MeshBasicMaterial({ map: texture })
+  _createGeometryFromHeights(heights) {
+    const geometry = new THREE.PlaneBufferGeometry( MOUNTAIN_GRID_SIZE, MOUNTAIN_GRID_SIZE, TERRAIN_WIDTH - 1, TERRAIN_DEPTH - 1 )
+    geometry.rotateX(-Math.PI/2)
+    const vertices = geometry.attributes.position.array
+		for ( let i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
+			vertices[ j + 1 ] = heights[ i ] * 15
+		}
+    return geometry
+  }
+
+  _createLeaderBallMaterial(image) {
+    const textureLoader = new THREE.TextureLoader()
+    const textureSphere = textureLoader.load(image)
+		textureSphere.mapping = THREE.SphericalReflectionMapping
+    return new THREE.MeshLambertMaterial( { envMap: textureSphere } )
+  }
+
+  _getLeaderImage() {
+    const leader = state.leaderboard.peek()[0]
+    return leader && leader.image
+  }
+
+  _addBall(scene, highestCoords) {
+    const geometry = new THREE.SphereGeometry(200, 50, 50);
+
+    const mesh = new THREE.Mesh(geometry, this._ballMaterial);
+    mesh.position.x = (highestCoords.x - (TERRAIN_WIDTH / 2)) * (MOUNTAIN_GRID_SIZE / TERRAIN_WIDTH)
+    mesh.position.z = (highestCoords.y - (TERRAIN_WIDTH / 2)) * (MOUNTAIN_GRID_SIZE / TERRAIN_WIDTH)
+    mesh.position.y = highestCoords.height * 15
+    this._ballMesh = mesh
+
+    scene.add(mesh)
+  }
+
+  _createMesh() {
+
+    const heightData = this._generateHeightData(TERRAIN_WIDTH, TERRAIN_DEPTH)
+    const heights = heightData.heights
+
+    const geometry = this._createGeometryFromHeights(heights)
+    const material = this._createMountainMaterial(heights)
 
     const mesh = new THREE.Mesh(geometry, material)
-    return mesh
+
+    const scene = new THREE.Scene()
+    scene.add(mesh)
+
+    this._addBall(scene, heightData.highestCoords)
+
+
+    return scene
   }
 
   _transformSceneData(sceneData) {
@@ -174,7 +244,7 @@ class Background extends React.Component {
 
     //CAMERA
     this._camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 20000 )
-    this._camera.position.y = 5000
+    this._camera.position.y = 5500
 
     //SCENE
     this._scene = new THREE.Scene();
