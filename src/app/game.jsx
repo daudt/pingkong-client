@@ -40,7 +40,21 @@ class Game extends React.Component {
   }
 
   render() {
-
+    const createPlayerSelector = (index) => {
+      return (
+        <div
+          onClick={this._handleClick.bind(this, state.selectedPlayers[index])}
+          className={this._getClass(index)}
+          >
+          <img className='avatar' src={state.selectedPlayers[index].image} />
+          <span className="userName">
+            {state.selectedPlayers[index].nickname}
+            <div className="subtle">{state.selectedPlayers[index].name}</div>
+          </span>
+          <h1>{this._getLabel(index)}</h1>
+        </div>
+      )
+    }
     return (
       <section id="game">
         <header>
@@ -51,29 +65,9 @@ class Game extends React.Component {
           </span>
         </header>
         <div>
-          <div
-            onClick={this._handleClick.bind(this, state.selectedPlayers[0])}
-            className={this._getClass(0)}
-            >
-            <img className='avatar' src={state.selectedPlayers[0].image} />
-            <span className="userName">
-              {state.selectedPlayers[0].nickname}
-              <div className="subtle">{state.selectedPlayers[0].name}</div>
-            </span>
-            <h1>{this._getLabel(0)}</h1>
-          </div>
+          {createPlayerSelector(0)}
           <div className="spacer" />
-          <div
-            onClick={this._handleClick.bind(this, state.selectedPlayers[1])}
-            className={this._getClass(1)}
-            >
-            <img className='avatar' src={state.selectedPlayers[1].image} />
-            <span className="userName">
-              {state.selectedPlayers[1].nickname}
-              <div className="subtle">{state.selectedPlayers[1].name}</div>
-            </span>
-            <h1>{this._getLabel(1)}</h1>
-          </div>
+          {createPlayerSelector(1)}
         </div>
       </section>
     )
