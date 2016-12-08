@@ -10,34 +10,27 @@ class ActionMenu extends React.Component {
     super()
   }
   render() {
-    let text = null
-    let klass = null
-    switch (state.selectedPlayers.length) {
-      case 0:
-        text = 'Select 2 players to begin.'
-        break
-      case 1:
-        text = 'Select 1 more player!'
-        break
-      case 2:
-        text = (
+    const getContent = () => {
+      if (state.selectedPlayers.length === 0) {
+        return 'Select 2 players to begin.'
+      } else if (state.selectedPlayers.length === 1) {
+        return 'Select 1 more player!'
+      } else if (state.selectedPlayers.length === 2) {
+        return (
           <section>
             <button onClick={this._handleClick.bind(this)}>PLAY</button>
             <button onClick={this._handleCancel.bind(this)}>CANCEL</button>
           </section>
         )
-        klass = 'ready'
-        break
-      default:
-        text = "That's too many players! Select 2 to begin a game."
-        klass = 'invalid'
-
+      } else {
+        return 'Too many players, bro.'
+      }
     }
     return (
-      <header className={klass}>
+      <header>
         <TitleBar />
         <span>
-          {text}
+          {getContent()}
         </span>
       </header>
     )

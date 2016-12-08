@@ -43,7 +43,7 @@ class Game extends React.Component {
 
     return (
       <section id="game">
-        <header className={state.winner ? 'ready' : 'null'}>
+        <header>
           <TitleBar />
           <span>
             {state.winner ? (<button onClick={this._handleRecordMatch.bind(this)}>RECORD MATCH</button>) : 'Who won?'}
