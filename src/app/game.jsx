@@ -4,6 +4,7 @@ import React from 'react'
 
 import Api from './api/'
 import state from './state/'
+import TitleBar from './titleBar'
 
 @observer
 class Game extends React.Component {
@@ -43,13 +44,7 @@ class Game extends React.Component {
     return (
       <section id="game">
         <header className={state.winner ? 'ready' : 'null'}>
-          <span className="wideLogo">
-            <img src="/app/king-pong-logo-wide.png" className="logo" />
-            <span className="emoji">
-              🏓
-            </span>
-          </span>
-
+          <TitleBar />
           <span>
             {state.winner ? (<button onClick={this._handleRecordMatch.bind(this)}>RECORD MATCH</button>) : 'Who won?'}
             <button onClick={this._handleCancel.bind(this)}>CANCEL</button>

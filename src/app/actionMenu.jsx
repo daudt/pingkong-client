@@ -2,6 +2,7 @@ import {observer} from 'mobx-react'
 import React from 'react'
 
 import state from './state/'
+import TitleBar from './titleBar'
 
 @observer
 class ActionMenu extends React.Component {
@@ -34,12 +35,7 @@ class ActionMenu extends React.Component {
     }
     return (
       <header className={klass}>
-        <span className="wideLogo">
-          <img src="/app/king-pong-logo-wide.png" className="logo" />
-          <span className="emoji">
-            🏓
-          </span>
-        </span>
+        <TitleBar />
         <span>
           {text}
         </span>
