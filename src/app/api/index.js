@@ -3,15 +3,62 @@ import EloRating from './eloRating'
 
 import state from '../state'
 
-const SERVER_URL = 'http://localhost:3000'
+// const SERVER_URL = 'http://localhost:3000'
+const SERVER_URL = 'http://pingkong.testrepo.com'
 
 // update these to change how the ELO ratings are affected
 const WINNER_SCORE = 1
 const LOSER_SCORE = 0
 
 class Api {
+  static createUser() {
+    // this._get('auth/facebook', 'auth_origin_url=http://localhost:7464').then((response) => {
+    // this._get('auth/facebook', 'auth_origin_url=http://google.com').then((response) => {
+    //   debugger
+    // })
+
+
+    const body = {
+      'email': 'scuba@daudt.com',
+      'password': 'aaa12345',
+      'password_confirmation': 'aaa12345',
+      'name': 'Rafael',
+      'nickname': 'Tuca'
+    };
+
+    // request.send(JSON.stringify(body));
+
+    this._post('auth', body)
+  }
+
+  static loginUser(email, password) {
+    const body = {
+      'email': email,
+      'password': password
+    }
+    return this._post('auth/sign_in', body).then((response) => {
+      console.debug('body:', response.body)
+      console.debug('headers:', response.headers)
+      state.user = {
+        'token-type': response.headers['token-type'],
+        'client': response.headers['client'],
+        'uid': response.headers['uid'],
+        'access-token': response.headers['access-token']
+      }
+    })
+  }
+
+  static getUsers() {
+    this._get('users').then((users) => {
+      console.debug('users:', users)
+      state.users = users
+    })
+  }
+
   static getLeaderboard() {
-    this._get('users', '_embed=rankings').then((users) => {
+    // this._get('users', '_embed=rankings').then((users) => {
+    this._get('rankings').then((users) => {
+      console.debug('/rankings users:', users)
       state.leaderboard = users.map((user) => {
         const rankings = user.rankings.sort(this._sortDateDesc)
         Object.assign(user, {
@@ -88,21 +135,39 @@ class Api {
     return new Promise((resolve, reject) => {
       let url = `${SERVER_URL}/${endpoint}`
       if (query) {
-        url = `${url}/?${query}`
+        // url = `${url}/?${query}`
+        url = `${url}?${query}`
       }
 
-      console.debug('Get:', url)
+      if (state.user) {
+        console.debug('Get (authenticated):', url)
+        request.get(url)
+          .set('token-type', state.user['token-type'])
+          .set('client', state.user['client'])
+          .set('uid', state.user['uid'])
+          .set('access-token', state.user['access-token'])
+          .set('Accept', 'application/json')
+          .end((err, res) => {
+            if (err) {
+              console.error(err)
+              reject(err)
+            }
 
-      request.get(url)
-        .set('Accept', 'application/json')
-        .end((err, res) => {
-          if (err) {
-            console.error(err)
-            reject(err)
-          }
+            resolve(res.body)
+          })
+      } else {
+        console.debug('Get:', url)
+        request.get(url)
+          .set('Accept', 'application/json')
+          .end((err, res) => {
+            if (err) {
+              console.error(err)
+              reject(err)
+            }
 
-          resolve(res.body)
-        })
+            resolve(res.body)
+          })
+      }
     })
   }
 
@@ -118,7 +183,8 @@ class Api {
             console.error(err)
             reject(err)
           }
-          resolve(res.body)
+          resolve(res)
+          // resolve(res.body)
         })
     })
   }

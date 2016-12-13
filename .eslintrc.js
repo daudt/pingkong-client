@@ -27,10 +27,6 @@ module.exports = {
   ],
 
   'rules': {
-    'brace-style': [
-      2,
-      'stroustrup'
-    ],
     'curly': 2,
     'comma-dangle': 0,
     'max-len': 0,

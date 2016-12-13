@@ -12,7 +12,7 @@ import state from './state/'
 
 import './app.less'
 
-const DEFAULT_PAGE = 'logo'
+const DEFAULT_PAGE = 'register'
 
 @observer
 class App extends React.Component {
