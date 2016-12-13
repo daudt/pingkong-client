@@ -23,7 +23,6 @@ header {
   color: white;
   display: flex;
   flex-direction: column;
-  font-size: 2em;
   height: @header-height;
   justify-content: space-around;
   left: 0;
@@ -31,6 +30,16 @@ header {
   text-align: center;
   top: 0;
   width: 100%;
+
+  label {
+    font-size: 0.75em;
+  }
+
+  input {
+    width: 8em;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
 
   img {
     height: @header-logo-height;

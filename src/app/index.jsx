@@ -7,7 +7,7 @@ import Background from './background'
 import Game from './game'
 import Leaderboard from './leaderboard'
 import Logo from './logo'
-import RegisterPage from './registerPage'
+import LoginPage from './loginPage'
 import state from './state/'
 
 import './app.less'
@@ -34,9 +34,9 @@ class App extends React.Component {
           <ActionMenu />
         </section>
       ),
-      register: (
+      login: (
         <section className="UIOverlay">
-          <RegisterPage />
+          <LoginPage />
         </section>
       )
     }
