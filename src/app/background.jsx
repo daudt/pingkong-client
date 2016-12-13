@@ -243,11 +243,11 @@ class Background extends React.Component {
   _setScene(mesh) {
     this._sceneData = this._transformSceneData(mesh)
 
-    const container = document.querySelector("#background");
-    const canvas = document.querySelector("#backgroundCanvas");
+    const container = document.querySelector('#background')
+    const canvas = document.querySelector('#backgroundCanvas')
 
-    this._renderer = new THREE.WebGLRenderer({canvas, antialias: true, alpha: false});
-    this._renderer.setClearColor(CLEAR_COLOR_RGB);
+    this._renderer = new THREE.WebGLRenderer({canvas, antialias: true, alpha: false})
+    this._renderer.setClearColor(CLEAR_COLOR_RGB)
     this._renderer.setSize(canvas.offsetWidth, canvas.offsetHeight)
 
     //CAMERA
@@ -255,20 +255,20 @@ class Background extends React.Component {
     this._camera.position.y = 5500
 
     //SCENE
-    this._scene = new THREE.Scene();
+    this._scene = new THREE.Scene()
 
     //LIGHTS
-    const light = new THREE.AmbientLight(0xFFFFFF, 0.5);
-    this._scene.add(light);
+    const light = new THREE.AmbientLight(0xFFFFFF, 0.5)
+    this._scene.add(light)
 
-    const light1 = new THREE.PointLight(0xFFFFFF, 0.5);
-    this._scene.add(light1);
+    const light1 = new THREE.PointLight(0xFFFFFF, 0.5)
+    this._scene.add(light1)
 
     this._setPos()
 
-    this._scene.add(mesh);
+    this._scene.add(mesh)
 
-    requestAnimationFrame(this._renderThree.bind(this));
+    requestAnimationFrame(this._renderThree.bind(this))
   }
 
   _renderThree() {
@@ -279,7 +279,17 @@ class Background extends React.Component {
     requestAnimationFrame(this._renderThree.bind(this));
   }
 
+  _resizeHandler() {
+    this._camera.aspect = window.innerWidth / window.innerHeight
+    this._camera.updateProjectionMatrix()
+  }
+
+  _initResizeHandler() {
+    window.addEventListener('resize', this._resizeHandler.bind(this))
+  }
+
   _init() {
+    this._initResizeHandler()
     this._setScene(this._createMesh())
   }
 
