@@ -56,17 +56,20 @@ class Api {
   }
 
   static getLeaderboard() {
-    // this._get('users', '_embed=rankings').then((users) => {
     this._get('rankings').then((users) => {
       console.debug('/rankings users:', users)
-      state.leaderboard = users.map((user) => {
-        const rankings = user.rankings.sort(this._sortDateDesc)
-        Object.assign(user, {
-          rating: (rankings.length) ? rankings[0].rating : 0
-        })
-        delete user.rankings
-        return user
-      }).sort((a, b) => b.rating - a.rating)
+      if (users.length) {
+        state.leaderboard = users.map((user) => {
+          const rankings = user.rankings.sort(this._sortDateDesc)
+          Object.assign(user, {
+            rating: (rankings.length) ? rankings[0].rating : 0
+          })
+          delete user.rankings
+          return user
+        }).sort((a, b) => b.rating - a.rating)
+      } else {
+        state.leaderboard = []
+      }
     })
   }
 
