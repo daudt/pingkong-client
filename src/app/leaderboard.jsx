@@ -53,15 +53,6 @@ class Leaderboard extends React.Component {
   }
 
   render() {
-
-    // const leaderboard = state.users.map((user, index) => {
-    //   return (
-    //     <div key={index}>
-    //       {user.name}
-    //     </div>
-    //   )
-    // })
-
     const leaderboard = state.leaderboard.length ? this._getLeaderboardElement() : this._getBlankLeaderboardElement()
 
     return (
@@ -74,8 +65,7 @@ class Leaderboard extends React.Component {
   _handleClick(user, evt) {
     if (state.selectedPlayers.includes(user)) {
       state.selectedPlayers = state.selectedPlayers.filter((player) => (player !== user))
-    }
-    else {
+    } else {
       state.selectedPlayers.push(user)
     }
   }

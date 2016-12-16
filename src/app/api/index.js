@@ -1,9 +1,8 @@
 import * as request from 'superagent'
-import EloRating from './eloRating'
 
+import EloRating from './eloRating'
 import state from '../state'
 
-// const SERVER_URL = 'http://localhost:3000'
 const SERVER_URL = 'http://pingkong.testrepo.com'
 
 // update these to change how the ELO ratings are affected
@@ -19,14 +18,12 @@ class Api {
 
 
     const body = {
-      'email': 'scuba@daudt.com',
-      'password': 'aaa12345',
-      'password_confirmation': 'aaa12345',
-      'name': 'Rafael',
-      'nickname': 'Tuca'
-    };
-
-    // request.send(JSON.stringify(body));
+      'email': 'akessock@gmail.com',
+      'password': 'foobarbaz',
+      'password_confirmation': 'foobarbaz',
+      'name': 'Alex Kessock',
+      'nickname': 'Keysox'
+    }
 
     this._post('auth', body)
   }
@@ -59,14 +56,15 @@ class Api {
     this._get('rankings').then((users) => {
       console.debug('/rankings users:', users)
       if (users.length) {
-        state.leaderboard = users.map((user) => {
-          const rankings = user.rankings.sort(this._sortDateDesc)
-          Object.assign(user, {
-            rating: (rankings.length) ? rankings[0].rating : 0
-          })
-          delete user.rankings
-          return user
-        }).sort((a, b) => b.rating - a.rating)
+        state.leaderboard = users
+        // state.leaderboard = users.map((user) => {
+        //   const rankings = user.rankings.sort(this._sortDateDesc)
+        //   Object.assign(user, {
+        //     rating: (rankings.length) ? rankings[0].rating : 0
+        //   })
+        //   delete user.rankings
+        //   return user
+        // }).sort((a, b) => b.rating - a.rating)
       } else {
         state.leaderboard = []
       }
@@ -138,7 +136,6 @@ class Api {
     return new Promise((resolve, reject) => {
       let url = `${SERVER_URL}/${endpoint}`
       if (query) {
-        // url = `${url}/?${query}`
         url = `${url}?${query}`
       }
 
@@ -187,7 +184,6 @@ class Api {
             reject(err)
           }
           resolve(res)
-          // resolve(res.body)
         })
     })
   }
