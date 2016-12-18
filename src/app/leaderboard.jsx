@@ -22,7 +22,7 @@ class Leaderboard extends React.Component {
       const isExpandedUser = (this._expandedUser === user)
       return (
         <div
-        key={user.id}
+        key={user.user_id}
         className={state.selectedPlayers.includes(user) ? 'user selected': 'user'}
         onClick={this._handleClick.bind(this, user)}
         >
