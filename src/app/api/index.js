@@ -3,7 +3,7 @@ import * as request from 'superagent'
 import EloRating from './eloRating'
 import state from '../state'
 
-const SERVER_URL = 'http://kingofpong.com'
+const SERVER_URL = 'http://kingofpong.com/api'
 
 // update these to change how the ELO ratings are affected
 const WINNER_SCORE = 1
