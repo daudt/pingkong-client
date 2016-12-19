@@ -1,13 +1,13 @@
 import * as request from 'superagent'
 
-import EloRating from './eloRating'
+// import EloRating from './eloRating'
 import state from '../state'
 
 const SERVER_URL = 'https://www.kingofpong.com/api'
 
 // update these to change how the ELO ratings are affected
-const WINNER_SCORE = 1
-const LOSER_SCORE = 0
+// const WINNER_SCORE = 1
+// const LOSER_SCORE = 0
 
 class Api {
   static createUser() {
@@ -18,11 +18,11 @@ class Api {
 
 
     const body = {
-      'email': 'akessock@gmail.com',
+      'email': 'alex.kessock@colorado.edu',
       'password': 'foobarbaz',
       'password_confirmation': 'foobarbaz',
-      'name': 'Alex Kessock',
-      'nickname': 'Keysox'
+      'name': 'Test User',
+      'nickname': 'NicknameGoesHere'
     }
 
     this._post('auth', body)
@@ -78,58 +78,67 @@ class Api {
   }
 
   static addMatch(winner, loser) {
-    const created = new Date().toISOString()
+    const body = {
+      'player1': state.selectedPlayers[0].user_id,
+      'player2': state.selectedPlayers[1].user_id,
+      'winner': winner.user_id
+    }
 
-    const eloRating = new EloRating(winner.rating, loser.rating, WINNER_SCORE, LOSER_SCORE)
-    const newRatings = eloRating.getNewRatings()
-    const winnerRating = newRatings.winners
-    const loserRating = newRatings.losers
+    this._post('matches', body).then((response) => {
+      console.warn('response', response)
+    })
+    // const created = new Date().toISOString()
+
+    // const eloRating = new EloRating(winner.rating, loser.rating, WINNER_SCORE, LOSER_SCORE)
+    // const newRatings = eloRating.getNewRatings()
+    // const winnerRating = newRatings.winners
+    // const loserRating = newRatings.losers
 
     // create the match
-    this._post('matches', {
-      created_at: created
-    }).then((match) => {
-      window.setTimeout(() => {
-        this._post('match_users', {
-          matchId: match.id,
-          userId: winner.id
-        })
-      }, 100)
-
-      window.setTimeout(() => {
-        this._post('match_users', {
-          matchId: match.id,
-          userId: loser.id
-        })
-      }, 200)
-
-      window.setTimeout(() => {
-        this._post('winners', {
-          matchId: match.id,
-          userId: winner.id
-        })
-      }, 300)
-
-      window.setTimeout(() => {
-        this._post('rankings', {
-          userId: winner.id,
-          rating: winnerRating,
-          created_at: created
-        })
-        state.winner = winner
-        state.winner.diff = winnerRating - winner.rating
-      }, 400)
-
-      window.setTimeout(() => {
-        this._post('rankings', {
-          userId: loser.id,
-          rating: loserRating,
-          created_at: created
-        })
-        state.loser = loser
-        state.loser.diff = loser.rating - loserRating
-      }, 500)
-    })
+    // this._post('matches', {
+    //   created_at: created
+    // }).then((match) => {
+    //   window.setTimeout(() => {
+    //     this._post('match_users', {
+    //       matchId: match.id,
+    //       userId: winner.id
+    //     })
+    //   }, 100)
+    //
+    //   window.setTimeout(() => {
+    //     this._post('match_users', {
+    //       matchId: match.id,
+    //       userId: loser.id
+    //     })
+    //   }, 200)
+    //
+    //   window.setTimeout(() => {
+    //     this._post('winners', {
+    //       matchId: match.id,
+    //       userId: winner.id
+    //     })
+    //   }, 300)
+    //
+    //   window.setTimeout(() => {
+    //     this._post('rankings', {
+    //       userId: winner.id,
+    //       rating: winnerRating,
+    //       created_at: created
+    //     })
+    //     state.winner = winner
+    //     state.winner.diff = winnerRating - winner.rating
+    //   }, 400)
+    //
+    //   window.setTimeout(() => {
+    //     this._post('rankings', {
+    //       userId: loser.id,
+    //       rating: loserRating,
+    //       created_at: created
+    //     })
+    //     state.loser = loser
+    //     state.loser.diff = loser.rating - loserRating
+    //   }, 500)
+    // })
   }
 
   static _get(endpoint, query) {
@@ -174,17 +183,36 @@ class Api {
   static _post(endpoint, data) {
     return new Promise((resolve, reject) => {
       let url = `${SERVER_URL}/${endpoint}`
-      console.debug('Post:', url, data)
 
-      request.post(url, data)
-        .set('Accept', 'application/json')
-        .end((err, res) => {
-          if (err) {
-            console.error(err)
-            reject(err)
-          }
-          resolve(res)
-        })
+      if (state.user) {
+        console.debug('Post (authenticated):', url, data)
+        request.get(url, data)
+          .set('token-type', state.user['token-type'])
+          .set('client', state.user['client'])
+          .set('uid', state.user['uid'])
+          .set('access-token', state.user['access-token'])
+          .set('Accept', 'application/json')
+          .end((err, res) => {
+            if (err) {
+              console.error(err)
+              reject(err)
+            }
+
+            resolve(res)
+          })
+      } else {
+        console.debug('Post:', url, data)
+        request.post(url, data)
+          .set('Accept', 'application/json')
+          .end((err, res) => {
+            if (err) {
+              console.error(err)
+              reject(err)
+            }
+
+            resolve(res)
+          })
+      }
     })
   }
 
