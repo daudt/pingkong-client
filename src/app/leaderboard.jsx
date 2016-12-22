@@ -13,8 +13,6 @@ class Leaderboard extends React.Component {
   componentWillMount() {
     Api.getLeaderboard()
     // Api.createUser()
-    // Api.loginUser()
-    // Api.getUsers()
   }
 
   _getLeaderboardElement() {
@@ -22,7 +20,7 @@ class Leaderboard extends React.Component {
       const isExpandedUser = (this._expandedUser === user)
       return (
         <div
-        key={user.user_id}
+        key={user.id}
         className={state.selectedPlayers.includes(user) ? 'user selected': 'user'}
         onClick={this._handleClick.bind(this, user)}
         >

@@ -18,11 +18,11 @@ class Api {
 
 
     const body = {
-      'email': 'alex.kessock@colorado.edu',
+      'email': 'akessock2@gmail.com',
       'password': 'foobarbaz',
       'password_confirmation': 'foobarbaz',
-      'name': 'Test User',
-      'nickname': 'NicknameGoesHere'
+      'name': 'Alex Kessock',
+      'nickname': 'Test'
     }
 
     this._post('auth', body)
@@ -79,9 +79,9 @@ class Api {
 
   static addMatch(winner, loser) {
     const body = {
-      'player1': state.selectedPlayers[0].user_id,
-      'player2': state.selectedPlayers[1].user_id,
-      'winner': winner.user_id
+      'player1': state.selectedPlayers[0].id,
+      'player2': state.selectedPlayers[1].id,
+      'winner': winner.id
     }
 
     this._post('matches', body).then((response) => {
@@ -192,6 +192,7 @@ class Api {
           .set('uid', state.user['uid'])
           .set('access-token', state.user['access-token'])
           .set('Accept', 'application/json')
+          .set('Content-Type', 'application/json')
           .end((err, res) => {
             if (err) {
               console.error(err)
