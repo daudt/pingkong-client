@@ -5,3 +5,6 @@ src/bundle.js
 # npm
 node_modules/
 npm-debug.log
+
+# mocks
+mocks/
