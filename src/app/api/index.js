@@ -3,7 +3,7 @@ import * as request from 'superagent'
 import Session from '../session'
 import state from '../state'
 
-const SERVER_URL = 'https://www.kingofpong.com/api'
+const BASE_URL = 'https://www.kingofpong.com/api'
 
 const TOKEN_TYPE = 'Bearer'
 
@@ -17,35 +17,40 @@ function sortDateDesc(a, b) {
 
 class Api {
   static getBaseUrl() {
-    return SERVER_URL
+    return BASE_URL
   }
 
   static fetchMe() {
-    return this._get('auth/validate_token')
+    if (Session.isActive()) {
+      return this._get('auth/validate_token')
+    } else {
+      return Promise.reject('not logged in')
+    }
   }
 
   static createUser(email, password, name, nickname) {
-    const body = {
+    const data = {
       email,
       password,
       password_confirmation: password,
       name,
       nickname
     }
-    this._post('auth', body)
+    return this._post('auth', data)
   }
 
   static loginUser(email, password) {
-    const body = { email, password }
-    return this._post('auth/sign_in', body).then((response) => {
-      console.debug('body:', response.body)
-      console.debug('headers:', response.headers)
-      state.user = {
-        client:         response.headers['client'],
-        uid:            response.headers['uid'],
-        'access-token': response.headers['access-token']
-      }
-    })
+    const data = { email, password }
+    return this._post('auth/sign_in', data)
+    // .then((response) => {
+    //   console.debug('body:', response.body)
+    //   console.debug('headers:', response.headers)
+    //   state.user = {
+    //     client:         response.headers['client'],
+    //     uid:            response.headers['uid'],
+    //     'access-token': response.headers['access-token']
+    //   }
+    // })
   }
 
   static getUsers() {
@@ -81,19 +86,19 @@ class Api {
   }
 
   static recordMatch(player1, player2, winningPlayer) {
-    const body = {
+    const data = {
       player1:  player1.id,
       player2:  player2.id,
       winner:   winningPlayer.id
     }
-    this._post('matches', body).then((response) => {
+    this._post('matches', data).then((response) => {
       console.warn('response', response)
     })
   }
 
   static _get(endpoint, query) {
     return new Promise((resolve, reject) => {
-      let url = `${SERVER_URL}/${endpoint}`
+      let url = `${BASE_URL}/${endpoint}`
       if (query) {
         url = `${url}?${query}`
       }
@@ -132,7 +137,7 @@ class Api {
 
   static _post(endpoint, data) {
     return new Promise((resolve, reject) => {
-      const url = `${SERVER_URL}/${endpoint}`
+      const url = `${BASE_URL}/${endpoint}`
 
       if (Session.isActive()) {
         console.debug('Post (authenticated)', data)

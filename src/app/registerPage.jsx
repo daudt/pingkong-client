@@ -5,7 +5,7 @@ import FacebookLoginControl from './facebookLoginControl'
 import state from './state/'
 import TitleBar from './titleBar'
 
-class LoginPage extends React.Component {
+class RegisterPage extends React.Component {
 
   render() {
     return (
@@ -19,19 +19,27 @@ class LoginPage extends React.Component {
             <FacebookLoginControl />
           </div>
           <div className="panel-section">
-            LOGIN WITH EMAIL
+            REGISTER WITH EMAIL
             <div className="vertical-form">
               <label>
+                Real Name
+                <input className="name" />
+              </label>
+              <label>
+                Nickname
+                <input className="nickname" />
+              </label>
+              <label>
                 Email
-                <input className="login-email" />
+                <input className="email" />
               </label>
               <label>
                 Password
-                <input className="login-password" />
+                <input className="password" type="password" />
               </label>
               <span>
-                <button onClick={this._handleLogin.bind(this)}>
-                  LOGIN
+                <button onClick={this._handleRegister.bind(this)}>
+                  REGISTER
                 </button>
               </span>
             </div>
@@ -46,12 +54,13 @@ class LoginPage extends React.Component {
     )
   }
 
-  _handleLogin() {
-    const email     = document.querySelector('input.login-email').value
-    const password  = document.querySelector('input.login-password').value
-    Api.loginUser(email, password).then((response) => {
-      console.log('logged in', response)
-      // state.page='leaderboard'
+  _handleRegister() {
+    const email     = document.querySelector('input.email').value
+    const password  = document.querySelector('input.password').value
+    const name      = document.querySelector('input.name').value
+    const nickname  = document.querySelector('input.nickname').value
+    Api.createUser(email, password, name, nickname).then(() => {
+      state.page = 'leaderboard'
     })
   }
 
@@ -61,4 +70,4 @@ class LoginPage extends React.Component {
 
 }
 
-export default LoginPage
+export default RegisterPage

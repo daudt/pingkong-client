@@ -8,6 +8,7 @@ import Game from './game'
 import Leaderboard from './leaderboard'
 import Logo from './logo'
 import LoginPage from './loginPage'
+import RegisterPage from './registerPage'
 import state from './state/'
 
 import './app.less'
@@ -37,6 +38,11 @@ class App extends React.Component {
       login: (
         <section className="UIOverlay">
           <LoginPage />
+        </section>
+      ),
+      register: (
+        <section className="UIOverlay">
+          <RegisterPage />
         </section>
       )
     }

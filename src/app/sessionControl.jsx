@@ -13,8 +13,16 @@ class SessionControl extends React.Component {
     }
   }
 
+  componentWillMount() {
+    this._fetchMe()
+  }
+
   _openLogin() {
     state.page = 'login'
+  }
+
+  _openRegister() {
+    state.page = 'register'
   }
 
   _handleLogout() {
@@ -27,20 +35,17 @@ class SessionControl extends React.Component {
       .then((result) => {
         this.setState({ me: result.data })
       })
+      .catch(() => {
+        // not logged in
+      })
   }
 
   _getMeElement() {
     if (this.state.me) {
       return (
         <div>
-          LOGGED IN AS {this.state.me.nickname || this.state.me.name}
+          Welcome, {this.state.me.nickname || this.state.me.name}
         </div>
-      )
-    } else {
-      this._fetchMe()
-      return (
-        <span>
-        </span>
       )
     }
   }
@@ -56,11 +61,22 @@ class SessionControl extends React.Component {
         </span>
       )
     } else {
-      return (
-        <button onClick={this._openLogin.bind(this)}>
-          LOGIN
-        </button>
-      )
+      if (state.page === 'register' || state.page === 'login') {
+        return (
+          <span></span>
+        )
+      } else {
+        return (
+          <span>
+            <button onClick={this._openLogin.bind(this)}>
+              LOGIN
+            </button>
+            <button onClick={this._openRegister.bind(this)}>
+              REGISTER
+            </button>
+          </span>
+        )
+      }
     }
   }
 
