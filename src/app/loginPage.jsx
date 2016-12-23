@@ -2,6 +2,7 @@ import React from 'react'
 
 import Api from './api/'
 import FacebookLoginControl from './facebookLoginControl'
+import Session from './session'
 import state from './state/'
 import TitleBar from './titleBar'
 
@@ -49,9 +50,9 @@ class LoginPage extends React.Component {
   _handleLogin() {
     const email     = document.querySelector('input.login-email').value
     const password  = document.querySelector('input.login-password').value
-    Api.loginUser(email, password).then((response) => {
-      console.log('logged in', response)
-      // state.page='leaderboard'
+    Api.loginUser(email, password).then((sessionData) => {
+      Session.set(sessionData)
+      window.location.reload(true)
     })
   }
 

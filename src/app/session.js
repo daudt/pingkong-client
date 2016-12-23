@@ -17,6 +17,14 @@ function getTimestampSecs() {
 
 class Session {
 
+  static set({ clientID, expirationSecs, token, uid }) {
+    Session.clear()
+    Session._setSessionVar(CLIENT_ID_VARNAME,       clientID)
+    Session._setSessionVar(EXPIRATION_SECS_VARNAME, expirationSecs)
+    Session._setSessionVar(TOKEN_VARNAME,           token)
+    Session._setSessionVar(UID_VARNAME,             uid)
+  }
+
   static getClientID() {
     return Session._getSessionVar(CLIENT_ID_VARNAME)
   }
@@ -31,6 +39,10 @@ class Session {
 
   static _getSessionVar(varName) {
     return localStorage.getItem(varName)
+  }
+
+  static _setSessionVar(varName, value) {
+    localStorage.setItem(varName, value)
   }
 
   static _isExpired() {

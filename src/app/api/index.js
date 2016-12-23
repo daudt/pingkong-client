@@ -42,15 +42,14 @@ class Api {
   static loginUser(email, password) {
     const data = { email, password }
     return this._post('auth/sign_in', data)
-    // .then((response) => {
-    //   console.debug('body:', response.body)
-    //   console.debug('headers:', response.headers)
-    //   state.user = {
-    //     client:         response.headers['client'],
-    //     uid:            response.headers['uid'],
-    //     'access-token': response.headers['access-token']
-    //   }
-    // })
+      .then((response) => {
+        return {
+          clientID:       response.headers['client'],
+          expirationSecs: response.headers['expiry'],
+          token:          response.headers['access-token'],
+          uid:            response.headers['uid']
+        }
+      })
   }
 
   static getUsers() {
