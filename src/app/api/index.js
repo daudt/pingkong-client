@@ -9,6 +9,8 @@ const SERVER_URL = 'https://www.kingofpong.com/api'
 // const WINNER_SCORE = 1
 // const LOSER_SCORE = 0
 
+const TOKEN_TYPE = 'Bearer'
+
 function sortDateAsc(a, b) {
   return new Date(a.created_at) - new Date(b.created_at)
 }
@@ -39,9 +41,8 @@ class Api {
       console.debug('body:', response.body)
       console.debug('headers:', response.headers)
       state.user = {
-        'token-type':   response.headers['token-type'],
-        'client':       response.headers['client'],
-        'uid':          response.headers['uid'],
+        client:         response.headers['client'],
+        uid:            response.headers['uid'],
         'access-token': response.headers['access-token']
       }
     })
@@ -152,7 +153,7 @@ class Api {
       if (state.user) {
         console.debug('Get (authenticated):', url)
         request.get(url)
-          .set('token-type',    state.user['token-type'])
+          .set('token-type',    TOKEN_TYPE)
           .set('client',        Api._getHeader('client'))
           .set('uid',           Api._getHeader('uid'))
           .set('access-token',  Api._getHeader('access-token'))
@@ -207,7 +208,7 @@ class Api {
       if (state.user || hasOAuthToken()) {
         console.debug('Post (authenticated)', url, data, state.user, Api._getHeader('client'), Api._getHeader('uid'), Api._getHeader('access-token'))
         request.post(url, data)
-          .set('token-type',    state.user['token-type'])
+          .set('token-type',    TOKEN_TYPE)
           .set('client',        Api._getHeader('client'))
           .set('uid',           Api._getHeader('uid'))
           .set('access-token',  Api._getHeader('access-token'))
