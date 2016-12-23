@@ -7,7 +7,8 @@ execSync('rm -rf dist')
 
 execSync('mkdir dist')
 execSync('cp src/index.html dist/')
-execSync('cp src/bundle.js dist/')
+execSync('cp src/oauth-done.html dist/')
+execSync('mv src/bundle.js dist/')
 
 execSync('mkdir dist/app')
 execSync('cp src/app/checkmark.svg dist/app/')

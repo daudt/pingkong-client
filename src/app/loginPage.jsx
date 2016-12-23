@@ -4,6 +4,8 @@ import Api from './api/'
 import state from './state/'
 import TitleBar from './titleBar'
 
+const OAUTH_REDIR_URL = 'https://www.kingofpong.com/oauth-done.html'
+
 class LoginPage extends React.Component {
 
   render() {
@@ -51,7 +53,7 @@ class LoginPage extends React.Component {
   }
 
   _handleFacebookLogin() {
-    const url = `${Api.getBaseUrl()}/auth/facebook?auth_origin_url=${encodeURIComponent('https://www.kingofpong.com/')}`
+    const url = `${Api.getBaseUrl()}/auth/facebook?auth_origin_url=${encodeURIComponent(OAUTH_REDIR_URL)}`
     window.location.href = url
   }
 
