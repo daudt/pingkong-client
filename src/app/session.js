@@ -40,7 +40,7 @@ class Session {
     }
   }
 
-  static _clear() {
+  static clear() {
     STORAGE_VARNAMES.forEach((varName) => {
       localStorage.removeItem(varName)
     })
@@ -52,10 +52,10 @@ class Session {
 
   static isActive() {
     if (!Session._hasSession()) {
-      Session._clear() // session info may be incomplete, so clear
+      Session.clear() // session info may be incomplete, so clear
       return false
     } else if (Session._isExpired()) {
-      Session._clear()
+      Session.clear()
       return false
     }
     return true

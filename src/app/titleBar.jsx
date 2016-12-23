@@ -7,7 +7,13 @@ class TitleBar extends React.Component {
 
   _getCurrentUserControl() {
     // login control or profile stuff
-    if (!Session.isActive()) {
+    if (Session.isActive()) {
+      return (
+        <button onClick={this._handleLogout.bind(this)}>
+          LOGOUT
+        </button>
+      )
+    } else {
       return (
         <button onClick={this._openLogin.bind(this)}>
           LOGIN
@@ -28,6 +34,11 @@ class TitleBar extends React.Component {
 
   _openLogin() {
     state.page = 'login'
+  }
+
+  _handleLogout() {
+    Session.clear()
+    window.location.reload(true)
   }
 
   render() {

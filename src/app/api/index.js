@@ -6,10 +6,6 @@ import state from '../state'
 
 const SERVER_URL = 'https://www.kingofpong.com/api'
 
-// update these to change how the ELO ratings are affected
-// const WINNER_SCORE = 1
-// const LOSER_SCORE = 0
-
 const TOKEN_TYPE = 'Bearer'
 
 function sortDateAsc(a, b) {
