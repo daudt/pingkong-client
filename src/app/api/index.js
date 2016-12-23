@@ -10,6 +10,10 @@ const SERVER_URL = 'https://www.kingofpong.com/api'
 // const LOSER_SCORE = 0
 
 class Api {
+  static getBaseUrl() {
+    return SERVER_URL
+  }
+
   static createUser() {
     // this._get('auth/facebook', 'auth_origin_url=http://localhost:7464').then((response) => {
     // this._get('auth/facebook', 'auth_origin_url=http://google.com').then((response) => {
