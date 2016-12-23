@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // http://mrl.nyu.edu/~perlin/noise/
 
 var ImprovedNoise = function () {

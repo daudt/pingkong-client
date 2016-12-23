@@ -30,6 +30,7 @@ module.exports = {
     'curly': 2,
     'comma-dangle': 0,
     'max-len': 0,
+    'no-multi-spaces': 0,
     'quotes': [
       2,
       'single',
