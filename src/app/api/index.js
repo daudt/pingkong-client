@@ -1,7 +1,7 @@
 import * as request from 'superagent'
 import urlParser from 'url-parse'
 
-import session from '../session'
+import Session from '../session'
 import state from '../state'
 
 const SERVER_URL = 'https://www.kingofpong.com/api'
