@@ -193,10 +193,18 @@ class Api {
   }
 
   static _post(endpoint, data) {
+    function hasOAuthToken() {
+      const parsedUrl = urlParser(window.location.href, true)
+      return !!parsedUrl.query['token-id']
+    }
+
     return new Promise((resolve, reject) => {
       let url = `${SERVER_URL}/${endpoint}`
 
-      if (state.user) {
+      const parsedUrl = urlParser(window.location.href, true)
+      console.log('url', parsedUrl)
+
+      if (state.user || hasOAuthToken()) {
         console.debug('Post (authenticated):', url, data)
         request.get(url, data)
           .set('token-type',    state.user['token-type'])
