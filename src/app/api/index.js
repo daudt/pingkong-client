@@ -184,10 +184,10 @@ class Api {
   static _getHeader(field) {
     const parsedUrl = urlParser(window.location.href, true)
     if (field === 'access-token') {
-      return (state.user && state.user['access-token']) || parsedUrl.query['auth-token']
+      return (state.user && state.user['access-token']) || parsedUrl.query['auth_token']
     }
     if (field === 'client') {
-      return (state.user && state.user['client']) || parsedUrl.query['client-id']
+      return (state.user && state.user['client']) || parsedUrl.query['client_id']
     }
     return (state.user && state.user[field]) || parsedUrl.query[field]
   }
@@ -195,7 +195,7 @@ class Api {
   static _post(endpoint, data) {
     function hasOAuthToken() {
       const parsedUrl = urlParser(window.location.href, true)
-      return !!parsedUrl.query['token-id']
+      return !!parsedUrl.query['token_id']
     }
 
     return new Promise((resolve, reject) => {
