@@ -1,4 +1,5 @@
 import * as request from 'superagent'
+import urlParser from 'url-parse'
 
 import state from '../state'
 
@@ -151,11 +152,11 @@ class Api {
       if (state.user) {
         console.debug('Get (authenticated):', url)
         request.get(url)
-          .set('token-type', state.user['token-type'])
-          .set('client', state.user['client'])
-          .set('uid', state.user['uid'])
-          .set('access-token', state.user['access-token'])
-          .set('Accept', 'application/json')
+          .set('token-type',    state.user['token-type'])
+          .set('client',        Api._getHeader('client'))
+          .set('uid',           Api._getHeader('uid'))
+          .set('access-token',  Api._getHeader('access-token'))
+          .set('Accept',        'application/json')
           .end((err, res) => {
             if (err) {
               console.error(err)
@@ -180,6 +181,17 @@ class Api {
     })
   }
 
+  static _getHeader(field) {
+    const parsedUrl = urlParser(window.location.href, true)
+    if (field === 'access-token') {
+      return (state.user && state.user['access-token']) || parsedUrl.query['auth-token']
+    }
+    if (field === 'client') {
+      return (state.user && state.user['client']) || parsedUrl.query['client-id']
+    }
+    return (state.user && state.user[field]) || parsedUrl.query[field]
+  }
+
   static _post(endpoint, data) {
     return new Promise((resolve, reject) => {
       let url = `${SERVER_URL}/${endpoint}`
@@ -187,12 +199,12 @@ class Api {
       if (state.user) {
         console.debug('Post (authenticated):', url, data)
         request.get(url, data)
-          .set('token-type', state.user['token-type'])
-          .set('client', state.user['client'])
-          .set('uid', state.user['uid'])
-          .set('access-token', state.user['access-token'])
-          .set('Accept', 'application/json')
-          .set('Content-Type', 'application/json')
+          .set('token-type',    state.user['token-type'])
+          .set('client',        Api._getHeader('client'))
+          .set('uid',           Api._getHeader('uid'))
+          .set('access-token',  Api._getHeader('access-token'))
+          .set('Accept',        'application/json')
+          .set('Content-Type',  'application/json')
           .end((err, res) => {
             if (err) {
               console.error(err)

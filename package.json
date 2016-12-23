@@ -41,6 +41,7 @@
     "webpack-uglify-js-plugin": "^1.1.9"
   },
   "dependencies": {
-    "three": "^0.82.1"
+    "three": "^0.82.1",
+    "url-parse": "^1.1.7"
   }
 }
