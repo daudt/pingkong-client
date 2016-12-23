@@ -206,7 +206,7 @@ class Api {
 
       if (state.user || hasOAuthToken()) {
         console.debug('Post (authenticated):', url, data)
-        request.get(url, data)
+        request.post(url, data)
           .set('token-type',    state.user['token-type'])
           .set('client',        Api._getHeader('client'))
           .set('uid',           Api._getHeader('uid'))
