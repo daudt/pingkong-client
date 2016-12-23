@@ -1,20 +1,29 @@
 import React from 'react'
 
+import Session from './session'
 import state from './state'
 
 class TitleBar extends React.Component {
 
   _getCurrentUserControl() {
     // login control or profile stuff
-    if (state.user) {
-      // TODO: Show 'logged in as ____' type of thing
-    } else if (state.page !== 'login') {
+    if (!Session.isActive()) {
       return (
         <button onClick={this._openLogin.bind(this)}>
           LOGIN
         </button>
       )
     }
+
+    // if (state.user) {
+    //   // TODO: Show 'logged in as ____' type of thing
+    // } else if (state.page !== 'login') {
+    //   return (
+    //     <button onClick={this._openLogin.bind(this)}>
+    //       LOGIN
+    //     </button>
+    //   )
+    // }
   }
 
   _openLogin() {

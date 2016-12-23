@@ -1,6 +1,7 @@
 import * as request from 'superagent'
 import urlParser from 'url-parse'
 
+import session from '../session'
 import state from '../state'
 
 const SERVER_URL = 'https://www.kingofpong.com/api'
@@ -89,58 +90,6 @@ class Api {
     this._post('matches', body).then((response) => {
       console.warn('response', response)
     })
-    // const created = new Date().toISOString()
-
-    // const eloRating = new EloRating(winner.rating, loser.rating, WINNER_SCORE, LOSER_SCORE)
-    // const newRatings = eloRating.getNewRatings()
-    // const winnerRating = newRatings.winners
-    // const loserRating = newRatings.losers
-
-    // create the match
-    // this._post('matches', {
-    //   created_at: created
-    // }).then((match) => {
-    //   window.setTimeout(() => {
-    //     this._post('match_users', {
-    //       matchId: match.id,
-    //       userId: winner.id
-    //     })
-    //   }, 100)
-    //
-    //   window.setTimeout(() => {
-    //     this._post('match_users', {
-    //       matchId: match.id,
-    //       userId: loser.id
-    //     })
-    //   }, 200)
-    //
-    //   window.setTimeout(() => {
-    //     this._post('winners', {
-    //       matchId: match.id,
-    //       userId: winner.id
-    //     })
-    //   }, 300)
-    //
-    //   window.setTimeout(() => {
-    //     this._post('rankings', {
-    //       userId: winner.id,
-    //       rating: winnerRating,
-    //       created_at: created
-    //     })
-    //     state.winner = winner
-    //     state.winner.diff = winnerRating - winner.rating
-    //   }, 400)
-    //
-    //   window.setTimeout(() => {
-    //     this._post('rankings', {
-    //       userId: loser.id,
-    //       rating: loserRating,
-    //       created_at: created
-    //     })
-    //     state.loser = loser
-    //     state.loser.diff = loser.rating - loserRating
-    //   }, 500)
-    // })
   }
 
   static _get(endpoint, query) {
@@ -150,13 +99,13 @@ class Api {
         url = `${url}?${query}`
       }
 
-      if (state.user) {
+      if (Session.isActive()) {
         console.debug('Get (authenticated):', url)
         request.get(url)
           .set('token-type',    TOKEN_TYPE)
-          .set('client',        Api._getHeader('client'))
-          .set('uid',           Api._getHeader('uid'))
-          .set('access-token',  Api._getHeader('access-token'))
+          .set('client',        Session.getClientID())
+          .set('uid',           Session.getUID())
+          .set('access-token',  Session.getToken())
           .set('Accept',        'application/json')
           .end((err, res) => {
             if (err) {
@@ -182,36 +131,17 @@ class Api {
     })
   }
 
-  static _getHeader(field) {
-    const parsedUrl = urlParser(window.location.href, true)
-    if (field === 'access-token') {
-      return (state.user && state.user['access-token']) || parsedUrl.query['auth_token']
-    }
-    if (field === 'client') {
-      return (state.user && state.user['client']) || parsedUrl.query['client_id']
-    }
-    return (state.user && state.user[field]) || parsedUrl.query[field]
-  }
-
   static _post(endpoint, data) {
-    function hasOAuthToken() {
-      const parsedUrl = urlParser(window.location.href, true)
-      return !!parsedUrl.query['auth_token']
-    }
-
     return new Promise((resolve, reject) => {
-      let url = `${SERVER_URL}/${endpoint}`
+      const url = `${SERVER_URL}/${endpoint}`
 
-      const parsedUrl = urlParser(window.location.href, true)
-      console.log('url', parsedUrl)
-
-      if (state.user || hasOAuthToken()) {
-        console.debug('Post (authenticated)', url, data, state.user, Api._getHeader('client'), Api._getHeader('uid'), Api._getHeader('access-token'))
+      if (Session.isActive()) {
+        console.debug('Post (authenticated)', data)
         request.post(url, data)
           .set('token-type',    TOKEN_TYPE)
-          .set('client',        Api._getHeader('client'))
-          .set('uid',           Api._getHeader('uid'))
-          .set('access-token',  Api._getHeader('access-token'))
+          .set('client',        Session.getClientID())
+          .set('uid',           Session.getUID())
+          .set('access-token',  Session.getToken())
           .set('Accept',        'application/json')
           .set('Content-Type',  'application/json')
           .end((err, res) => {
