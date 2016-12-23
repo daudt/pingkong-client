@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Api from './Api'
+import Api from './api/'
 import Session from './session'
 import state from './state'
 
