@@ -52,9 +52,8 @@ class LoginPage extends React.Component {
 
   _handleFacebookLogin() {
     // const url = `${Api.getBaseUrl()}/auth/facebook?auth_origin_url=${window.location.href}`
-    const url = `${Api.getBaseUrl()}/auth/facebook?auth_origin_url=${encodeURIComponent('http://www.google.com/')}`
-    console.log('!!!', url)
-    // window.location.href = url
+    const url = `${Api.getBaseUrl()}/auth/facebook?auth_origin_url=${encodeURIComponent('http://www.kingofpong.com/')}`
+    window.location.href = url
 
     // const email = document.querySelector('.loginEmail').value
     // const password = document.querySelector('.loginPassword').value
