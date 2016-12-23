@@ -195,7 +195,7 @@ class Api {
   static _post(endpoint, data) {
     function hasOAuthToken() {
       const parsedUrl = urlParser(window.location.href, true)
-      return !!parsedUrl.query['token_id']
+      return !!parsedUrl.query['auth_token']
     }
 
     return new Promise((resolve, reject) => {
@@ -205,7 +205,7 @@ class Api {
       console.log('url', parsedUrl)
 
       if (state.user || hasOAuthToken()) {
-        console.debug('Post (authenticated):', url, data, state.user, Api._getHeader('client'), Api._getHeader('uid'), Api._getHeader('access-token'))
+        console.debug('Post (authenticated)', url, data, state.user, Api._getHeader('client'), Api._getHeader('uid'), Api._getHeader('access-token'))
         request.post(url, data)
           .set('token-type',    state.user['token-type'])
           .set('client',        Api._getHeader('client'))
