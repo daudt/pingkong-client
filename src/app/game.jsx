@@ -79,16 +79,12 @@ class Game extends React.Component {
 
   @action
   _navigateBack() {
-    // state.winner = null
     state.selectedPlayers = []
     state.page = 'logo'
   }
 
   _handleRecordMatch() {
-    const loser = (state.selectedPlayers[0] !== state.winner) ?
-      state.selectedPlayers[0] : state.selectedPlayers[1]
-
-    Api.addMatch(state.winner, loser)
+    Api.recordMatch(state.selectedPlayers[0], state.selectedPlayers[1], state.winner)
     this._navigateBack()
   }
 

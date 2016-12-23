@@ -1,6 +1,5 @@
 import * as request from 'superagent'
 
-// import EloRating from './eloRating'
 import state from '../state'
 
 const SERVER_URL = 'https://www.kingofpong.com/api'
@@ -9,41 +8,39 @@ const SERVER_URL = 'https://www.kingofpong.com/api'
 // const WINNER_SCORE = 1
 // const LOSER_SCORE = 0
 
+function sortDateAsc(a, b) {
+  return new Date(a.created_at) - new Date(b.created_at)
+}
+
+function sortDateDesc(a, b) {
+  return new Date(b.created_at) - new Date(a.created_at)
+}
+
 class Api {
   static getBaseUrl() {
     return SERVER_URL
   }
 
-  static createUser() {
-    // this._get('auth/facebook', 'auth_origin_url=http://localhost:7464').then((response) => {
-    // this._get('auth/facebook', 'auth_origin_url=http://google.com').then((response) => {
-    //   debugger
-    // })
-
-
+  static createUser(email, password, name, nickname) {
     const body = {
-      'email': 'akessock2@gmail.com',
-      'password': 'foobarbaz',
-      'password_confirmation': 'foobarbaz',
-      'name': 'Alex Kessock',
-      'nickname': 'Test'
+      email,
+      password,
+      password_confirmation: password,
+      name,
+      nickname
     }
-
     this._post('auth', body)
   }
 
   static loginUser(email, password) {
-    const body = {
-      'email': email,
-      'password': password
-    }
+    const body = { email, password }
     return this._post('auth/sign_in', body).then((response) => {
       console.debug('body:', response.body)
       console.debug('headers:', response.headers)
       state.user = {
-        'token-type': response.headers['token-type'],
-        'client': response.headers['client'],
-        'uid': response.headers['uid'],
+        'token-type':   response.headers['token-type'],
+        'client':       response.headers['client'],
+        'uid':          response.headers['uid'],
         'access-token': response.headers['access-token']
       }
     })
@@ -62,7 +59,7 @@ class Api {
       if (users.length) {
         state.leaderboard = users
         // state.leaderboard = users.map((user) => {
-        //   const rankings = user.rankings.sort(this._sortDateDesc)
+        //   const rankings = user.rankings.sort(sortDateDesc)
         //   Object.assign(user, {
         //     rating: (rankings.length) ? rankings[0].rating : 0
         //   })
@@ -77,17 +74,16 @@ class Api {
 
   static getRankingsByUser(user) {
     this._get('rankings', `userId=${user.id}`).then((rankings) => {
-      state.userRankings = rankings.sort(this._sortDateAsc)
+      state.userRankings = rankings.sort(sortDateAsc)
     })
   }
 
-  static addMatch(winner, loser) {
+  static recordMatch(player1, player2, winningPlayer) {
     const body = {
-      'player1': state.selectedPlayers[0].id,
-      'player2': state.selectedPlayers[1].id,
-      'winner': winner.id
+      player1:  player1.id,
+      player2:  player2.id,
+      winner:   winningPlayer.id
     }
-
     this._post('matches', body).then((response) => {
       console.warn('response', response)
     })
@@ -219,14 +215,6 @@ class Api {
           })
       }
     })
-  }
-
-  static _sortDateAsc(a, b) {
-    return new Date(a.created_at) - new Date(b.created_at)
-  }
-
-  static _sortDateDesc(a, b) {
-    return new Date(b.created_at) - new Date(a.created_at)
   }
 }
 

@@ -29,7 +29,7 @@ class LoginPage extends React.Component {
                 Password
               <input className="loginPassword" />
               </label>
-              <button onClick={this._handleClick.bind(this)}>
+              <button onClick={this._handleEmailLogin.bind(this)}>
                 LOGIN WITH EMAIL
               </button>
             </div>
@@ -42,7 +42,7 @@ class LoginPage extends React.Component {
     )
   }
 
-  _handleClick() {
+  _handleEmailLogin() {
     const email = document.querySelector('.loginEmail').value
     const password = document.querySelector('.loginPassword').value
     Api.loginUser(email, password).then(() => {

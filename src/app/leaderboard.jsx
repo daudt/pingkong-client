@@ -12,7 +12,6 @@ class Leaderboard extends React.Component {
 
   componentWillMount() {
     Api.getLeaderboard()
-    // Api.createUser()
   }
 
   _getLeaderboardElement() {
