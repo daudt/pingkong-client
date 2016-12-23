@@ -22,10 +22,6 @@ class Api {
 
   static fetchMe() {
     return this._get('auth/validate_token')
-      .then((result) => {
-        console.log('validate_token result', result)
-        return result
-      })
   }
 
   static createUser(email, password, name, nickname) {

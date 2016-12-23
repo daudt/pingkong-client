@@ -24,13 +24,17 @@ class SessionControl extends React.Component {
 
   _fetchMe() {
     Api.fetchMe()
+      .then((result) => {
+        this.setState({ me: result.data })
+      })
   }
 
   _getMeElement() {
     if (this.state.me) {
       return (
-        <span>
-        </span>
+        <div>
+          LOGGED IN AS {this.state.me.nickname || this.state.me.name}
+        </div>
       )
     } else {
       this._fetchMe()
