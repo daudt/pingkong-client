@@ -1,5 +1,4 @@
 import * as request from 'superagent'
-import urlParser from 'url-parse'
 
 import Session from '../session'
 import state from '../state'
