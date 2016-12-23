@@ -21,6 +21,14 @@ class Api {
     return SERVER_URL
   }
 
+  static fetchMe() {
+    return this._get('validate_token')
+      .then((result) => {
+        console.log('validate_token result', result)
+        return result
+      })
+  }
+
   static createUser(email, password, name, nickname) {
     const body = {
       email,
