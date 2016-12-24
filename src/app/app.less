@@ -209,6 +209,9 @@ button {
 }
 
 .panel {
+  transform: perspective(600px) rotateX(0deg);
+  transition: transform 1s;
+  backface-visibility: hidden;
   display: flex;
   flex-direction: column;
   border: 2px solid black;
@@ -219,6 +222,9 @@ button {
   margin-top: @header-height + 5vh;
   margin-left: auto;
   margin-right: auto;
+  &.hidden {
+    transform: rotateX(90deg);
+  }
   h2 {
     font-size: 2em;
   }
