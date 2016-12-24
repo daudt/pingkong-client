@@ -2,6 +2,7 @@ import * as request from 'superagent'
 
 import Session from '../session'
 import state from '../state'
+import Toast from '../toast'
 
 const BASE_URL = 'https://www.kingofpong.com/api'
 
@@ -9,10 +10,6 @@ const TOKEN_TYPE = 'Bearer'
 
 function sortDateAsc(a, b) {
   return new Date(a.created_at) - new Date(b.created_at)
-}
-
-function sortDateDesc(a, b) {
-  return new Date(b.created_at) - new Date(a.created_at)
 }
 
 class Api {
@@ -79,15 +76,6 @@ class Api {
         const isSecurePage = window.location.href.match(secureMatcher)
         state.leaderboard = users
           .map((user) => fixImageProtocol(isSecurePage, user))
-
-        // state.leaderboard = users.map((user) => {
-        //   const rankings = user.rankings.sort(sortDateDesc)
-        //   Object.assign(user, {
-        //     rating: (rankings.length) ? rankings[0].rating : 0
-        //   })
-        //   delete user.rankings
-        //   return user
-        // }).sort((a, b) => b.rating - a.rating)
       } else {
         state.leaderboard = []
       }
@@ -128,6 +116,7 @@ class Api {
           .set('Accept',        'application/json')
           .end((err, res) => {
             if (err) {
+              Toast.open(err.message)
               console.error(err)
               reject(err)
             }
@@ -140,6 +129,7 @@ class Api {
           .set('Accept', 'application/json')
           .end((err, res) => {
             if (err) {
+              Toast.open(err.message)
               console.error(err)
               reject(err)
             }
@@ -165,6 +155,7 @@ class Api {
           .set('Content-Type',  'application/json')
           .end((err, res) => {
             if (err) {
+              Toast.open(err.message)
               console.error(err)
               reject(err)
             }
@@ -177,6 +168,7 @@ class Api {
           .set('Accept', 'application/json')
           .end((err, res) => {
             if (err) {
+              Toast.open(err.message)
               console.error(err)
               reject(err)
             }

@@ -27,7 +27,7 @@ class RegisterPanel extends React.Component {
             </label>
             <label>
               Email
-              <input className="email" ref={(el) => this._emailInput = el} />
+              <input className="email" type="email" ref={(el) => this._emailInput = el} />
             </label>
             <label>
               Password

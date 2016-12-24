@@ -20,11 +20,11 @@ class LoginPanel extends React.Component {
           <div className="vertical-form">
             <label>
               Email
-              <input className="login-email" ref={(el) => this._emailInput = el} />
+              <input className="login-email" type="email" ref={(el) => this._emailInput = el} />
             </label>
             <label>
               Password
-              <input className="login-password" ref={(el) => this._passwordInput = el} />
+              <input className="login-password" type="password" ref={(el) => this._passwordInput = el} />
             </label>
             <span>
               <button onClick={this._handleLogin.bind(this)}>

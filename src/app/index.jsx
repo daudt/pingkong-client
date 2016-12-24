@@ -1,4 +1,4 @@
-import {observer} from 'mobx-react'
+import { observer } from 'mobx-react'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
@@ -9,6 +9,7 @@ import Leaderboard from './leaderboard'
 import Logo from './logo'
 import LoginPage from './loginPage'
 import RegisterPage from './registerPage'
+import Toast from './toast'
 import state from './state/'
 
 import './app.less'
@@ -52,6 +53,7 @@ class App extends React.Component {
     return (
       <section>
         <Background />
+        <Toast />
         {pageTemplate}
       </section>
     )

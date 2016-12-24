@@ -29,8 +29,18 @@ module.exports = {
   'rules': {
     'curly': 2,
     'comma-dangle': 0,
+    'key-spacing': [
+      2,
+      {
+        'mode': 'minimum'
+      }
+    ],
     'max-len': 0,
     'no-multi-spaces': 0,
+    'object-curly-spacing': [
+      2,
+      'always'
+    ],
     'quotes': [
       2,
       'single',
