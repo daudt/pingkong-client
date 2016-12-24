@@ -2,17 +2,14 @@ import React from 'react'
 
 import Api from './api/'
 import FacebookLoginControl from './facebookLoginControl'
+import Panel from './panel'
 import state from './state/'
 
 class RegisterPanel extends React.Component {
 
-  componentDidMount() {
-    this._panelElement.classList.remove('hidden')
-  }
-
   render() {
     return (
-      <div className="panel hidden" ref={(el) => this._panelElement = el}>
+      <Panel>
         <div className="panel-section">
           LOGIN WITH FACEBOOK
           <FacebookLoginControl />
@@ -48,7 +45,7 @@ class RegisterPanel extends React.Component {
             CANCEL
           </button>
         </span>
-      </div>
+      </Panel>
     )
   }
 
