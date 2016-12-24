@@ -60,10 +60,26 @@ class Api {
   }
 
   static getLeaderboard() {
+    const insecureMatcher = /^http:\/\//i
+    const secureMatcher = /^https:\/\//i
+
+    function fixImageProtocol(isSecurePage, user) {
+      if (user.image) {
+        const isSecureImage = user.image.match(secureMatcher)
+        if (isSecurePage && !isSecureImage) {
+          user.image = user.image.replace(insecureMatcher, 'https://')
+        }
+      }
+      return user
+    }
+
     this._get('rankings').then((users) => {
       console.debug('/rankings users:', users)
       if (users.length) {
+        const isSecurePage = window.location.href.match(secureMatcher)
         state.leaderboard = users
+          .map((user) => fixImageProtocol(isSecurePage, user))
+
         // state.leaderboard = users.map((user) => {
         //   const rankings = user.rankings.sort(sortDateDesc)
         //   Object.assign(user, {
