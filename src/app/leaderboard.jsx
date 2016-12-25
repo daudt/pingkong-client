@@ -6,7 +6,7 @@ import Api from './api/'
 import ExpandedInfo from './expandedInfo'
 import state from './state/'
 
-const RATINGS_CACHE_KEY = 'ratingsCache'
+const CACHED_RATINGS_KEY = 'cachedRatings'
 
 @observer
 class Leaderboard extends React.Component {
@@ -16,7 +16,7 @@ class Leaderboard extends React.Component {
     super(props)
     this._leaderboardRendered = false
     this.state = {
-      deltas: {}
+      deltas: []
     }
   }
 
@@ -33,55 +33,52 @@ class Leaderboard extends React.Component {
   }
 
   _renderDeltas() {
-    const newDeltas = this._getUserDeltas() || {}
+    const newDeltas = this._getUserDeltas() || []
     console.log('set state new deltas', newDeltas)
-    this.setState({ deltas: newDeltas })
+    if (newDeltas.length) {
+      this.setState({ deltas: newDeltas })
+    }
   }
 
   _getUserDeltas() {
-    console.log('get deltas', state.leaderboard, this._getRatingsCache())
+    // console.log('get deltas', state.leaderboard, this._getCachedRatings())
     if (!state.leaderboard) {
       return
     }
-    const ratingsCache = this._getRatingsCache()
-    if (!ratingsCache) {
+    const cachedRatings = this._getCachedRatings()
+    if (!cachedRatings) {
       return
     }
-    const deltas = {}
-    Object.keys(ratingsCache).forEach((userID) => {
-      const leaderboardUser = state.leaderboard.find((user) => {
-        // console.log('!', typeof user.id, typeof userID)
-        return user.id == userID
+    return cachedRatings
+      .map((cachedRating) => {
+        const leaderboardUser = state.leaderboard.find((user) => user.id === cachedRating.userID)
+        // console.log('ratings cache', userID, cachedRatings[userID], leaderboardUser)
+        return leaderboardUser && (leaderboardUser.rating !== cachedRating.rating) ? { userID: cachedRating.userID, delta: leaderboardUser.rating - cachedRating.rating } : null
       })
-      console.log('ratings cache', userID, ratingsCache[userID], leaderboardUser)
-      if (leaderboardUser) {
-        const cachedRating = ratingsCache[userID]
-        if (leaderboardUser.rating !== cachedRating) {
-          deltas[userID] = leaderboardUser.rating - cachedRating
-        }
-      }
-    })
-    return deltas
+      .filter(Boolean)
   }
 
-  _getRatingsCache() {
-    const ratingsStr = window.localStorage.getItem(RATINGS_CACHE_KEY)
+  _getCachedRatings() {
+    const ratingsStr = window.localStorage.getItem(CACHED_RATINGS_KEY)
     if (ratingsStr) {
-      const ratingsObj = JSON.parse(ratingsStr)
-      const convertedKeysRatingsObj = {}
-      Object.keys(ratingsObj).forEach((userIDStr) => {
-        convertedKeysRatingsObj[parseInt(userIDStr)] = ratingsObj[userIDStr]
-      })
-      return convertedKeysRatingsObj
+      const ratings = JSON.parse(ratingsStr)
+      return ratings
+      // const convertedKeysRatingsObj = {}
+      // Object.keys(ratingsObj).forEach((userIDStr) => {
+      //   convertedKeysRatingsObj[parseInt(userIDStr)] = ratingsObj[userIDStr]
+      // })
+      // return convertedKeysRatingsObj
     }
   }
 
   _updateRankingsCache() {
-    const ratingsObj = {}
-    state.leaderboard.forEach((user) => {
-      ratingsObj[user.id] = user.rating
+    const ratings = state.leaderboard.map((user) => {
+      return {
+        userID: user.id,
+        rating: user.rating
+      }
     })
-    window.localStorage.setItem(RATINGS_CACHE_KEY, JSON.stringify(ratingsObj))
+    window.localStorage.setItem(CACHED_RATINGS_KEY, JSON.stringify(ratings))
   }
 
   _getLeaderboardElement() {
@@ -89,11 +86,12 @@ class Leaderboard extends React.Component {
       const isExpandedUser = (this._expandedUser === user)
 
       const getDeltaElement = (userID) => {
-        const ratingDelta = this.state.deltas[userID]
-        if (ratingDelta) {
-          const className = (ratingDelta > 0) ? 'increase' : 'decrease'
-          const prefix = (ratingDelta > 0) ? '+' : '-'
-          const displayValue = `${prefix}${Math.abs(ratingDelta)}`
+        const userDelta = this.state.deltas.find((delta) => delta.userID === userID)
+        if (userDelta) {
+          const ratingDelta   = userDelta.delta
+          const className     = (ratingDelta > 0) ? 'increase' : 'decrease'
+          const prefix        = (ratingDelta > 0) ? '+' : '-'
+          const displayValue  = `${prefix}${Math.abs(ratingDelta)}`
           return (
             <span className={className}>{displayValue}</span>
           )
