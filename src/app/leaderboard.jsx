@@ -33,7 +33,8 @@ class Leaderboard extends React.Component {
   }
 
   _renderDeltas() {
-    this.setState({ deltas: this._getUserDeltas() })
+    const newDeltas = this._getUserDeltas() || {}
+    this.setState({ deltas: newDeltas })
   }
 
   _getUserDeltas() {
