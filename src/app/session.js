@@ -1,7 +1,7 @@
-const CLIENT_ID_VARNAME       = 'clientID'
-const EXPIRATION_SECS_VARNAME = 'expirationSecs'
-const TOKEN_VARNAME           = 'token'
-const UID_VARNAME             = 'uid'
+const CLIENT_ID_VARNAME       = 'sessionClientID'
+const EXPIRATION_SECS_VARNAME = 'sessionExpTimestampSecs'
+const TOKEN_VARNAME           = 'sessionToken'
+const UID_VARNAME             = 'sessionUID'
 
 const STORAGE_VARNAMES = [
   CLIENT_ID_VARNAME,

@@ -6,17 +6,87 @@ import Api from './api/'
 import ExpandedInfo from './expandedInfo'
 import state from './state/'
 
+const RATINGS_CACHE_KEY = 'ratingsCache'
+
 @observer
 class Leaderboard extends React.Component {
   @observable _expandedUser
+
+  constructor(props) {
+    super(props)
+    this._leaderboardRendered = false
+    this.state = {
+      deltas: {}
+    }
+  }
 
   componentWillMount() {
     Api.getLeaderboard()
   }
 
+  componentDidUpdate() {
+    if (!this._leaderboardRendered && state.leaderboard) {
+      this._renderDeltas()
+      this._updateRankingsCache()
+      this._leaderboardRendered = true
+    }
+  }
+
+  _renderDeltas() {
+    this.setState({ deltas: this._getUserDeltas() })
+  }
+
+  _getUserDeltas() {
+    if (!state.leaderboard) {
+      return
+    }
+    const ratingsCache = this._getRatingsCache()
+    if (!ratingsCache) {
+      return
+    }
+    const deltas = {}
+    Object.keys(ratingsCache).forEach((userID) => {
+      const leaderboardUser = state.leaderboard.find((user) => user.id === userID)
+      if (leaderboardUser) {
+        const cachedRating = ratingsCache[userID]
+        if (leaderboardUser.rating !== cachedRating) {
+          deltas[userID] = leaderboardUser.rating - cachedRating
+        }
+      }
+    })
+    return deltas
+  }
+
+  _getRatingsCache() {
+    const ratingsStr = window.localStorage.getItem(RATINGS_CACHE_KEY)
+    if (ratingsStr) {
+      return JSON.parse(ratingsStr)
+    }
+  }
+
+  _updateRankingsCache() {
+    const ratingsObj = state.leaderboard.map((user) => {
+      return { [user.id]: user.rating }
+    })
+    window.localStorage.setItem(RATINGS_CACHE_KEY, JSON.stringify(ratingsObj))
+  }
+
   _getLeaderboardElement() {
     return state.leaderboard.map((user, index) => {
       const isExpandedUser = (this._expandedUser === user)
+
+      const getDeltaElement = (userID) => {
+        const ratingDelta = this.state.deltas[userID]
+        if (ratingDelta) {
+          const className = (ratingDelta > 0) ? 'increase' : 'decrease'
+          const prefix = (ratingDelta > 0) ? '+' : '-'
+          const displayValue = `${prefix}${Math.abs(ratingDelta)}`
+          return (
+            <span className={className}>{displayValue}</span>
+          )
+        }
+      }
+
       return (
         <div
         key={user.id}
@@ -31,8 +101,7 @@ class Leaderboard extends React.Component {
               <div className="subtle">{user.name}</div>
             </span>
             {state.winner && state.loser && state.winner.id !== user.id && state.loser.id !== user.id ? <span></span> : null}
-            {state.winner && state.winner.id === user.id ? <span className="increase">+{state.winner.diff}</span> : null}
-            {state.loser && state.loser.id === user.id ? <span className="decrease">-{state.loser.diff}</span> : null}
+            {getDeltaElement(user.id)}
             <span className="rating">{user.rating}</span>
             <span className="arrow" onClick={this._handleStatsClick.bind(this, user)}>
               {isExpandedUser ? String.fromCharCode('9650') : String.fromCharCode('9660')}
