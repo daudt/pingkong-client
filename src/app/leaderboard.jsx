@@ -27,7 +27,7 @@ class Leaderboard extends React.Component {
   componentDidUpdate() {
     if (!this._leaderboardRendered && state.leaderboard) {
       this._renderDeltas()
-      this._updateRankingsCache()
+      this._updateCachedRatings()
       this._leaderboardRendered = true
     }
   }
@@ -41,7 +41,6 @@ class Leaderboard extends React.Component {
   }
 
   _getUserDeltas() {
-    // console.log('get deltas', state.leaderboard, this._getCachedRatings())
     if (!state.leaderboard) {
       return
     }
@@ -52,7 +51,6 @@ class Leaderboard extends React.Component {
     return cachedRatings
       .map((cachedRating) => {
         const leaderboardUser = state.leaderboard.find((user) => user.id === cachedRating.userID)
-        // console.log('ratings cache', userID, cachedRatings[userID], leaderboardUser)
         return leaderboardUser && (leaderboardUser.rating !== cachedRating.rating) ? { userID: cachedRating.userID, delta: leaderboardUser.rating - cachedRating.rating } : null
       })
       .filter(Boolean)
@@ -61,17 +59,11 @@ class Leaderboard extends React.Component {
   _getCachedRatings() {
     const ratingsStr = window.localStorage.getItem(CACHED_RATINGS_KEY)
     if (ratingsStr) {
-      const ratings = JSON.parse(ratingsStr)
-      return ratings
-      // const convertedKeysRatingsObj = {}
-      // Object.keys(ratingsObj).forEach((userIDStr) => {
-      //   convertedKeysRatingsObj[parseInt(userIDStr)] = ratingsObj[userIDStr]
-      // })
-      // return convertedKeysRatingsObj
+      return JSON.parse(ratingsStr)
     }
   }
 
-  _updateRankingsCache() {
+  _updateCachedRatings() {
     const ratings = state.leaderboard.map((user) => {
       return {
         userID: user.id,
