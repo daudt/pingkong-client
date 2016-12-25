@@ -49,7 +49,10 @@ class Leaderboard extends React.Component {
     }
     const deltas = {}
     Object.keys(ratingsCache).forEach((userID) => {
-      const leaderboardUser = state.leaderboard.find((user) => user.id === userID)
+      const leaderboardUser = state.leaderboard.find((user) => {
+        // console.log('!', typeof user.id, typeof userID)
+        return user.id == userID
+      })
       console.log('ratings cache', userID, ratingsCache[userID], leaderboardUser)
       if (leaderboardUser) {
         const cachedRating = ratingsCache[userID]
@@ -64,7 +67,12 @@ class Leaderboard extends React.Component {
   _getRatingsCache() {
     const ratingsStr = window.localStorage.getItem(RATINGS_CACHE_KEY)
     if (ratingsStr) {
-      return JSON.parse(ratingsStr)
+      const ratingsObj = JSON.parse(ratingsStr)
+      const convertedKeysRatingsObj = {}
+      Object.keys(ratingsObj).forEach((userIDStr) => {
+        convertedKeysRatingsObj[parseInt(userIDStr)] = ratingsObj[userIDStr]
+      })
+      return convertedKeysRatingsObj
     }
   }
 

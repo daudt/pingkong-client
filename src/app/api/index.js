@@ -56,7 +56,7 @@ class Api {
     })
   }
 
-  static getLeaderboard() {
+  static _fixRankingsResponse(response) {
     const insecureMatcher = /^http:\/\//i
     const secureMatcher = /^https:\/\//i
 
@@ -70,12 +70,22 @@ class Api {
       return user
     }
 
+    // function fixUserID(user) {
+    //   user.id = parseInt(user.id)
+    //   return user
+    // }
+
+    const isSecurePage = window.location.href.match(secureMatcher)
+    return response
+      // .map(fixUserID)
+      .map((user) => fixImageProtocol(isSecurePage, user))
+  }
+
+  static getLeaderboard() {
     this._get('rankings').then((users) => {
       console.debug('/rankings users:', users)
       if (users.length) {
-        const isSecurePage = window.location.href.match(secureMatcher)
-        state.leaderboard = users
-          .map((user) => fixImageProtocol(isSecurePage, user))
+        state.leaderboard = Api._fixRankingsResponse(users)
       } else {
         state.leaderboard = []
       }
@@ -84,7 +94,7 @@ class Api {
 
   static getRankingsByUser(user) {
     this._get('rankings', `userId=${user.id}`).then((rankings) => {
-      state.userRankings = rankings.sort(sortDateAsc)
+      state.userRankings = Api._fixRankingsResponse(rankings).sort(sortDateAsc)
     })
   }
 
