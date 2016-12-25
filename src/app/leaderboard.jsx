@@ -34,10 +34,12 @@ class Leaderboard extends React.Component {
 
   _renderDeltas() {
     const newDeltas = this._getUserDeltas() || {}
+    console.log('set state new deltas', newDeltas)
     this.setState({ deltas: newDeltas })
   }
 
   _getUserDeltas() {
+    console.log('get deltas', state.leaderboard, this._getRatingsCache())
     if (!state.leaderboard) {
       return
     }
