@@ -50,6 +50,7 @@ class Leaderboard extends React.Component {
     const deltas = {}
     Object.keys(ratingsCache).forEach((userID) => {
       const leaderboardUser = state.leaderboard.find((user) => user.id === userID)
+      console.log('ratings cache', userID, ratingsCache[userID], leaderboardUser)
       if (leaderboardUser) {
         const cachedRating = ratingsCache[userID]
         if (leaderboardUser.rating !== cachedRating) {
