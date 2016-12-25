@@ -65,8 +65,9 @@ class Leaderboard extends React.Component {
   }
 
   _updateRankingsCache() {
-    const ratingsObj = state.leaderboard.map((user) => {
-      return { [user.id]: user.rating }
+    const ratingsObj = {}
+    state.leaderboard.forEach((user) => {
+      ratingsObj[user.id] = user.rating
     })
     window.localStorage.setItem(RATINGS_CACHE_KEY, JSON.stringify(ratingsObj))
   }
