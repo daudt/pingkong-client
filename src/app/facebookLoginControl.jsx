@@ -3,7 +3,7 @@ import React from 'react'
 import Api from './api/'
 import Session from './session'
 
-const OAUTH_REDIR_URL = 'https://www.kingofpong.com/oauth-done.html'
+const BASE_OAUTH_REDIR_URL = 'https://www.kingofpong.com/oauth-done.html'
 
 class FacebookLoginControl extends React.Component {
 
@@ -24,7 +24,9 @@ class FacebookLoginControl extends React.Component {
   }
 
   _handleFacebookLogin() {
-    const url = `${Api.getBaseUrl()}/auth/facebook?auth_origin_url=${encodeURIComponent(OAUTH_REDIR_URL)}`
+    // pass through the 'home' page we want to redirect to to the prod oauth handler:
+    const oAuthRedirUrl = `${BASE_OAUTH_REDIR_URL}?redir=${window.location.href}`
+    const url = `${Api.getBaseUrl()}/auth/facebook?auth_origin_url=${encodeURIComponent(oAuthRedirUrl)}`
     window.location.href = url
   }
 
