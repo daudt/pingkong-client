@@ -12,7 +12,7 @@ class FacebookLoginControl extends React.Component {
       if (!Session.isActive()) {
         return (
           <button onClick={this._handleFacebookLogin.bind(this)}>
-            LOGIN WITH FACEBOOK
+            FACEBOOK LOGIN
           </button>
         )
       }

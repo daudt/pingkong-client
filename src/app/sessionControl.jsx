@@ -1,6 +1,8 @@
 import React from 'react'
 
 import Api from './api/'
+import Config from './config'
+import FacebookLoginControl from './facebookLoginControl'
 import Session from './session'
 import state from './state'
 
@@ -25,7 +27,7 @@ class SessionControl extends React.Component {
     state.page = 'register'
   }
 
-  _handleLogout() {
+  _logout() {
     Session.clear()
     window.location.reload(true)
   }
@@ -33,6 +35,7 @@ class SessionControl extends React.Component {
   _fetchMe() {
     Api.fetchMe()
       .then((result) => {
+        console.log('me', result)
         this.setState({ me: result.data })
       })
       .catch(() => {
@@ -55,7 +58,7 @@ class SessionControl extends React.Component {
       return (
         <span>
           {this._getMeElement()}
-          <button onClick={this._handleLogout.bind(this)}>
+          <button onClick={this._logout.bind(this)}>
             LOGOUT
           </button>
         </span>
@@ -66,16 +69,22 @@ class SessionControl extends React.Component {
           <span></span>
         )
       } else {
-        return (
-          <span>
-            <button onClick={this._openLogin.bind(this)}>
-              LOGIN
-            </button>
-            <button onClick={this._openRegister.bind(this)}>
-              REGISTER
-            </button>
-          </span>
-        )
+        if (Config.EMAIL_ACCOUNTS) {
+          return (
+            <span>
+              <button onClick={this._openLogin.bind(this)}>
+                LOGIN
+              </button>
+              <button onClick={this._openRegister.bind(this)}>
+                REGISTER
+              </button>
+            </span>
+          )
+        } else {
+          return (
+            <FacebookLoginControl />
+          )
+        }
       }
     }
   }
