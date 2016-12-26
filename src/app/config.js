@@ -1,3 +1,3 @@
 export default {
-  EMAIL_ACCOUNTS: true
+  EMAIL_ACCOUNTS: false
 }

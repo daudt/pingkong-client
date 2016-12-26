@@ -11,6 +11,7 @@ class SessionControl extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      // TODO: Store me once in external state dependency rather than refetching for every instance of SessionControl
       me: null
     }
   }
@@ -35,8 +36,12 @@ class SessionControl extends React.Component {
   _fetchMe() {
     Api.fetchMe()
       .then((result) => {
-        console.log('me', result)
-        this.setState({ me: result.data })
+        if (!Config.EMAIL_ACCOUNTS && result.data.provider && result.data.provider === 'email') {
+          // email logins not enabled, log out this email session now:
+          this._logout()
+        } else {
+          this.setState({ me: result.data })
+        }
       })
       .catch(() => {
         // not logged in
