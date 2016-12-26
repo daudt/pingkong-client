@@ -37,10 +37,26 @@
         }
       }
 
-      storeOAuthSession();
+      var isRedirecting = false
+      var redir = getQueryVariable('redir');
+      if (redir) {
+        if (redir.lastIndexOf('/') !== redir.length - 1) {
+          redir += '/'
+        }
+        var regExp = new RegExp('^'+redir, 'i')
+        if (!regExp.test(window.location.href)) {
+          // redirect needed
+          var queryStart = window.location.href.indexOf('?')
+          var newUrl = redir + window.location.href.substring(queryStart)
+          isRedirecting = true
+          window.location.href = newUrl
+        }
+      }
 
-      // redirect:
-      window.location.href = getQueryVariable('redir') || '/';
+      if (!isRedirecting) {
+        storeOAuthSession();
+        window.location.href = '/';
+      }
 
     })();
 
