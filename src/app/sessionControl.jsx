@@ -36,7 +36,7 @@ class SessionControl extends React.Component {
   _fetchMe() {
     Api.fetchMe()
       .then((result) => {
-        if (!Config.EMAIL_ACCOUNTS && result.data.provider && result.data.provider === 'email') {
+        if (!Config.EMAIL_ACCOUNTS && result.data.provider === 'email') {
           // email logins not enabled, log out this email session now:
           this._logout()
         } else {
