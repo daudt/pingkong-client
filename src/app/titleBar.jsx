@@ -6,10 +6,10 @@ class TitleBar extends React.Component {
 
   render() {
     return (
-      <span>
+      <div className="flex-column">
         <img src="/app/king-pong-logo-wide.png" className="logo" />
         <SessionControl />
-      </span>
+      </div>
     )
   }
 
