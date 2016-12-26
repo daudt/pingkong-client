@@ -24,7 +24,7 @@ class FacebookLoginControl extends React.Component {
   }
 
   _handleFacebookLogin() {
-    const url = `${Api.getBaseUrl()}/auth/facebook?auth_origin_url=${encodeURIComponent(OAUTH_REDIR_URL)}`
+    const url = `${Api.getBaseUrl()}/auth/facebook?auth_origin_url=${encodeURIComponent(OAUTH_REDIR_URL)}&redir_to=test`
     window.location.href = url
   }
 
