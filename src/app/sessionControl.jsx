@@ -51,9 +51,9 @@ class SessionControl extends React.Component {
   _getMeElement() {
     if (this.state.me) {
       return (
-        <div>
-          Welcome, {this.state.me.nickname || this.state.me.name}
-        </div>
+        <span>
+          Logged in: {this.state.me.nickname || this.state.me.name}
+        </span>
       )
     }
   }

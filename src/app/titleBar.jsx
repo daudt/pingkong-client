@@ -6,11 +6,8 @@ class TitleBar extends React.Component {
 
   render() {
     return (
-      <span className="wideLogo">
+      <span>
         <img src="/app/king-pong-logo-wide.png" className="logo" />
-        <span className="emoji">
-          🏓
-        </span>
         <SessionControl />
       </span>
     )
