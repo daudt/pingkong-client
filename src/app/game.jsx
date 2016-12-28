@@ -9,9 +9,16 @@ import TitleBar from './titleBar'
 @observer
 class Game extends React.Component {
 
-  _getLabel(playerIndex) {
-    if (state.winner) {
-      if (state.winner === state.selectedPlayers[playerIndex]) {
+  constructor(props) {
+    super(props)
+    this.state = {
+      winner: null
+    }
+  }
+
+  _getLabel(user) {
+    if (this.state.winner) {
+      if (this.state.winner === user) {
         return 'WINNER'
       }
       else {
@@ -23,10 +30,10 @@ class Game extends React.Component {
     }
   }
 
-  _getClass(playerIndex) {
+  _getClass(user) {
     const classes = ['player']
-    if (state.winner) {
-      if (state.winner === state.selectedPlayers[playerIndex]) {
+    if (this.state.winner) {
+      if (this.state.winner === user) {
         classes.push('winner')
       }
       else {
@@ -40,18 +47,18 @@ class Game extends React.Component {
   }
 
   render() {
-    const createPlayerSelector = (index) => {
+    const createUserSelector = (user) => {
       return (
         <div
-          onClick={this._handleClick.bind(this, state.selectedPlayers[index])}
-          className={this._getClass(index)}
+          onClick={this._handleClick.bind(this, user)}
+          className={this._getClass(user)}
           >
-          <img className='avatar' src={state.selectedPlayers[index].image} />
+          <img className='avatar' src={user.image} />
           <span className="userName">
-            {state.selectedPlayers[index].nickname}
-            <div className="subtle">{state.selectedPlayers[index].name}</div>
+            {user.nickname}
+            <div className="subtle">{user.name}</div>
           </span>
-          <h1>{this._getLabel(index)}</h1>
+          <h1>{this._getLabel(user)}</h1>
         </div>
       )
     }
@@ -60,32 +67,33 @@ class Game extends React.Component {
         <header>
           <TitleBar />
           <span>
-            {state.winner ? (<button onClick={this._handleRecordMatch.bind(this)}>RECORD MATCH</button>) : 'Who won?'}
+            {this.state.winner ? (<button onClick={this._handleRecordMatch.bind(this)}>RECORD MATCH</button>) : 'Who won?'}
             <button onClick={this._handleCancel.bind(this)}>CANCEL</button>
           </span>
         </header>
         <div>
-          {createPlayerSelector(0)}
+          {createUserSelector(this.props.user1)}
           <div className="spacer" />
-          {createPlayerSelector(1)}
+          {createUserSelector(this.props.user2)}
         </div>
       </section>
     )
   }
 
   _handleClick(winner) {
-    state.winner = winner
+    this.setState({ winner })
   }
 
   @action
   _navigateBack() {
-    state.selectedPlayers = []
-    state.page = 'logo'
+    state.setPage('logo')
   }
 
   _handleRecordMatch() {
-    Api.recordMatch(state.selectedPlayers[0], state.selectedPlayers[1], state.winner)
-    this._navigateBack()
+    Api.recordMatch(this.props.user1, this.props.user2, this.state.winner)
+      .then(() => {
+        this._navigateBack()
+      })
   }
 
   _handleCancel() {

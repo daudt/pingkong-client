@@ -6,6 +6,7 @@ import Api from './api/'
 import ExpandedInfo from './expandedInfo'
 import Panel from './panel'
 import state from './state/'
+import TitleBar from './titleBar'
 
 const CACHED_RATINGS_KEY = 'cachedRatings'
 
@@ -17,7 +18,8 @@ class Leaderboard extends React.Component {
     super(props)
     this._leaderboardRendered = false
     this.state = {
-      deltas: []
+      deltas: [],
+      selectedPlayers: []
     }
   }
 
@@ -89,11 +91,29 @@ class Leaderboard extends React.Component {
       }
     }
 
+    // check if logged in AND not selecting self
+    // const canChallengeOpponent = state.me && user.id !== state.me.id
+
+    const canChallengeOpponent = !!state.me // && user.id !== state.me.id
+
+    const className = (() => {
+      const classNames = [ 'user' ]
+      if (canChallengeOpponent) {
+        classNames.push('active')
+      }
+      if (this.state.selectedPlayers.includes(user)) {
+        classNames.push('selected')
+      }
+      return classNames.join(' ')
+    })()
+
+    const clickHandler = canChallengeOpponent && this._handleClick.bind(this, user)
+
     return (
       <div
       key={user.id}
-      className={state.selectedPlayers.includes(user) ? 'user selected': 'user'}
-      onClick={this._handleClick.bind(this, user)}
+      className={className}
+      onClick={clickHandler}
       >
         <div>
           <span>{index + 1}</span>
@@ -102,7 +122,6 @@ class Leaderboard extends React.Component {
             {user.nickname}
             <div className="subtle">{user.name}</div>
           </span>
-          {state.winner && state.loser && state.winner.id !== user.id && state.loser.id !== user.id ? <span></span> : null}
           {getDeltaElement(user.id)}
           <span className="rating">{user.rating}</span>
           <span className="arrow" onClick={this._handleStatsClick.bind(this, user)}>
@@ -114,41 +133,47 @@ class Leaderboard extends React.Component {
     )
   }
 
-  _getLeaderboardElement() {
+  // {state.winner && state.loser && state.winner.id !== user.id && state.loser.id !== user.id ? <span></span> : null}
+
+
+  render() {
+    const getContent = () => {
+      if (state.leaderboard.length) {   // leaderboard has loaded
+        return (
+          <Panel className='leaderboard'>
+            <h3>
+              LEADERBOARD
+            </h3>
+            <div className="panel-subtitle">
+              Select opponents to record a game.
+            </div>
+            <div className="panel-section">
+              {state.leaderboard.map(this._getUserElement.bind(this))}
+            </div>
+          </Panel>
+        )
+      }
+    }
+
     return (
-      <span>
-        <h3>
-          LEADERBOARD
-        </h3>
-        <div className="panel-subtitle">
-          Click your opponent to record a game.
-        </div>
-        <div className="panel-section">
-          {state.leaderboard.map(this._getUserElement.bind(this))}
-        </div>
-      </span>
+      <section>
+        <header>
+          <TitleBar />
+        </header>
+        {getContent()}
+      </section>
     )
   }
 
-  render() {
-    if (state.leaderboard.length) {
-      return (
-        <Panel className='leaderboard'>
-          {this._getLeaderboardElement()}
-        </Panel>
-      )
-    } else {
-      return (
-        <span></span>
-      )
-    }
-  }
-
   _handleClick(user, evt) {
-    if (state.selectedPlayers.includes(user)) {
-      state.selectedPlayers = state.selectedPlayers.filter((player) => (player !== user))
+    if (this.state.selectedPlayers.includes(user)) {
+      this.state.selectedPlayers = this.state.selectedPlayers.filter((player) => player !== user)
     } else {
-      state.selectedPlayers.push(user)
+      this.state.selectedPlayers.push(user)
+    }
+    this.setState({ selectedPlayers: this.state.selectedPlayers })
+    if (this.state.selectedPlayers.length === 2) {
+      state.setPage('game', { user1: this.state.selectedPlayers[0], user2: this.state.selectedPlayers[1] })
     }
   }
 

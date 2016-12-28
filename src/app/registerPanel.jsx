@@ -69,12 +69,12 @@ class RegisterPanel extends React.Component {
     const name      = this._nameInput.value
     const nickname  = this._nicknameInput.value
     Api.createUser(email, password, name, nickname).then(() => {
-      state.page = 'leaderboard'
+      state.setPage('leaderboard')
     })
   }
 
   _handleCancel() {
-    state.page = 'leaderboard'
+    state.setPage('leaderboard')
   }
 
 }

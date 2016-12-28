@@ -104,9 +104,7 @@ class Api {
       player2:  player2.id,
       winner:   winningPlayer.id
     }
-    this._post('matches', data).then((response) => {
-      console.warn('response', response)
-    })
+    return this._post('matches', data)
   }
 
   static _get(endpoint, query) {

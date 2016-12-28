@@ -83,10 +83,11 @@ button {
       border-top: 2px solid fade(white, 30%);
     }
     color: white;
-    cursor: pointer;
-
-    &:hover {
-      background-color: fade(@hover-color, 50%);
+    &.active {
+      cursor: pointer;
+      &:hover {
+        background-color: fade(@hover-color, 50%);
+      }
     }
     &.selected {
       background-color: fade(@selected-color, 75%);

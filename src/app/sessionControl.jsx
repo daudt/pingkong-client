@@ -1,3 +1,4 @@
+import {observer} from 'mobx-react'
 import React from 'react'
 
 import Api from './api/'
@@ -6,14 +7,11 @@ import FacebookLoginControl from './facebookLoginControl'
 import Session from './session'
 import state from './state'
 
+@observer
 class SessionControl extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      // TODO: Store me once in external state dependency rather than refetching for every instance of SessionControl
-      me: null
-    }
   }
 
   componentWillMount() {
@@ -21,11 +19,11 @@ class SessionControl extends React.Component {
   }
 
   _openLogin() {
-    state.page = 'login'
+    state.setPage('login')
   }
 
   _openRegister() {
-    state.page = 'register'
+    state.setPage('register')
   }
 
   _logout() {
@@ -40,7 +38,7 @@ class SessionControl extends React.Component {
           // email logins not enabled, log out this email session now:
           this._logout()
         } else {
-          this.setState({ me: result.data })
+          state.me = result.data
         }
       })
       .catch(() => {
@@ -49,10 +47,10 @@ class SessionControl extends React.Component {
   }
 
   _getMeElement() {
-    if (this.state.me) {
+    if (state.me) {
       return (
         <span>
-          Logged in: {this.state.me.nickname || this.state.me.name}
+          Logged in: {state.me.nickname || state.me.name}
         </span>
       )
     }
@@ -69,7 +67,7 @@ class SessionControl extends React.Component {
         </span>
       )
     } else {
-      if (state.page === 'register' || state.page === 'login') {
+      if (state.currentPage.name === 'register' || state.currentPage.name === 'login') {
         return (
           <span></span>
         )

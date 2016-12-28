@@ -2,7 +2,6 @@ import { observer } from 'mobx-react'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import ActionMenu from './actionMenu'
 import Background from './background'
 import Game from './game'
 import Leaderboard from './leaderboard'
@@ -16,45 +15,48 @@ import './app.less'
 
 const DEFAULT_PAGE = 'logo'
 
+const PAGE_TEMPLATE_FNS = {
+  logo: () => (
+    <section className="logoContainer">
+      <Logo dest="leaderboard" />
+    </section>
+  ),
+  game: (props) => {
+    const gameElement = React.createElement(Game, props)
+    return (
+      <section className="UIOverlay">
+        {gameElement}
+      </section>
+    )
+  },
+  leaderboard: () => (
+    <section className="UIOverlay">
+      <Leaderboard />
+    </section>
+  ),
+  login: () => (
+    <section className="UIOverlay">
+      <LoginPage />
+    </section>
+  ),
+  register: () => (
+    <section className="UIOverlay">
+      <RegisterPage />
+    </section>
+  )
+}
+
 @observer
 class App extends React.Component {
   render() {
-    const PAGE_TEMPLATES = {
-      logo: (
-        <section className="logoContainer">
-          <Logo dest="leaderboard" />
-        </section>
-      ),
-      game: (
-        <section className="UIOverlay">
-          <Game />
-        </section>
-      ),
-      leaderboard: (
-        <section className="UIOverlay">
-          <Leaderboard />
-          <ActionMenu />
-        </section>
-      ),
-      login: (
-        <section className="UIOverlay">
-          <LoginPage />
-        </section>
-      ),
-      register: (
-        <section className="UIOverlay">
-          <RegisterPage />
-        </section>
-      )
-    }
 
-    const pageTemplate = PAGE_TEMPLATES[state.page] || PAGE_TEMPLATES[DEFAULT_PAGE]
+    const pageTemplateFn = PAGE_TEMPLATE_FNS[state.currentPage.name] || PAGE_TEMPLATE_FNS[DEFAULT_PAGE]
 
     return (
       <section>
         <Background />
         <Toast />
-        {pageTemplate}
+        {pageTemplateFn(state.currentPage.props)}
       </section>
     )
   }

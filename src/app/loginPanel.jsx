@@ -66,7 +66,7 @@ class LoginPanel extends React.Component {
   }
 
   _handleCancel() {
-    state.page = 'leaderboard'
+    state.setPage('leaderboard')
   }
 
 }
