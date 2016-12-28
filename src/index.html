@@ -42,13 +42,42 @@
         }
       }
 
-      if (hasQueryVariable('auth_token')) {
-        storeOAuthSession();
-        window.location.href = '/';
-      } else {
+      // returns the URL that should be processing the OAuth data, if not on the right domain already
+      function getOAuthRedirectUrl() {
+        var redir = getQueryVariable('redir');
+        if (redir) {
+          if (redir.lastIndexOf('/') !== redir.length - 1) {
+            redir += '/'  // ensure trailing slash
+          }
+          var regExp = new RegExp('^'+redir, 'i')
+          if (!regExp.test(window.location.href)) {
+            // redirect needed
+            var queryStart = window.location.href.indexOf('?')
+            var newUrl = redir + window.location.href.substring(queryStart)
+            window.location.href = newUrl
+            return newUrl
+          }
+        }
+      }
+
+      function bootstrapApp() {
         var scriptElement = document.createElement('script');
         scriptElement.setAttribute('src', 'bundle.js');
         document.body.appendChild(scriptElement);
+      }
+
+      var isOAuthRequest = hasQueryVariable('auth_token');
+      if (isOAuthRequest) {
+        var oAuthRedirectUrl = getOAuthRedirectUrl();
+        if (oAuthRedirectUrl) {
+          window.location.href = oAuthRedirectUrl
+        } else {
+          // OAuth request does not need to be redirected, so we must be on the right domain already
+          storeOAuthSession();
+          window.location.href = '/';
+        }
+      } else {
+        bootstrapApp();
       }
 
     })();
