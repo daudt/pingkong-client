@@ -47,13 +47,22 @@ class Game extends React.Component {
   }
 
   render() {
+
+    const createAvatarElement = (user) => {
+      if (user.image) {
+        return <img className='avatar' src={user.image} />
+      } else {
+        return <div className='avatar' />
+      }
+    }
+
     const createUserSelector = (user) => {
       return (
         <div
           onClick={this._handleClick.bind(this, user)}
           className={this._getClass(user)}
           >
-          <img className='avatar' src={user.image} />
+          {createAvatarElement(user)}
           <span className="userName">
             {user.nickname}
             <div className="subtle">{user.name}</div>

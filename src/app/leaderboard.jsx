@@ -112,6 +112,8 @@ class Leaderboard extends React.Component {
 
     const clickHandler = canChallengeOpponent && this._handleClick.bind(this, user)
 
+    const avatarElement = user.image ? <img className="avatar" src={user.image} /> : <div className="avatar" />
+
     return (
       <div
       key={user.id}
@@ -120,7 +122,7 @@ class Leaderboard extends React.Component {
       >
         <div>
           <span>{index + 1}</span>
-          <img className="avatar" src={user.image} />
+          {avatarElement}
           <span className="userName">
             {user.nickname}
             <div className="subtle">{user.name}</div>
