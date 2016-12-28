@@ -22,10 +22,9 @@ const PAGE_TEMPLATE_FNS = {
     </section>
   ),
   game: (props) => {
-    const gameElement = React.createElement(Game, props)
     return (
       <section className="UIOverlay">
-        {gameElement}
+        {React.createElement(Game, props)}
       </section>
     )
   },

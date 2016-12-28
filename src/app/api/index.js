@@ -63,33 +63,21 @@ class Api {
     function fixImageProtocol(isSecurePage, user) {
       if (user.image) {
         const isSecureImage = user.image.match(secureMatcher)
-        if (isSecurePage && !isSecureImage) {
+        if (!isSecureImage && isSecurePage) {
           user.image = user.image.replace(insecureMatcher, 'https://')
         }
       }
       return user
     }
 
-    // function fixUserID(user) {
-    //   user.id = parseInt(user.id)
-    //   return user
-    // }
-
     const isSecurePage = window.location.href.match(secureMatcher)
     return response
-      // .map(fixUserID)
       .map((user) => fixImageProtocol(isSecurePage, user))
   }
 
   static getLeaderboard() {
-    this._get('rankings').then((users) => {
-      console.debug('/rankings users:', users)
-      if (users.length) {
-        state.leaderboard = Api._fixRankingsResponse(users)
-      } else {
-        state.leaderboard = []
-      }
-    })
+    return this._get('rankings')
+      .then((leaderboardUsers) => Api._fixRankingsResponse(leaderboardUsers))
   }
 
   static getRankingsByUser(user) {

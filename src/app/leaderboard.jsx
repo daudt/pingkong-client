@@ -25,6 +25,9 @@ class Leaderboard extends React.Component {
 
   componentWillMount() {
     Api.getLeaderboard()
+      .then((leaderboardUsers) => {
+        state.leaderboard = leaderboardUsers
+      })
   }
 
   componentDidUpdate() {
@@ -133,19 +136,17 @@ class Leaderboard extends React.Component {
     )
   }
 
-  // {state.winner && state.loser && state.winner.id !== user.id && state.loser.id !== user.id ? <span></span> : null}
-
-
   render() {
     const getContent = () => {
       if (state.leaderboard.length) {   // leaderboard has loaded
+        const subTitle = state.me ? 'Select opponents to record a game.' : 'Login to record a game.'
         return (
           <Panel className='leaderboard'>
             <h3>
               LEADERBOARD
             </h3>
             <div className="panel-subtitle">
-              Select opponents to record a game.
+              {subTitle}
             </div>
             <div className="panel-section">
               {state.leaderboard.map(this._getUserElement.bind(this))}

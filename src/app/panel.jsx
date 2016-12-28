@@ -3,7 +3,9 @@ import React from 'react'
 class Panel extends React.Component {
 
   componentDidMount() {
-    this._panelElement.classList.remove('hidden')
+    setTimeout(() => {
+      this._panelElement.classList.remove('hidden')
+    }, 0)
   }
 
   render() {
