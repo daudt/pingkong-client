@@ -1,8 +1,9 @@
-@primary-color: #224466;
+@primary-color: #246;
 @subtle-color: #8AC;
 
 @selected-color: #3c77b3; // lighten(@primary-color, 20%)
-@hover-color: #152a40; // darken(@primary-color, 10%)
+@header-color: #123;
+@hover-color: #123; // darken(@primary-color, 10%)
 @ready-color: #2AE38B;
 @warning-color: #ea3e3a;
 
@@ -33,7 +34,7 @@ body {
 
 header {
   align-items: center;
-  background-color: @hover-color;
+  background-color: fade(@header-color, 75%);
   color: white;
   display: flex;
   flex-direction: column;
@@ -72,13 +73,15 @@ button {
   }
 }
 
-#leaderboard {
+.leaderboard {
   max-height: ~"calc(100% - @{header-height})";
   margin-top: @header-height;
   overflow-y: auto;
 
   .user {
-    border-bottom: 1px solid fade(white, 50%);
+    &:nth-child(n+2) {
+      border-top: 2px solid fade(white, 30%);
+    }
     color: white;
     cursor: pointer;
 
@@ -223,20 +226,25 @@ button {
   border-radius: 10px;
   background-color: fade(@subtle-color, 25%);
   padding: 10px;
-  max-width: 50vw;
+  max-width: 75vw;
   margin-top: @header-height + 5vh;
   margin-left: auto;
   margin-right: auto;
   &.hidden {
     transform: rotateX(90deg);
   }
-  h2 {
-    font-size: 2em;
+  h3 {
+    text-align: center;
+    color: #FFA;
   }
   .panel-section {
-    background-color: fade(@subtle-color, 50%);
+    background-color: fade(@primary-color, 50%);
     border-radius: 10px;
     padding: 10px;
     margin-bottom: 5px;
+  }
+  .panel-subtitle {
+    color: white;
+    text-align: center;
   }
 }

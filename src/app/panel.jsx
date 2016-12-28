@@ -7,8 +7,10 @@ class Panel extends React.Component {
   }
 
   render() {
+    const className = `panel hidden ${this.props.className}`
+
     return (
-      <div className="panel hidden" ref={(el) => this._panelElement = el}>
+      <div className={className} ref={(el) => this._panelElement = el}>
         {this.props.children}
       </div>
     )

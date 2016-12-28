@@ -4,6 +4,7 @@ import React from 'react'
 
 import Api from './api/'
 import ExpandedInfo from './expandedInfo'
+import Panel from './panel'
 import state from './state/'
 
 const CACHED_RATINGS_KEY = 'cachedRatings'
@@ -34,7 +35,6 @@ class Leaderboard extends React.Component {
 
   _renderDeltas() {
     const newDeltas = this._getUserDeltas() || []
-    console.log('set state new deltas', newDeltas)
     if (newDeltas.length) {
       this.setState({ deltas: newDeltas })
     }
@@ -73,65 +73,75 @@ class Leaderboard extends React.Component {
     window.localStorage.setItem(CACHED_RATINGS_KEY, JSON.stringify(ratings))
   }
 
-  _getLeaderboardElement() {
-    return state.leaderboard.map((user, index) => {
-      const isExpandedUser = (this._expandedUser === user)
+  _getUserElement(user, index) {
+    const isExpandedUser = (this._expandedUser === user)
 
-      const getDeltaElement = (userID) => {
-        const userDelta = this.state.deltas.find((delta) => delta.userID === userID)
-        if (userDelta) {
-          const ratingDelta   = userDelta.delta
-          const className     = (ratingDelta > 0) ? 'increase' : 'decrease'
-          const prefix        = (ratingDelta > 0) ? '+' : '-'
-          const displayValue  = `${prefix}${Math.abs(ratingDelta)}`
-          return (
-            <span className={className}>{displayValue}</span>
-          )
-        }
+    const getDeltaElement = (userID) => {
+      const userDelta = this.state.deltas.find((delta) => delta.userID === userID)
+      if (userDelta) {
+        const ratingDelta   = userDelta.delta
+        const className     = (ratingDelta > 0) ? 'increase' : 'decrease'
+        const prefix        = (ratingDelta > 0) ? '+' : '-'
+        const displayValue  = `${prefix}${Math.abs(ratingDelta)}`
+        return (
+          <span className={className}>{displayValue}</span>
+        )
       }
+    }
 
-      return (
-        <div
-        key={user.id}
-        className={state.selectedPlayers.includes(user) ? 'user selected': 'user'}
-        onClick={this._handleClick.bind(this, user)}
-        >
-          <div>
-            <span>{index + 1}</span>
-            <img className="avatar" src={user.image} />
-            <span className="userName">
-              {user.nickname}
-              <div className="subtle">{user.name}</div>
-            </span>
-            {state.winner && state.loser && state.winner.id !== user.id && state.loser.id !== user.id ? <span></span> : null}
-            {getDeltaElement(user.id)}
-            <span className="rating">{user.rating}</span>
-            <span className="arrow" onClick={this._handleStatsClick.bind(this, user)}>
-              {isExpandedUser ? String.fromCharCode('9650') : String.fromCharCode('9660')}
-            </span>
-          </div>
-          {isExpandedUser ? <ExpandedInfo user={user} /> : null}
+    return (
+      <div
+      key={user.id}
+      className={state.selectedPlayers.includes(user) ? 'user selected': 'user'}
+      onClick={this._handleClick.bind(this, user)}
+      >
+        <div>
+          <span>{index + 1}</span>
+          <img className="avatar" src={user.image} />
+          <span className="userName">
+            {user.nickname}
+            <div className="subtle">{user.name}</div>
+          </span>
+          {state.winner && state.loser && state.winner.id !== user.id && state.loser.id !== user.id ? <span></span> : null}
+          {getDeltaElement(user.id)}
+          <span className="rating">{user.rating}</span>
+          <span className="arrow" onClick={this._handleStatsClick.bind(this, user)}>
+            {isExpandedUser ? String.fromCharCode('9650') : String.fromCharCode('9660')}
+          </span>
         </div>
-      )
-    })
+        {isExpandedUser ? <ExpandedInfo user={user} /> : null}
+      </div>
+    )
   }
 
-  _getBlankLeaderboardElement() {
+  _getLeaderboardElement() {
     return (
-      <section>
-        <h2>No games recorded yet! Play someone!</h2>
-      </section>
+      <span>
+        <h3>
+          LEADERBOARD
+        </h3>
+        <div className="panel-subtitle">
+          Click your opponent to record a game.
+        </div>
+        <div className="panel-section">
+          {state.leaderboard.map(this._getUserElement.bind(this))}
+        </div>
+      </span>
     )
   }
 
   render() {
-    const leaderboard = state.leaderboard.length ? this._getLeaderboardElement() : this._getBlankLeaderboardElement()
-
-    return (
-      <section id='leaderboard'>
-        {leaderboard}
-      </section>
-    )
+    if (state.leaderboard.length) {
+      return (
+        <Panel className='leaderboard'>
+          {this._getLeaderboardElement()}
+        </Panel>
+      )
+    } else {
+      return (
+        <span></span>
+      )
+    }
   }
 
   _handleClick(user, evt) {
