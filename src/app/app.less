@@ -67,7 +67,7 @@ button {
   border: 1px solid black;
   cursor: pointer;
   margin: 0 1vw;
-  font-size: 0.5em;
+  font-size: 1.25em;
   &:hover {
     background-color: white;
   }
@@ -220,6 +220,7 @@ button {
 }
 
 .panel {
+  z-index: 1;
   transform: perspective(600px) rotateX(0deg);
   transition: transform 1s;
   backface-visibility: hidden;
@@ -249,5 +250,8 @@ button {
   .panel-subtitle {
     color: white;
     text-align: center;
+    &.warning {
+      color: #F80;
+    }
   }
 }

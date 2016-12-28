@@ -141,15 +141,13 @@ class Leaderboard extends React.Component {
   render() {
     const getContent = () => {
       if (state.leaderboard.length) {   // leaderboard has loaded
-        const subTitle = state.me ? 'Select opponents to record a game.' : 'Login to record a game.'
+        const subTitleElement = state.me ? <div className="panel-subtitle">Select opponents to record a game.</div> : <div className="panel-subtitle warning">Login to record a game.</div>
         return (
           <Panel className='leaderboard'>
             <h3>
               LEADERBOARD
             </h3>
-            <div className="panel-subtitle">
-              {subTitle}
-            </div>
+            {subTitleElement}
             <div className="panel-section">
               {state.leaderboard.map(this._getUserElement.bind(this))}
             </div>
