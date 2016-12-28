@@ -3,7 +3,7 @@ import React from 'react'
 import Api from './api/'
 import Session from './session'
 
-const BASE_OAUTH_REDIR_URL = 'https://www.kingofpong.com/oauth-done.html'
+const BASE_OAUTH_REDIR_URL = 'https://www.kingofpong.com/'
 
 class FacebookLoginControl extends React.Component {
 
