@@ -114,6 +114,13 @@ class Leaderboard extends React.Component {
 
     const avatarElement = user.image ? <img className="avatar" src={user.image} /> : <div className="avatar" />
 
+    const userNameElement = (
+      <span className="userName">
+        {user.nickname || user.name}
+        {user.nickname && user.name && user.nickname !== user.name ? <div className="subtle">{user.name}</div> : null}
+      </span>
+    )
+
     return (
       <div
       key={user.id}
@@ -123,10 +130,7 @@ class Leaderboard extends React.Component {
         <div>
           <span>{index + 1}</span>
           {avatarElement}
-          <span className="userName">
-            {user.nickname}
-            <div className="subtle">{user.name}</div>
-          </span>
+          {userNameElement}
           {getDeltaElement(user.id)}
           <span className="rating">{user.rating}</span>
           <span className="arrow" onClick={this._handleStatsClick.bind(this, user)}>
