@@ -119,7 +119,6 @@ class Leaderboard extends React.Component {
       key={user.id}
       className={className}
       onClick={clickHandler}
-      onTouchStart={clickHandler}
       >
         <div>
           <span>{index + 1}</span>
