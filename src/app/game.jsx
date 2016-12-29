@@ -3,7 +3,9 @@ import { observer } from 'mobx-react'
 import React from 'react'
 
 import Api from './api/'
+import getUserNameElement from './getUserNameElement'
 import state from './state/'
+import Panel from './panel'
 import TitleBar from './titleBar'
 
 @observer
@@ -63,28 +65,31 @@ class Game extends React.Component {
           className={this._getClass(user)}
           >
           {createAvatarElement(user)}
-          <span className="userName">
-            {user.nickname}
-            <div className="subtle">{user.name}</div>
-          </span>
+          {getUserNameElement(user)}
           <h1>{this._getLabel(user)}</h1>
         </div>
       )
     }
+
     return (
       <section id="game">
         <header>
           <TitleBar />
-          <span>
-            {this.state.winner ? (<button onClick={this._handleRecordMatch.bind(this)}>RECORD MATCH</button>) : 'Who won?'}
-            <button onClick={this._handleCancel.bind(this)}>CANCEL</button>
-          </span>
         </header>
-        <div>
-          {createUserSelector(this.props.user1)}
-          <div className="spacer" />
-          {createUserSelector(this.props.user2)}
-        </div>
+        <Panel>
+          <h3>
+            WHO WON?
+          </h3>
+          <div className="opponents">
+            {createUserSelector(this.props.user1)}
+            <div className="spacer" />
+            {createUserSelector(this.props.user2)}
+          </div>
+          <div className="panel-section flex-row centered">
+            {this.state.winner ? (<button onClick={this._handleRecordMatch.bind(this)}>RECORD MATCH</button>) : null}
+            <button onClick={this._handleCancel.bind(this)}>CANCEL</button>
+          </div>
+        </Panel>
       </section>
     )
   }
@@ -95,7 +100,7 @@ class Game extends React.Component {
 
   @action
   _navigateBack() {
-    state.setPage('logo')
+    state.setPage('leaderboard')
   }
 
   _handleRecordMatch() {

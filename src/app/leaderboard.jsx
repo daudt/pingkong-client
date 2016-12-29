@@ -4,6 +4,7 @@ import React from 'react'
 
 import Api from './api/'
 import ExpandedInfo from './expandedInfo'
+import getUserNameElement from './getUserNameElement'
 import Panel from './panel'
 import state from './state/'
 import TitleBar from './titleBar'
@@ -114,13 +115,6 @@ class Leaderboard extends React.Component {
 
     const avatarElement = user.image ? <img className="avatar" src={user.image} /> : <div className="avatar" />
 
-    const userNameElement = (
-      <span className="userName">
-        {user.nickname || user.name}
-        {user.nickname && user.name && user.nickname !== user.name ? <div className="subtle">{user.name}</div> : null}
-      </span>
-    )
-
     return (
       <div
       key={user.id}
@@ -130,7 +124,7 @@ class Leaderboard extends React.Component {
         <div>
           <span>{index + 1}</span>
           {avatarElement}
-          {userNameElement}
+          {getUserNameElement(user)}
           {getDeltaElement(user.id)}
           <span className="rating">{user.rating}</span>
           <span className="arrow" onClick={this._handleStatsClick.bind(this, user)}>

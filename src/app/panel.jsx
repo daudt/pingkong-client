@@ -9,7 +9,11 @@ class Panel extends React.Component {
   }
 
   render() {
-    const className = `panel hidden ${this.props.className}`
+    const className = [
+      'panel',
+      'hidden',
+      this.props.className
+    ].filter(Boolean).join(' ')
 
     return (
       <div className={className} ref={(el) => this._panelElement = el}>
