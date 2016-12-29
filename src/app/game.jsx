@@ -105,9 +105,9 @@ class Game extends React.Component {
 
   _handleRecordMatch() {
     Api.recordMatch(this.props.user1, this.props.user2, this.state.winner)
-      .then(() => {
-        this._navigateBack()
-      })
+    // Easy way to avoid having to disable buttons to prevent double submitting?
+    // Change page before promise resolves:
+    this._navigateBack()
   }
 
   _handleCancel() {
