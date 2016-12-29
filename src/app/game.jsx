@@ -60,6 +60,7 @@ class Game extends React.Component {
       return (
         <div
           onClick={this._handleClick.bind(this, user)}
+          onTouchStart={this._handleClick.bind(this, user)}
           className={this._getClass(user)}
           >
           {createAvatarElement(user)}
