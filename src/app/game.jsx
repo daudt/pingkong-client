@@ -86,8 +86,8 @@ class Game extends React.Component {
             {createUserSelector(this.props.user2)}
           </div>
           <div className="panel-section flex-row centered">
-            {this.state.winner ? (<button onClick={this._handleRecordMatch.bind(this)}>RECORD MATCH</button>) : null}
-            <button onClick={this._handleCancel.bind(this)}>CANCEL</button>
+            {this.state.winner ? (<button ref="submitBtn" onClick={this._handleRecordMatch.bind(this)}>RECORD MATCH</button>) : null}
+            <button ref="cancelBtn" onClick={this._handleCancel.bind(this)}>CANCEL</button>
           </div>
         </Panel>
       </section>
@@ -104,10 +104,12 @@ class Game extends React.Component {
   }
 
   _handleRecordMatch() {
+    this.refs.submitBtn.setAttribute('disabled', 'disabled')
+    this.refs.cancelBtn.setAttribute('disabled', 'disabled')
     Api.recordMatch(this.props.user1, this.props.user2, this.state.winner)
-    // Easy way to avoid having to disable buttons to prevent double submitting?
-    // Change page before promise resolves:
-    this._navigateBack()
+      .then(() => {
+        this._navigateBack()
+      })
   }
 
   _handleCancel() {
