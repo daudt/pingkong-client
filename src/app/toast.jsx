@@ -1,5 +1,7 @@
 import * as React from 'react'
 
+const DELAY_MS = 4000
+
 class Toast extends React.Component {
 
   constructor() {
@@ -38,12 +40,12 @@ class Toast extends React.Component {
 
     setTimeout(() => {
       this._close()
-    }, 10000)
+    }, DELAY_MS)
   }
 
   _close() {
     this.setState({
-      message: null,
+      message: null
     })
   }
 }

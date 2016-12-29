@@ -8,6 +8,7 @@ import getUserNameElement from './getUserNameElement'
 import Panel from './panel'
 import state from './state/'
 import TitleBar from './titleBar'
+import Toast from './toast'
 
 const CACHED_RATINGS_KEY = 'cachedRatings'
 
@@ -166,8 +167,13 @@ class Leaderboard extends React.Component {
 
   _handleClick(user, evt) {
     if (this.state.selectedPlayers.includes(user)) {
+      // deselect user
       this.state.selectedPlayers = this.state.selectedPlayers.filter((player) => player !== user)
     } else {
+      if (this.state.selectedPlayers.length === 1 && this.state.selectedPlayers[0].id !== state.me.id && user.id !== state.me.id) {
+        Toast.open('You must be one of the opponents!')
+        return
+      }
       this.state.selectedPlayers.push(user)
     }
     this.setState({ selectedPlayers: this.state.selectedPlayers })
