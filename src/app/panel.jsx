@@ -3,8 +3,11 @@ import React from 'react'
 class Panel extends React.Component {
 
   componentDidMount() {
+    // ugh!  http://stackoverflow.com/a/34999925
     setTimeout(() => {
-      this._panelElement.classList.remove('hidden')
+      window.requestAnimationFrame(() => {
+        this.refs.panelElement.classList.remove('hidden')
+      })
     }, 0)
   }
 
@@ -16,7 +19,7 @@ class Panel extends React.Component {
     ].filter(Boolean).join(' ')
 
     return (
-      <div className={className} ref={(el) => this._panelElement = el}>
+      <div className={className} ref="panelElement">
         {this.props.children}
       </div>
     )
