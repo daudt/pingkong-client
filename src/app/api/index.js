@@ -115,9 +115,9 @@ class Api {
               Toast.open(err.message)
               console.error(err)
               reject(err)
+            } else {
+              resolve(res.body)
             }
-
-            resolve(res.body)
           })
       } else {
         console.debug('Get:', url)
@@ -128,9 +128,9 @@ class Api {
               Toast.open(err.message)
               console.error(err)
               reject(err)
+            } else {
+              resolve(res.body)
             }
-
-            resolve(res.body)
           })
       }
     })
@@ -154,9 +154,9 @@ class Api {
               Toast.open(err.message)
               console.error(err)
               reject(err)
+            } else {
+              resolve(res)
             }
-
-            resolve(res)
           })
       } else {
         console.debug('Post:', url, data)
@@ -167,9 +167,9 @@ class Api {
               Toast.open(err.message)
               console.error(err)
               reject(err)
+            } else {
+              resolve(res)
             }
-
-            resolve(res)
           })
       }
     })
