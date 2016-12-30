@@ -184,8 +184,7 @@ class Background extends React.Component {
   }
 
   _getLeaderImage() {
-    const leader = state.leaderboard.peek()[0]
-    return leader && leader.image
+    return state.leader && state.leader.image
   }
 
   _addBall(scene, highestCoords) {

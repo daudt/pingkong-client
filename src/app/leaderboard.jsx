@@ -18,25 +18,27 @@ class Leaderboard extends React.Component {
 
   constructor(props) {
     super(props)
-    this._leaderboardRendered = false
+    this._rendered = false
     this.state = {
+      rankedUsers: null,
       deltas: [],
       selectedPlayers: []
     }
   }
 
   componentWillMount() {
-    Api.getLeaderboard()
-      .then((leaderboardUsers) => {
-        state.leaderboard = leaderboardUsers
+    Api.getRankedUsers()
+      .then((rankedUsers) => {
+        state.leader = rankedUsers[0]
+        this.setState({ rankedUsers })
       })
   }
 
   componentDidUpdate() {
-    if (!this._leaderboardRendered && state.leaderboard) {
+    if (!this._rendered && this.state.rankedUsers) {
       this._renderDeltas()
       this._updateCachedRatings()
-      this._leaderboardRendered = true
+      this._rendered = true
     }
   }
 
@@ -48,7 +50,7 @@ class Leaderboard extends React.Component {
   }
 
   _getUserDeltas() {
-    if (!state.leaderboard) {
+    if (!this.state.rankedUsers) {
       return
     }
     const cachedRatings = this._getCachedRatings()
@@ -57,7 +59,7 @@ class Leaderboard extends React.Component {
     }
     return cachedRatings
       .map((cachedRating) => {
-        const leaderboardUser = state.leaderboard.find((user) => user.id === cachedRating.userID)
+        const leaderboardUser = this.state.rankedUsers.find((user) => user.id === cachedRating.userID)
         return leaderboardUser && (leaderboardUser.rating !== cachedRating.rating) ? { userID: cachedRating.userID, delta: leaderboardUser.rating - cachedRating.rating } : null
       })
       .filter(Boolean)
@@ -71,7 +73,7 @@ class Leaderboard extends React.Component {
   }
 
   _updateCachedRatings() {
-    const ratings = state.leaderboard.map((user) => {
+    const ratings = this.state.rankedUsers.map((user) => {
       return {
         userID: user.id,
         rating: user.rating
@@ -139,7 +141,7 @@ class Leaderboard extends React.Component {
 
   render() {
     const getContent = () => {
-      if (state.leaderboard.length) {   // leaderboard has loaded
+      if (this.state.rankedUsers) {   // leaderboard has loaded
         const subTitleElement = state.me ? <div className="panel-subtitle">Select opponents to record a game.</div> : <div className="panel-subtitle warning">Login to record a game.</div>
         return (
           <Panel className='leaderboard'>
@@ -148,7 +150,7 @@ class Leaderboard extends React.Component {
             </h3>
             {subTitleElement}
             <div className="panel-section">
-              {state.leaderboard.map(this._getUserElement.bind(this))}
+              {this.state.rankedUsers.map(this._getUserElement.bind(this))}
             </div>
           </Panel>
         )

@@ -52,7 +52,6 @@ class Api {
   static getUsers() {
     this._get('users').then((users) => {
       console.debug('users:', users)
-      state.users = users
     })
   }
 
@@ -75,7 +74,7 @@ class Api {
       .map((user) => fixImageProtocol(isSecurePage, user))
   }
 
-  static getLeaderboard() {
+  static getRankedUsers() {
     return this._get('rankings')
       .then((leaderboardUsers) => Api._fixRankingsResponse(leaderboardUsers))
   }
