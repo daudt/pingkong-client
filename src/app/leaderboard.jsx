@@ -130,11 +130,15 @@ class Leaderboard extends React.Component {
           {getUserNameElement(user)}
           {getDeltaElement(user.id)}
           <span className="rating">{user.rating}</span>
+          {/*
           <span className="arrow" onClick={this._handleStatsClick.bind(this, user)}>
             {isExpandedUser ? String.fromCharCode('9650') : String.fromCharCode('9660')}
           </span>
+          */}
         </div>
+        {/*
         {isExpandedUser ? <ExpandedInfo user={user} /> : null}
+        */}
       </div>
     )
   }
