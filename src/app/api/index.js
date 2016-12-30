@@ -81,7 +81,7 @@ class Api {
   }
 
   static getRankingsByUser(user) {
-    this._get('rankings', `userId=${user.id}`).then((rankings) => {
+    this._get(`rankings/${user.id}`).then((rankings) => {
       state.userRankings = Api._fixRankingsResponse(rankings).sort(sortDateAsc)
     })
   }
