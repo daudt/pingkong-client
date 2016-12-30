@@ -101,14 +101,14 @@ class Leaderboard extends React.Component {
     // check if logged in AND not selecting self
     // const canChallengeOpponent = state.me && user.id !== state.me.id
 
-    const canChallengeOpponent = !!state.me // && user.id !== state.me.id
+    const canChallengeOpponent = !!state.me && user.id !== state.me.id
 
     const className = (() => {
       const classNames = [ 'user' ]
       if (canChallengeOpponent) {
         classNames.push('active')
       }
-      if (this.state.selectedPlayers.includes(user)) {
+      if (state.me && user.id === state.me.id) {
         classNames.push('selected')
       }
       return classNames.join(' ')
@@ -146,7 +146,7 @@ class Leaderboard extends React.Component {
   render() {
     const getContent = () => {
       if (this.state.rankedUsers) {   // leaderboard has loaded
-        const subTitleElement = state.me ? <div className="panel-subtitle">Select opponents to record a game.</div> : <div className="panel-subtitle warning">Login to record a game.</div>
+        const subTitleElement = state.me ? <div className="panel-subtitle">Select your opponent to record a match.</div> : <div className="panel-subtitle warning">Login to record a game.</div>
         return (
           <Panel className='leaderboard'>
             <h3>
@@ -172,19 +172,8 @@ class Leaderboard extends React.Component {
   }
 
   _handleClick(user, evt) {
-    if (this.state.selectedPlayers.includes(user)) {
-      // deselect user
-      this.state.selectedPlayers = this.state.selectedPlayers.filter((player) => player !== user)
-    } else {
-      if (this.state.selectedPlayers.length === 1 && this.state.selectedPlayers[0].id !== state.me.id && user.id !== state.me.id) {
-        Toast.open('You must be one of the opponents!')
-        return
-      }
-      this.state.selectedPlayers.push(user)
-    }
-    this.setState({ selectedPlayers: this.state.selectedPlayers })
-    if (this.state.selectedPlayers.length === 2) {
-      state.setPage('game', { user1: this.state.selectedPlayers[0], user2: this.state.selectedPlayers[1] })
+    if (user.id !== state.me.id) {
+      state.setPage('game', { you: state.me, them: user })
     }
   }
 

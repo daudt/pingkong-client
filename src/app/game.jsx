@@ -18,7 +18,7 @@ class Game extends React.Component {
     }
   }
 
-  _getLabel(user) {
+  _getResultText(user) {
     if (this.state.winner) {
       if (this.state.winner === user) {
         return 'WINNER'
@@ -26,9 +26,6 @@ class Game extends React.Component {
       else {
         return 'LOSER'
       }
-    }
-    else {
-      return ''
     }
   }
 
@@ -58,15 +55,16 @@ class Game extends React.Component {
       }
     }
 
-    const createUserSelector = (user) => {
+    const createUserSelector = (user, label) => {
       return (
         <div
           onClick={this._handleClick.bind(this, user)}
           className={this._getClass(user)}
           >
+          <h1>{label}</h1>
           {createAvatarElement(user)}
           {getUserNameElement(user)}
-          <h1>{this._getLabel(user)}</h1>
+          <h1>{this._getResultText(user)}</h1>
         </div>
       )
     }
@@ -81,9 +79,9 @@ class Game extends React.Component {
             WHO WON?
           </h3>
           <div className="opponents">
-            {createUserSelector(this.props.user1)}
+            {createUserSelector(this.props.you, 'YOU')}
             <div className="spacer" />
-            {createUserSelector(this.props.user2)}
+            {createUserSelector(this.props.them, 'THEM')}
           </div>
           <div className="panel-section flex-row centered">
             {this.state.winner ? (<button ref="submitBtn" onClick={this._handleRecordMatch.bind(this)}>RECORD MATCH</button>) : null}
@@ -106,7 +104,7 @@ class Game extends React.Component {
   _handleRecordMatch() {
     this.refs.submitBtn.setAttribute('disabled', 'disabled')
     this.refs.cancelBtn.setAttribute('disabled', 'disabled')
-    Api.recordMatch(this.props.user1, this.props.user2, this.state.winner)
+    Api.recordMatch(this.props.you, this.props.them, this.state.winner)
       .then(() => {
         this._navigateBack()
       })

@@ -44,7 +44,7 @@ class SessionControl extends React.Component {
       .catch(() => {
         // not logged in
         if (Session.isActive()) {
-          // session thought it was active, but it must be invalid
+          // session thought it was active, but it must be invalid now, panic
           this._logout()
         }
       })
