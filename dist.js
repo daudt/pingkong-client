@@ -1,7 +1,7 @@
 const execSync = require('child_process').execSync
 
 console.log('Building bundle with webpack')
-execSync('node_modules/.bin/webpack --bail')
+execSync('node_modules/.bin/webpack --bail --optimize-minimize --optimize-occurrence-order --optimize-dedupe')
 
 execSync('rm -rf dist')
 
