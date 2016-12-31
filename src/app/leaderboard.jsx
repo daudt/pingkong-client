@@ -18,11 +18,10 @@ class Leaderboard extends React.Component {
 
   constructor(props) {
     super(props)
-    this._rendered = false
     this.state = {
-      rankedUsers: null,
-      deltas: [],
-      selectedPlayers: []
+      rankedUsers:      null,
+      deltas:           [],
+      selectedPlayers:  []
     }
   }
 
@@ -30,36 +29,26 @@ class Leaderboard extends React.Component {
     Api.getRankedUsers()
       .then((rankedUsers) => {
         state.leader = rankedUsers[0]
-        this.setState({ rankedUsers })
+        const stateUpdates = {
+          rankedUsers
+        }
+        const newDeltas = this._getUserDeltas(rankedUsers) || []
+        if (newDeltas.length) {
+          stateUpdates.deltas = newDeltas
+        }
+        this._updateCachedRatings(rankedUsers)
+        this.setState(stateUpdates)
       })
   }
 
-  componentDidUpdate() {
-    if (!this._rendered && this.state.rankedUsers) {
-      this._renderDeltas()
-      this._updateCachedRatings()
-      this._rendered = true
-    }
-  }
-
-  _renderDeltas() {
-    const newDeltas = this._getUserDeltas() || []
-    if (newDeltas.length) {
-      this.setState({ deltas: newDeltas })
-    }
-  }
-
-  _getUserDeltas() {
-    if (!this.state.rankedUsers) {
-      return
-    }
+  _getUserDeltas(rankedUsers) {
     const cachedRatings = this._getCachedRatings()
     if (!cachedRatings) {
       return
     }
     return cachedRatings
       .map((cachedRating) => {
-        const leaderboardUser = this.state.rankedUsers.find((user) => user.id === cachedRating.userID)
+        const leaderboardUser = rankedUsers.find((user) => user.id === cachedRating.userID)
         return leaderboardUser && (leaderboardUser.rating !== cachedRating.rating) ? { userID: cachedRating.userID, delta: leaderboardUser.rating - cachedRating.rating } : null
       })
       .filter(Boolean)
@@ -72,8 +61,8 @@ class Leaderboard extends React.Component {
     }
   }
 
-  _updateCachedRatings() {
-    const ratings = this.state.rankedUsers.map((user) => {
+  _updateCachedRatings(rankedUsers) {
+    const ratings = rankedUsers.map((user) => {
       return {
         userID: user.id,
         rating: user.rating
@@ -99,8 +88,6 @@ class Leaderboard extends React.Component {
     }
 
     // check if logged in AND not selecting self
-    // const canChallengeOpponent = state.me && user.id !== state.me.id
-
     const canChallengeOpponent = !!state.me && user.id !== state.me.id
 
     const className = (() => {
@@ -143,30 +130,30 @@ class Leaderboard extends React.Component {
     )
   }
 
-  render() {
-    const getContent = () => {
-      if (this.state.rankedUsers) {   // leaderboard has loaded
-        const subTitleElement = state.me ? <div className="panel-subtitle">Select your opponent to record a match.</div> : <div className="panel-subtitle warning">Login to record a game.</div>
-        return (
-          <Panel className='leaderboard'>
-            <h3>
-              LEADERBOARD
-            </h3>
-            {subTitleElement}
-            <div className="panel-section">
-              {this.state.rankedUsers.map(this._getUserElement.bind(this))}
-            </div>
-          </Panel>
-        )
-      }
+  _getLeaderboardContent() {
+    if (this.state.rankedUsers) {   // leaderboard has loaded
+      const subTitleElement = state.me ? <div className="panel-subtitle">Select your opponent to record a match.</div> : <div className="panel-subtitle warning">Login to record a game.</div>
+      return (
+        <Panel className='leaderboard'>
+          <h3>
+            LEADERBOARD
+          </h3>
+          {subTitleElement}
+          <div className="panel-section">
+            {this.state.rankedUsers.map(this._getUserElement.bind(this))}
+          </div>
+        </Panel>
+      )
     }
+  }
 
+  render() {
     return (
       <section>
         <header>
           <TitleBar />
         </header>
-        {getContent()}
+        {this._getLeaderboardContent()}
       </section>
     )
   }
