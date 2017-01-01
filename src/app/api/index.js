@@ -12,6 +12,10 @@ function sortDateAsc(a, b) {
   return new Date(a.created_at) - new Date(b.created_at)
 }
 
+function sortUsersWhoHavePlayed(a, b) {
+  return b.num_matches === 0 && a.num_matches > 0 ? -1 : 0
+}
+
 class Api {
   static getBaseUrl() {
     return BASE_URL
@@ -77,6 +81,7 @@ class Api {
   static getRankedUsers() {
     return this._get('rankings')
       .then((leaderboardUsers) => Api._fixRankingsResponse(leaderboardUsers))
+      .then((leaderboardUsers) => leaderboardUsers.sort(sortUsersWhoHavePlayed))
   }
 
   static getRankingsByUser(user) {
