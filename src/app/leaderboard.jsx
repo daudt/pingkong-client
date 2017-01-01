@@ -105,6 +105,14 @@ class Leaderboard extends React.Component {
 
     const avatarElement = user.image ? <img className="avatar" src={user.image} /> : <div className="avatar" />
 
+    const getRecordElement = (user) => {
+      return (
+        <span className="win-loss-record">
+        {user.num_wins}-{user.num_losses}
+        </span>
+      )
+    }
+
     return (
       <div
       key={user.id}
@@ -117,6 +125,7 @@ class Leaderboard extends React.Component {
           {getUserNameElement(user)}
           {getDeltaElement(user.id)}
           <span className="rating">{user.rating}</span>
+          {getRecordElement(user)}
           {/*
           <span className="arrow" onClick={this._handleStatsClick.bind(this, user)}>
             {isExpandedUser ? String.fromCharCode('9650') : String.fromCharCode('9660')}
@@ -126,6 +135,19 @@ class Leaderboard extends React.Component {
         {/*
         {isExpandedUser ? <ExpandedInfo user={user} /> : null}
         */}
+      </div>
+    )
+  }
+
+  _getHeaderElement() {
+    return (
+      <div className="user">
+        <div>
+          <span>RANK</span>
+          <span></span>
+          <span>RATING</span>
+          <span className="win-loss-record">W-L</span>
+        </div>
       </div>
     )
   }
@@ -140,6 +162,7 @@ class Leaderboard extends React.Component {
           </h3>
           {subTitleElement}
           <div className="panel-section">
+            {this._getHeaderElement()}
             {this.state.rankedUsers.map(this._getUserElement.bind(this))}
           </div>
         </Panel>
