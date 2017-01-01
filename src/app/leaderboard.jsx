@@ -75,15 +75,17 @@ class Leaderboard extends React.Component {
     const isExpandedUser = (this._expandedUser === user)
 
     const getDeltaElement = (userID) => {
-      const userDelta = this.state.deltas.find((delta) => delta.userID === userID)
-      if (userDelta) {
-        const ratingDelta   = userDelta.delta
-        const className     = (ratingDelta > 0) ? 'increase' : 'decrease'
-        const prefix        = (ratingDelta > 0) ? '+' : '-'
-        const displayValue  = `${prefix}${Math.abs(ratingDelta)}`
-        return (
-          <span className={className}>{displayValue}</span>
-        )
+      if (user.num_matches) {
+        const userDelta = this.state.deltas.find((delta) => delta.userID === userID)
+        if (userDelta) {
+          const ratingDelta   = userDelta.delta
+          const className     = (ratingDelta > 0) ? 'increase' : 'decrease'
+          const prefix        = (ratingDelta > 0) ? '+' : '-'
+          const displayValue  = `${prefix}${Math.abs(ratingDelta)}`
+          return (
+            <span className={className}>{displayValue}</span>
+          )
+        }
       }
     }
 
@@ -105,10 +107,18 @@ class Leaderboard extends React.Component {
 
     const avatarElement = user.image ? <img className="avatar" src={user.image} /> : <div className="avatar" />
 
+    const getRatingElement = (user) => {
+      return (
+        <span className="rating">
+          {user.num_matches ? user.rating : ''}
+        </span>
+      )
+    }
+
     const getRecordElement = (user) => {
       return (
         <span className="win-loss-record">
-        {user.num_wins}-{user.num_losses}
+          {user.num_matches ? `${user.num_wins}-${user.num_losses}` : ''}
         </span>
       )
     }
@@ -124,7 +134,7 @@ class Leaderboard extends React.Component {
           {avatarElement}
           {getUserNameElement(user)}
           {getDeltaElement(user.id)}
-          <span className="rating">{user.rating}</span>
+          {getRatingElement(user)}
           {getRecordElement(user)}
           {/*
           <span className="arrow" onClick={this._handleStatsClick.bind(this, user)}>

@@ -13,7 +13,13 @@ function sortDateAsc(a, b) {
 }
 
 function sortUsersWhoHavePlayed(a, b) {
-  return b.num_matches === 0 && a.num_matches > 0 ? -1 : 0
+  if (a.num_matches === 0 && b.num_matches > 0) {
+    return 1
+  }
+  if (b.num_matches === 0 && a.num_matches > 0) {
+    return -1
+  }
+  return 0
 }
 
 class Api {
