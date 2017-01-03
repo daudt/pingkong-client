@@ -19,7 +19,7 @@ function sortUsersWhoHavePlayed(a, b) {
   if (b.num_matches === 0 && a.num_matches > 0) {
     return -1
   }
-  return 0
+  return a.rating - b.rating
 }
 
 class Api {
