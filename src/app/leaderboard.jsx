@@ -108,17 +108,27 @@ class Leaderboard extends React.Component {
     const avatarElement = user.image ? <img className="avatar" src={user.image} /> : <div className="avatar" />
 
     const getRatingElement = (user) => {
+      const className = [
+        'rating',
+        user.num_pending ? 'pending' : null
+      ].filter(Boolean).join(' ')
       return (
-        <span className="rating">
+        <span className={className}>
           {user.num_matches ? user.rating : ''}
+          {user.num_pending ? '*' : ''}
         </span>
       )
     }
 
     const getRecordElement = (user) => {
+      const className = [
+        'win-loss-record',
+        user.num_pending ? 'pending' : null
+      ].filter(Boolean).join(' ')
       return (
-        <span className="win-loss-record">
+        <span className={className}>
           {user.num_matches ? `${user.num_wins}-${user.num_losses}` : ''}
+          {user.num_pending ? '*' : ''}
         </span>
       )
     }
@@ -165,6 +175,7 @@ class Leaderboard extends React.Component {
   _getLeaderboardContent() {
     if (this.state.rankedUsers) {   // leaderboard has loaded
       const subTitleElement = state.me ? <div className="panel-subtitle">Select your opponent to record a match.</div> : <div className="panel-subtitle warning">Login to record a game.</div>
+      const pendingMemo = this.state.rankedUsers.some((user) => !!user.num_pending) ? <div className="panel-subtitle">* Has unconfirmed matches</div> : null
       return (
         <Panel className='leaderboard'>
           <h3>
@@ -175,6 +186,7 @@ class Leaderboard extends React.Component {
             {this._getHeaderElement()}
             {this.state.rankedUsers.map(this._getUserElement.bind(this))}
           </div>
+          {pendingMemo}
         </Panel>
       )
     }

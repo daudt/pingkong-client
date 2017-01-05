@@ -121,6 +121,9 @@ button {
         }
         &.rating {
           flex-basis: 5vw;
+          &.pending {
+            color: @subtle-color;
+          }
         }
         &.arrow {
           cursor: pointer;
@@ -268,6 +271,9 @@ button {
 
 .win-loss-record {
   white-space: nowrap;
+  &.pending {
+    color: @subtle-color;
+  }
 }
 
 @media (max-width: @responsive-width) {
