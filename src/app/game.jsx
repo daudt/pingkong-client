@@ -7,6 +7,7 @@ import getUserNameElement from './getUserNameElement'
 import state from './state/'
 import Panel from './panel'
 import TitleBar from './titleBar'
+import Toast from './toast'
 
 @observer
 class Game extends React.Component {
@@ -105,6 +106,14 @@ class Game extends React.Component {
     this.refs.submitBtn.setAttribute('disabled', 'disabled')
     this.refs.cancelBtn.setAttribute('disabled', 'disabled')
     Api.recordMatch(this.props.you, this.props.them, this.state.winner)
+      .then(() => {
+        return new Promise((resolve) => {
+          Toast.open(`This match needs to be confirmed (via email) by ${this.props.them.nickname || this.props.them.name}`)
+          setTimeout(() => {
+            resolve()
+          }, 4000)
+        })
+      })
       .then(() => {
         this._navigateBack()
       })
