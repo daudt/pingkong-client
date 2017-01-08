@@ -65,6 +65,10 @@ class Api {
     })
   }
 
+  static getHistory() {
+    return this._get('history')
+  }
+
   static _fixRankingsResponse(response) {
     const insecureMatcher = /^http:\/\//i
     const secureMatcher = /^https:\/\//i

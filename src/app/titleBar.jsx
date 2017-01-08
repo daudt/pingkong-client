@@ -7,10 +7,12 @@ class TitleBar extends React.Component {
 
   render() {
     return (
-      <div className="flex-column">
-        <img src="/app/king-pong-logo-wide.png" className="logo" onClick={this._clickLogo.bind(this)} />
-        <SessionControl />
-      </div>
+      <header>
+        <div className="flex-column">
+          <img src="/app/king-pong-logo-wide.png" className="logo" onClick={this._clickLogo.bind(this)} />
+          <SessionControl />
+        </div>
+      </header>
     )
   }
 

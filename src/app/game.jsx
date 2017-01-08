@@ -4,6 +4,7 @@ import React from 'react'
 
 import Api from './api/'
 import getUserNameElement from './getUserNameElement'
+import MainContent from './mainContent'
 import state from './state/'
 import Panel from './panel'
 import TitleBar from './titleBar'
@@ -72,23 +73,23 @@ class Game extends React.Component {
 
     return (
       <section id="game">
-        <header>
-          <TitleBar />
-        </header>
-        <Panel>
-          <h3>
-            WHO WON?
-          </h3>
-          <div className="opponents">
-            {createUserSelector(this.props.you, 'YOU')}
-            <div className="spacer" />
-            {createUserSelector(this.props.them, 'THEM')}
-          </div>
-          <div className="panel-section flex-row centered">
-            {this.state.winner ? (<button ref="submitBtn" onClick={this._handleRecordMatch.bind(this)}>RECORD MATCH</button>) : null}
-            <button ref="cancelBtn" onClick={this._handleCancel.bind(this)}>CANCEL</button>
-          </div>
-        </Panel>
+        <TitleBar />
+        <MainContent>
+          <Panel>
+            <h3>
+              WHO WON?
+            </h3>
+            <div className="opponents">
+              {createUserSelector(this.props.you, 'YOU')}
+              <div className="spacer" />
+              {createUserSelector(this.props.them, 'THEM')}
+            </div>
+            <div className="panel-section flex-row centered">
+              {this.state.winner ? (<button ref="submitBtn" onClick={this._handleRecordMatch.bind(this)}>RECORD MATCH</button>) : null}
+              <button ref="cancelBtn" onClick={this._handleCancel.bind(this)}>CANCEL</button>
+            </div>
+          </Panel>
+        </MainContent>
       </section>
     )
   }

@@ -1,5 +1,6 @@
 import React from 'react'
 
+import MainContent from './mainContent'
 import RegisterPanel from './registerPanel'
 import TitleBar from './titleBar'
 
@@ -8,10 +9,10 @@ class RegisterPage extends React.Component {
   render() {
     return (
       <section>
-        <header>
-          <TitleBar />
-        </header>
-        <RegisterPanel />
+        <TitleBar />
+        <MainContent>
+          <RegisterPanel />
+        </MainContent>
       </section>
     )
   }

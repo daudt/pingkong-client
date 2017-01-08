@@ -121,9 +121,6 @@ button {
         }
         &.rating {
           flex-basis: 5vw;
-          &.pending {
-            color: @subtle-color;
-          }
         }
         &.arrow {
           cursor: pointer;
@@ -240,9 +237,10 @@ button {
   background-color: fade(@subtle-color, 25%);
   padding: 10px;
   max-width: 75vw;
-  margin-top: @header-height + 5vh;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
   &.hidden {
     transform: rotateY(90deg);
   }
@@ -251,6 +249,7 @@ button {
     color: #FFA;
   }
   .panel-section {
+    color: white;
     background-color: fade(@primary-color, 50%);
     border-radius: 10px;
     padding: 10px;
@@ -271,8 +270,21 @@ button {
 
 .win-loss-record {
   white-space: nowrap;
-  &.pending {
-    color: @subtle-color;
+}
+
+.subtle {
+  color: @subtle-color;
+}
+
+.main-content {
+  margin-top: @header-height + 5vh;
+}
+
+.match-summary {
+  display: flex;
+  justify-content: space-between;
+  .user {
+    font-weight: bold;
   }
 }
 

@@ -5,6 +5,8 @@ import React from 'react'
 import Api from './api/'
 import ExpandedInfo from './expandedInfo'
 import getUserNameElement from './getUserNameElement'
+import HistoryPanel from './historyPanel'
+import MainContent from './mainContent'
 import Panel from './panel'
 import state from './state/'
 import TitleBar from './titleBar'
@@ -110,7 +112,7 @@ class Leaderboard extends React.Component {
     const getRatingElement = (user) => {
       const className = [
         'rating',
-        user.num_pending ? 'pending' : null
+        user.num_pending ? 'subtle' : null
       ].filter(Boolean).join(' ')
       return (
         <span className={className}>
@@ -123,7 +125,7 @@ class Leaderboard extends React.Component {
     const getRecordElement = (user) => {
       const className = [
         'win-loss-record',
-        user.num_pending ? 'pending' : null
+        user.num_pending ? 'subtle' : null
       ].filter(Boolean).join(' ')
       return (
         <span className={className}>
@@ -195,10 +197,11 @@ class Leaderboard extends React.Component {
   render() {
     return (
       <section>
-        <header>
-          <TitleBar />
-        </header>
-        {this._getLeaderboardContent()}
+        <TitleBar />
+        <MainContent>
+          {this._getLeaderboardContent()}
+          <HistoryPanel />
+        </MainContent>
       </section>
     )
   }
