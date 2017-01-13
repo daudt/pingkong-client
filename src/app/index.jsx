@@ -7,6 +7,7 @@ import Game from './game'
 import Leaderboard from './leaderboard'
 import Logo from './logo'
 import LoginPage from './loginPage'
+import ProfilePage from './profilePage'
 import RegisterPage from './registerPage'
 import Toast from './toast'
 import state from './state/'
@@ -36,6 +37,11 @@ const PAGE_TEMPLATE_FNS = {
   login: () => (
     <section className="UIOverlay">
       <LoginPage />
+    </section>
+  ),
+  profile: () => (
+    <section className="UIOverlay">
+      <ProfilePage />
     </section>
   ),
   register: () => (

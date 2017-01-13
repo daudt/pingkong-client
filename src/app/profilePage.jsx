@@ -42,12 +42,10 @@ class ProfilePage extends React.Component {
     this.refs.updateBtn.setAttribute('disabled', 'disabled')
     this.refs.cancelBtn.setAttribute('disabled', 'disabled')
     const data = {
-      id: state.me.id,
-      nickname: 'blah'
+      nickname: this.refs.nicknameInput.value
     }
-    console.log('data', data)
-    Api._post('user', data)
-      .then((blah) => console.log('got', blah))
+    Api._put(`users/${state.me.id}`, data)
+      .then(() => state.setPage('leaderboard'))
   }
 
   _handleCancel() {

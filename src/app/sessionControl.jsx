@@ -54,10 +54,17 @@ class SessionControl extends React.Component {
     if (state.me) {
       return (
         <span>
-          Logged in: {state.me.nickname || state.me.name}
+          Logged in:
+          <button onClick={this._clickProfile.bind(this)}>
+            {state.me.nickname || state.me.name}
+          </button>
         </span>
       )
     }
+  }
+
+  _clickProfile() {
+    state.setPage('profile')
   }
 
   render() {

@@ -5,6 +5,7 @@ import state from '../state'
 import Toast from '../toast'
 
 const BASE_URL = 'https://www.kingofpong.com/api'
+// const BASE_URL = 'http://localhost:3000/api'
 
 const TOKEN_TYPE = 'Bearer'
 
@@ -188,6 +189,35 @@ class Api {
       }
     })
   }
+
+  static _put(endpoint, data) {
+    return new Promise((resolve, reject) => {
+      const url = `${BASE_URL}/${endpoint}`
+
+      if (Session.isActive()) {
+        console.debug('Post (authenticated)', data)
+        request.put(url, data)
+          .set('token-type',    TOKEN_TYPE)
+          .set('client',        Session.getClientID())
+          .set('uid',           Session.getUID())
+          .set('access-token',  Session.getToken())
+          .set('Accept',        'application/json')
+          .set('Content-Type',  'application/json')
+          .end((err, res) => {
+            if (err) {
+              Toast.open(err.message)
+              console.error(err)
+              reject(err)
+            } else {
+              resolve(res)
+            }
+          })
+      } else {
+        reject()
+      }
+    })
+  }
+
 }
 
 export default Api
