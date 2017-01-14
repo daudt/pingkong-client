@@ -176,20 +176,23 @@ class Leaderboard extends React.Component {
 
   _getLeaderboardContent() {
     if (this.state.rankedUsers) {   // leaderboard has loaded
-      const subTitleElement = state.me ? <div className="panel-subtitle">Select your opponent to record a match.</div> : <div className="panel-subtitle warning">Login to record a game.</div>
+      const subTitleElement = state.me ? <div className="panel-subtitle">Select your opponent to record a match.</div> : <div className="panel-subtitle warning">Login to record a match.</div>
       const pendingMemo = this.state.rankedUsers.some((user) => !!user.num_pending) ? <div className="panel-subtitle">* Has unconfirmed matches</div> : null
       return (
-        <Panel className='leaderboard'>
-          <h3>
-            LEADERBOARD
-          </h3>
-          {subTitleElement}
-          <div className="panel-section">
-            {this._getHeaderElement()}
-            {this.state.rankedUsers.map(this._getUserElement.bind(this))}
-          </div>
-          {pendingMemo}
-        </Panel>
+        <span>
+          <Panel className='leaderboard'>
+            <h3>
+              LEADERBOARD
+            </h3>
+            {subTitleElement}
+            <div className="panel-section">
+              {this._getHeaderElement()}
+              {this.state.rankedUsers.map(this._getUserElement.bind(this))}
+            </div>
+            {pendingMemo}
+          </Panel>
+          <HistoryPanel />
+        </span>
       )
     }
   }
@@ -200,7 +203,6 @@ class Leaderboard extends React.Component {
         <TitleBar />
         <MainContent>
           {this._getLeaderboardContent()}
-          <HistoryPanel />
         </MainContent>
       </section>
     )

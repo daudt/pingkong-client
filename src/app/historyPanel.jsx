@@ -1,10 +1,44 @@
 import moment from 'moment'
 import React from 'react'
+import reactStringReplace from 'react-string-replace'
+import seedrandom from 'seedrandom'
 
 import Api from './api/'
 import Panel from './panel'
 
+const SEED = "why do ninjas always be stealin' my cornbread?"
+
 const NUM_TO_SHOW = 10
+
+const TEMPLATES = [
+  '(W) done beat (L) without much fanfare.',
+  '(W) knocked (L) into next Tuesday.',
+  '(W) cracked open a can of whoop-ass on (L).',
+  '(W) served (L) a triple venti latte of doom.',
+  '(W) won a ping pong match against (L).',
+  'When the dust settled, (L) was struggling to stand up from the smoking crater. (W) was already on a plane to Maui.',
+  '(L) did not defeat (W), but you gotta admit, that behind-the-back shot was pretty impressive.',
+  '(W) successfully used some bizarre reverse psychology mind tricks on (L).',
+  'It was dramatic, but in the end, (W) was victorious over (L).',
+  '(L) is now nursing a bruised ego, courtesy of (W).',
+  '(W) made a bigger number than (L).',
+  '(L) yelled "I want revenge, (W)! Aaarrghh!"',
+  'In a strange turn of events, (W) won! Everyone be like whaaaaaat? (L) is sad.',
+  '(W) scored more points than (L), which is technically a "win".',
+  '(W) used the Epic Paddle of +2 Top Spin to defeat (L).',
+  '(L) yelled "NooOOoOOooo!" as (W) laughed.',
+  '(L) and (W) entered the arena, but only (W) left.',
+  'The points scored by (L) were fewer and less impressively executed than (W)\'s.',
+  '"Dear (L), please see the attached photo of you crying hysterically, and refer to it often. Signed, (W)."',
+  '(L) played (W) and now (L) is in a dirt nap.',
+  '(W) utterly destroyed (L). Maybe joining a book club would be more your speed?',
+  'The Ukrainian judge gave (W) a 9.5 for style and (L) only a 6.8.',
+  '(L) probably woulda won, but was disqualified for wearing a distracting and ridiculous hat. (W) won by default.',
+  '(L) bought the farm that (W) was selling.',
+  '(W) voted (L) off the island.',
+  '(W) was so good at stopping (L)\'s serves, you could say it was a denial-of-service attack.',
+  '(W) was hitting on (L), but not in that way.',
+]
 
 function getMatchDateStr(timestamp) {
   return moment.unix(timestamp).format('MMM D YYYY')
@@ -26,29 +60,49 @@ class HistoryPanel extends React.Component {
       })
   }
 
+  _getRandomForID(id) {
+    const rng = seedrandom(SEED)
+    let currentID = 0
+    let random = rng()
+    while(currentID < id) {
+      random = rng()
+      currentID++
+    }
+    return random
+  }
+
   render() {
     if (this.state.matchSummaries.length) {
       let hasUnconfirmed = false
+
+      let keyCount = 0
       const summaryElements = this.state.matchSummaries.slice(0, NUM_TO_SHOW).map((matchSummary, i) => {
         if (!matchSummary.confirmed) {
           hasUnconfirmed = true
         }
+
         const className = [
           'match-summary',
           !matchSummary.is_confirmed ? 'subtle' : null
         ].filter(Boolean).join(' ')
+
+        const matchID = this.state.matchSummaries.length - 1 - i
+        const template = TEMPLATES[Math.floor(this._getRandomForID(matchID) * TEMPLATES.length)]
+        let summaryTextElement = reactStringReplace(template, '(W)', (match) => {
+          return <span className="user winner" key={keyCount++}>{matchSummary.winner_name}</span>
+        })
+        summaryTextElement = reactStringReplace(summaryTextElement, '(L)', (match) => {
+          return <span className="user loser" key={keyCount++}>{matchSummary.loser_name}</span>
+        })
+
         return (
           <div className="panel-section" key={i}>
             <span className={className}>
               <span>
-                <span className="user">
-                  {matchSummary.winner_name}
-                </span> beat <span className="user">
-                  {matchSummary.loser_name}
-                </span>
+                {summaryTextElement}
                 {!matchSummary.is_confirmed ? '*' : null}
               </span>
-              <span>
+              <span className="date">
                 {getMatchDateStr(matchSummary.utc)}
               </span>
             </span>
@@ -60,7 +114,7 @@ class HistoryPanel extends React.Component {
       return (
         <Panel>
           <h3>
-            HISTORY (LAST {NUM_TO_SHOW})
+            LAST {NUM_TO_SHOW} MATCHES
           </h3>
           {summaryElements}
           {unconfirmedMemo}

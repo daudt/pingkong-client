@@ -1,11 +1,14 @@
 @primary-color: #246;
 @subtle-color: #8AC;
 
+@red: #ea3e3a;
+@green: #2AE38B;
+
 @selected-color: #3c77b3; // lighten(@primary-color, 20%)
 @header-color: #123;
 @hover-color: #123; // darken(@primary-color, 10%)
-@ready-color: #2AE38B;
-@warning-color: #ea3e3a;
+@ready-color: @green;
+@warning-color: @red;
 
 @header-height: 15vh;
 @header-logo-height: 8vh;
@@ -241,6 +244,7 @@ button {
   margin-right: auto;
   margin-top: 10px;
   margin-bottom: 10px;
+  font-weight: bold;
   &.hidden {
     transform: rotateY(90deg);
   }
@@ -283,8 +287,20 @@ button {
 .match-summary {
   display: flex;
   justify-content: space-between;
+  font-weight: bold;
   .user {
     font-weight: bold;
+    &.winner {
+      color: tint(@green, 75%);
+    }
+    &.loser {
+      color: tint(@red, 60%);
+    }
+  }
+  .date {
+    margin-left: 20px;
+    white-space: nowrap;
+    font-size: 80%;
   }
 }
 
