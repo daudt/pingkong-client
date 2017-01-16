@@ -17,7 +17,7 @@ const TEMPLATES = [
   '(W) served (L) a triple venti latte of doom.',
   'Allegedly, (W) won a ping pong match against (L).',
   'When the dust settled, (L) was struggling to stand up from the smoking crater. (W) was already on a plane to Maui.',
-  '(L) did not defeat (W), but you gotta admit, that behind-the-back shot was pretty impressive.',
+  '(L) did not defeat (W), but you gotta admit, that behind-the-back shot was pretty cool.',
   '(W) successfully used some bizarre reverse psychology mind tricks on (L).',
   'It was dramatic, but in the end, (W) was victorious over (L).',
   '(L) is now nursing a bruised ego, courtesy of (W).',
@@ -44,8 +44,13 @@ const TEMPLATES = [
   '(L) took (W) to school, but (W) already knows everything, so that kinda backfired.',
   'Wow. Such ping pong. (W) very winning. Much sad (L).',
   '(W) should be put in quarantine because those skillz are so ill, and (L) couldn\'t handle being exposed to them.',
-  '(W) and (L) played. We think (W) won, but all the spectators fell asleep from the boredom.',
+  '(W) and (L) played. We think (W) won, but the spectators fell asleep from all that boredom.',
   'A "bull in a China shop" is a good way to describe the match, if the bull was (W) and the China shop was (L).',
+  '(W) is making it rain at (L)\'s expense.',
+  'Try googling "how to beat (W) at ping pong", (L).',
+  '(W) bought (L) a one-way ticket to Loser Town.',
+  '(L) brought a Wiimote to a ping pong party, failing to read the invitation carefully. (W) won easily.',
+  '(L) really flew off the handle. And by that, I mean (L) lost grip of the paddle, which flew across the room, broke in two, and scared (W)\'s cat.',
 ]
 
 function getMatchDateStr(timestamp) {
@@ -80,10 +85,22 @@ class HistoryPanel extends React.Component {
   }
 
   render() {
+    const getSummaryTextElement = (matchSummary) => {
+      const matchID = matchSummary.id
+      const template = TEMPLATES[Math.floor(this._getRandomForID(matchID) * TEMPLATES.length)]
+      let summaryTextElement = reactStringReplace(template, '(W)', (match) => {
+        return <span className="user winner" key={keyCount++}>{matchSummary.winner_name}</span>
+      })
+      summaryTextElement = reactStringReplace(summaryTextElement, '(L)', (match) => {
+        return <span className="user loser" key={keyCount++}>{matchSummary.loser_name}</span>
+      })
+      return summaryTextElement
+    }
+
+    let keyCount = 0
     if (this.state.matchSummaries.length) {
       let hasUnconfirmed = false
 
-      let keyCount = 0
       const summaryElements = this.state.matchSummaries.slice(0, NUM_TO_SHOW).map((matchSummary, i) => {
         if (!matchSummary.confirmed) {
           hasUnconfirmed = true
@@ -94,20 +111,11 @@ class HistoryPanel extends React.Component {
           !matchSummary.is_confirmed ? 'subtle' : null
         ].filter(Boolean).join(' ')
 
-        const matchID = this.state.matchSummaries.length - 1 - i
-        const template = TEMPLATES[Math.floor(this._getRandomForID(matchID) * TEMPLATES.length)]
-        let summaryTextElement = reactStringReplace(template, '(W)', (match) => {
-          return <span className="user winner" key={keyCount++}>{matchSummary.winner_name}</span>
-        })
-        summaryTextElement = reactStringReplace(summaryTextElement, '(L)', (match) => {
-          return <span className="user loser" key={keyCount++}>{matchSummary.loser_name}</span>
-        })
-
         return (
           <div className="panel-section" key={i}>
             <span className={className}>
               <span>
-                {summaryTextElement}
+                {getSummaryTextElement(matchSummary)}
                 {!matchSummary.is_confirmed ? '*' : null}
               </span>
               <span className="date">
