@@ -1,18 +1,13 @@
-import {observable} from 'mobx'
-import {observer} from 'mobx-react'
+import { observable } from 'mobx'
+import { observer } from 'mobx-react'
 import React from 'react'
 
 import Api from './api/'
-import ExpandedInfo from './expandedInfo'
-import HistoryPanel from './historyPanel'
 import MainContent from './mainContent'
-import Panel from './panel'
 import state from './state/'
 import TitleBar from './titleBar'
-import Toast from './toast'
 
-import Header from './leaderboard/header'
-import User from './leaderboard/user'
+import LeaderboardContent from './leaderboard/leaderboardContent'
 
 const CACHED_RATINGS_KEY = 'cachedRatings'
 
@@ -75,47 +70,18 @@ class Leaderboard extends React.Component {
     window.localStorage.setItem(CACHED_RATINGS_KEY, JSON.stringify(ratings))
   }
 
-  _getLeaderboardContent() {
-    if (this.state.rankedUsers) {   // leaderboard has loaded
-      const subTitleElement = state.me ? <div className="panel-subtitle">Select your opponent to record a match.</div> : <div className="panel-subtitle warning">Login to record a match.</div>
-      const pendingMemo = this.state.rankedUsers.some((user) => !!user.num_pending) ? <div className="panel-subtitle">* Has unconfirmed matches</div> : null
-      const makeUser = (user, index) => (
-        <User
-          key={ user.id }
-          user={ user }
-          index={ index }
-          me={ state.me }
-          deltas={ this.state.deltas }
-          isExpandedUser={ this._expandedUser === user }
-          handleClick={ this._handleClick.bind(this, user) }
-        />
-      )
-
-      return (
-        <span>
-          <Panel className='leaderboard'>
-            <h3>
-              LEADERBOARD
-            </h3>
-            {subTitleElement}
-            <div className="panel-section">
-              <Header />
-              {this.state.rankedUsers.map( makeUser )}
-            </div>
-            {pendingMemo}
-          </Panel>
-          <HistoryPanel />
-        </span>
-      )
-    }
-  }
-
   render() {
     return (
       <section>
         <TitleBar />
         <MainContent>
-          {this._getLeaderboardContent()}
+          <LeaderboardContent
+            rankedUsers={ this.state.rankedUsers }
+            me={ state.me }
+            deltas={ this.state.deltas }
+            expandedUser={ this._expandedUser }
+            handleClick={ this._handleClick.bind(this) }
+          />
         </MainContent>
       </section>
     )
