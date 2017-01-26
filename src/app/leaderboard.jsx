@@ -51,23 +51,24 @@ class Leaderboard extends React.Component {
             me={ state.me }
             deltas={ this.state.deltas }
             expandedUser={ this._expandedUser }
-            handleClick={ this._handleClick.bind(this) }
+            handleClick={ handleUserClick.bind(null) }
           />
         </MainContent>
       </section>
     )
   }
 
-  _handleClick(user, evt) {
-    if (user.id !== state.me.id) {
-      // state.setPage('game', { you: state.me, them: user })
-      navigator.openGamePage(user)
-    }
-  }
-
   _handleStatsClick(user, evt) {
     evt.stopPropagation()
     this._expandedUser = (this._expandedUser !== user) ? user : null
+  }
+}
+
+function handleUserClick(user, evt) {
+  return function(evt) {
+    if (user.id !== state.me.id) {
+      navigator.openGamePage(user)
+    }
   }
 }
 

@@ -21,7 +21,7 @@ const LeaderboardContent = ({ rankedUsers, me, deltas, expandedUser, handleClick
       me={ me }
       deltas={ deltas }
       isExpandedUser={ expandedUser === user }
-      handleClick={ handleClick.bind(null, user) }
+      handleClick={ handleClick(user) }
     />
   )
 
