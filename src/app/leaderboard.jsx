@@ -12,6 +12,7 @@ import TitleBar from './titleBar'
 import Toast from './toast'
 
 import Avatar from './leaderboard/avatar'
+import Delta from './leaderboard/delta'
 import Header from './leaderboard/header'
 import Rating from './leaderboard/rating'
 import Record from './leaderboard/record'
@@ -81,21 +82,6 @@ class Leaderboard extends React.Component {
   _getUserElement(user, index) {
     const isExpandedUser = (this._expandedUser === user)
 
-    const getDeltaElement = (userID) => {
-      if (user.num_matches) {
-        const userDelta = this.state.deltas.find((delta) => delta.userID === userID)
-        if (userDelta) {
-          const ratingDelta   = userDelta.delta
-          const className     = (ratingDelta > 0) ? 'increase' : 'decrease'
-          const prefix        = (ratingDelta > 0) ? '+' : '-'
-          const displayValue  = `${prefix}${Math.abs(ratingDelta)}`
-          return (
-            <span className={className}>{displayValue}</span>
-          )
-        }
-      }
-    }
-
     // check if logged in AND not selecting self
     const canChallengeOpponent = !!state.me && user.id !== state.me.id
 
@@ -122,7 +108,7 @@ class Leaderboard extends React.Component {
           <span>{index + 1}</span>
           <Avatar image={ user.image } />
           <UserName user={ user } />
-          {getDeltaElement(user.id)}
+          <Delta user={ user } userDelta={ this.state.deltas.find((delta) => delta.userID === userID) } />
           <Rating user={ user } />
           <Record user={ user } />
           {/*
