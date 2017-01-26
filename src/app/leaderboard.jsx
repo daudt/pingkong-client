@@ -13,6 +13,8 @@ import TitleBar from './titleBar'
 import Toast from './toast'
 
 import Header from './leaderboard/header'
+import Rating from './leaderboard/rating'
+import Record from './leaderboard/record'
 
 const CACHED_RATINGS_KEY = 'cachedRatings'
 
@@ -111,32 +113,6 @@ class Leaderboard extends React.Component {
 
     const avatarElement = user.image ? <img className="avatar" src={user.image} /> : <div className="avatar" />
 
-    const getRatingElement = (user) => {
-      const className = [
-        'rating',
-        user.num_pending ? 'subtle' : null
-      ].filter(Boolean).join(' ')
-      return (
-        <span className={className}>
-          {user.num_matches ? user.rating : ''}
-          {user.num_pending ? '*' : ''}
-        </span>
-      )
-    }
-
-    const getRecordElement = (user) => {
-      const className = [
-        'win-loss-record',
-        user.num_pending ? 'subtle' : null
-      ].filter(Boolean).join(' ')
-      return (
-        <span className={className}>
-          {user.num_matches ? `${user.num_wins}-${user.num_losses}` : ''}
-          {user.num_pending ? '*' : ''}
-        </span>
-      )
-    }
-
     return (
       <div
       key={user.id}
@@ -148,8 +124,8 @@ class Leaderboard extends React.Component {
           {avatarElement}
           {getUserNameElement(user)}
           {getDeltaElement(user.id)}
-          {getRatingElement(user)}
-          {getRecordElement(user)}
+          <Rating user={ user } />
+          <Record user={ user } />
           {/*
           <span className="arrow" onClick={this._handleStatsClick.bind(this, user)}>
             {isExpandedUser ? String.fromCharCode('9650') : String.fromCharCode('9660')}
