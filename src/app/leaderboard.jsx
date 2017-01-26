@@ -4,7 +4,6 @@ import React from 'react'
 
 import Api from './api/'
 import ExpandedInfo from './expandedInfo'
-import getUserNameElement from './getUserNameElement'
 import HistoryPanel from './historyPanel'
 import MainContent from './mainContent'
 import Panel from './panel'
@@ -16,6 +15,7 @@ import Avatar from './leaderboard/avatar'
 import Header from './leaderboard/header'
 import Rating from './leaderboard/rating'
 import Record from './leaderboard/record'
+import UserName from './leaderboard/userName'
 
 const CACHED_RATINGS_KEY = 'cachedRatings'
 
@@ -121,7 +121,7 @@ class Leaderboard extends React.Component {
         <div>
           <span>{index + 1}</span>
           <Avatar image={ user.image } />
-          {getUserNameElement(user)}
+          <UserName user={ user } />
           {getDeltaElement(user.id)}
           <Rating user={ user } />
           <Record user={ user } />

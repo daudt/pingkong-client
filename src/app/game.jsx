@@ -3,7 +3,6 @@ import { observer } from 'mobx-react'
 import React from 'react'
 
 import Api from './api/'
-import getUserNameElement from './getUserNameElement'
 import MainContent from './mainContent'
 import state from './state/'
 import Panel from './panel'
@@ -11,6 +10,7 @@ import TitleBar from './titleBar'
 import Toast from './toast'
 
 import Avatar from './leaderboard/avatar'
+import UserName from './leaderboard/userName'
 
 @observer
 class Game extends React.Component {
@@ -59,7 +59,7 @@ class Game extends React.Component {
           >
           <h1>{label}</h1>
           <Avatar image={ user.image } />
-          {getUserNameElement(user)}
+          <UserName user={ user } />
           <h1>{this._getResultText(user)}</h1>
         </div>
       )
