@@ -12,6 +12,7 @@ import state from './state/'
 import TitleBar from './titleBar'
 import Toast from './toast'
 
+import Avatar from './leaderboard/avatar'
 import Header from './leaderboard/header'
 import Rating from './leaderboard/rating'
 import Record from './leaderboard/record'
@@ -111,8 +112,6 @@ class Leaderboard extends React.Component {
 
     const clickHandler = canChallengeOpponent && this._handleClick.bind(this, user)
 
-    const avatarElement = user.image ? <img className="avatar" src={user.image} /> : <div className="avatar" />
-
     return (
       <div
       key={user.id}
@@ -121,7 +120,7 @@ class Leaderboard extends React.Component {
       >
         <div>
           <span>{index + 1}</span>
-          {avatarElement}
+          <Avatar image={ user.image } />
           {getUserNameElement(user)}
           {getDeltaElement(user.id)}
           <Rating user={ user } />

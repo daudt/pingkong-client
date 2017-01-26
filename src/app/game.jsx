@@ -10,6 +10,8 @@ import Panel from './panel'
 import TitleBar from './titleBar'
 import Toast from './toast'
 
+import Avatar from './leaderboard/avatar'
+
 @observer
 class Game extends React.Component {
 
@@ -49,14 +51,6 @@ class Game extends React.Component {
 
   render() {
 
-    const createAvatarElement = (user) => {
-      if (user.image) {
-        return <img className='avatar' src={user.image} />
-      } else {
-        return <div className='avatar' />
-      }
-    }
-
     const createUserSelector = (user, label) => {
       return (
         <div
@@ -64,7 +58,7 @@ class Game extends React.Component {
           className={this._getClass(user)}
           >
           <h1>{label}</h1>
-          {createAvatarElement(user)}
+          <Avatar image={ user.image } />
           {getUserNameElement(user)}
           <h1>{this._getResultText(user)}</h1>
         </div>
