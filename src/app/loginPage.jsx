@@ -2,6 +2,7 @@ import React from 'react'
 
 import LoginPanel from './loginPanel'
 import MainContent from './mainContent'
+
 import TitleBar from './titleBar'
 
 class LoginPage extends React.Component {
