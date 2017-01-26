@@ -1,6 +1,6 @@
 import React from 'react'
 
-import createClassNameString from '../createClassNameString'
+import createClassNameString from '../utils/createClassNameString'
 
 const classes = (pending) => createClassNameString('win-loss-record', pending ? 'subtle' : null)
 

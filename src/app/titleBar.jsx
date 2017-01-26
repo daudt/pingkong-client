@@ -1,12 +1,12 @@
 import React from 'react'
 
 import SessionControl from './sessionControl'
-import setPage from './setPage'
+import navigator from './utils/navigator'
 
 const TitleBar = () => (
   <header>
     <div className="flex-column">
-      <img src="/app/king-pong-logo-wide.png" className="logo" onClick={ setPage } />
+      <img src="/app/king-pong-logo-wide.png" className="logo" onClick={ navigator.setPage } />
       <SessionControl />
     </div>
   </header>

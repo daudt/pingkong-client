@@ -4,11 +4,13 @@ import React from 'react'
 
 import Api from './api/'
 import MainContent from './mainContent'
-import ratingsCache from './ratingsCache'
 import state from './state/'
 import TitleBar from './titleBar'
 
 import LeaderboardContent from './leaderboard/leaderboardContent'
+
+import navigator from './utils/navigator'
+import ratingsCache from './utils/ratingsCache'
 
 @observer
 class Leaderboard extends React.Component {
@@ -58,7 +60,8 @@ class Leaderboard extends React.Component {
 
   _handleClick(user, evt) {
     if (user.id !== state.me.id) {
-      state.setPage('game', { you: state.me, them: user })
+      // state.setPage('game', { you: state.me, them: user })
+      navigator.openGamePage(user)
     }
   }
 

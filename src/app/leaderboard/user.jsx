@@ -6,7 +6,7 @@ import Rating from './rating'
 import Record from './record'
 import UserName from './userName'
 
-import createClassNameString from '../createClassNameString'
+import createClassNameString from '../utils/createClassNameString'
 
 const classes = (user, me, canChallengeOpponent) => createClassNameString(
   'user',
