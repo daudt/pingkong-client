@@ -4,12 +4,11 @@ import React from 'react'
 
 import Api from './api/'
 import MainContent from './mainContent'
+import ratingsCache from './ratingsCache'
 import state from './state/'
 import TitleBar from './titleBar'
 
 import LeaderboardContent from './leaderboard/leaderboardContent'
-
-const CACHED_RATINGS_KEY = 'cachedRatings'
 
 @observer
 class Leaderboard extends React.Component {
@@ -31,43 +30,13 @@ class Leaderboard extends React.Component {
         const stateUpdates = {
           rankedUsers
         }
-        const newDeltas = this._getUserDeltas(rankedUsers) || []
+        const newDeltas = ratingsCache.getUserDeltas(rankedUsers)
         if (newDeltas.length) {
           stateUpdates.deltas = newDeltas
         }
-        this._updateCachedRatings(rankedUsers)
+        ratingsCache.update(rankedUsers)
         this.setState(stateUpdates)
       })
-  }
-
-  _getUserDeltas(rankedUsers) {
-    const cachedRatings = this._getCachedRatings()
-    if (!cachedRatings) {
-      return
-    }
-    return cachedRatings
-      .map((cachedRating) => {
-        const leaderboardUser = rankedUsers.find((user) => user.id === cachedRating.userID)
-        return leaderboardUser && (leaderboardUser.rating !== cachedRating.rating) ? { userID: cachedRating.userID, delta: leaderboardUser.rating - cachedRating.rating } : null
-      })
-      .filter(Boolean)
-  }
-
-  _getCachedRatings() {
-    const ratingsStr = window.localStorage.getItem(CACHED_RATINGS_KEY)
-    if (ratingsStr) {
-      return JSON.parse(ratingsStr)
-    }
-  }
-
-  _updateCachedRatings(rankedUsers) {
-    const ratings = rankedUsers.map((user) => {
-      return {
-        userID: user.id,
-        rating: user.rating
-      }
-    })
-    window.localStorage.setItem(CACHED_RATINGS_KEY, JSON.stringify(ratings))
   }
 
   render() {
