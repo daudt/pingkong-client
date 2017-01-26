@@ -11,12 +11,8 @@ import state from './state/'
 import TitleBar from './titleBar'
 import Toast from './toast'
 
-import Avatar from './leaderboard/avatar'
-import Delta from './leaderboard/delta'
 import Header from './leaderboard/header'
-import Rating from './leaderboard/rating'
-import Record from './leaderboard/record'
-import UserName from './leaderboard/userName'
+import User from './leaderboard/user'
 
 const CACHED_RATINGS_KEY = 'cachedRatings'
 
@@ -79,55 +75,22 @@ class Leaderboard extends React.Component {
     window.localStorage.setItem(CACHED_RATINGS_KEY, JSON.stringify(ratings))
   }
 
-  _getUserElement(user, index) {
-    const isExpandedUser = (this._expandedUser === user)
-
-    // check if logged in AND not selecting self
-    const canChallengeOpponent = !!state.me && user.id !== state.me.id
-
-    const className = (() => {
-      const classNames = [ 'user' ]
-      if (canChallengeOpponent) {
-        classNames.push('active')
-      }
-      if (state.me && user.id === state.me.id) {
-        classNames.push('selected')
-      }
-      return classNames.join(' ')
-    })()
-
-    const clickHandler = canChallengeOpponent && this._handleClick.bind(this, user)
-
-    return (
-      <div
-      key={user.id}
-      className={className}
-      onClick={clickHandler}
-      >
-        <div>
-          <span>{index + 1}</span>
-          <Avatar image={ user.image } />
-          <UserName user={ user } />
-          <Delta user={ user } userDelta={ this.state.deltas.find((delta) => delta.userID === userID) } />
-          <Rating user={ user } />
-          <Record user={ user } />
-          {/*
-          <span className="arrow" onClick={this._handleStatsClick.bind(this, user)}>
-            {isExpandedUser ? String.fromCharCode('9650') : String.fromCharCode('9660')}
-          </span>
-          */}
-        </div>
-        {/*
-        {isExpandedUser ? <ExpandedInfo user={user} /> : null}
-        */}
-      </div>
-    )
-  }
-
   _getLeaderboardContent() {
     if (this.state.rankedUsers) {   // leaderboard has loaded
       const subTitleElement = state.me ? <div className="panel-subtitle">Select your opponent to record a match.</div> : <div className="panel-subtitle warning">Login to record a match.</div>
       const pendingMemo = this.state.rankedUsers.some((user) => !!user.num_pending) ? <div className="panel-subtitle">* Has unconfirmed matches</div> : null
+      const makeUser = (user, index) => (
+        <User
+          key={ user.id }
+          user={ user }
+          index={ index }
+          me={ state.me }
+          deltas={ this.state.deltas }
+          isExpandedUser={ this._expandedUser === user }
+          handleClick={ this._handleClick.bind(this, user) }
+        />
+      )
+
       return (
         <span>
           <Panel className='leaderboard'>
@@ -137,7 +100,7 @@ class Leaderboard extends React.Component {
             {subTitleElement}
             <div className="panel-section">
               <Header />
-              {this.state.rankedUsers.map(this._getUserElement.bind(this))}
+              {this.state.rankedUsers.map( makeUser )}
             </div>
             {pendingMemo}
           </Panel>
