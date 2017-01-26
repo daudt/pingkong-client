@@ -12,6 +12,8 @@ import state from './state/'
 import TitleBar from './titleBar'
 import Toast from './toast'
 
+import Header from './leaderboard/header'
+
 const CACHED_RATINGS_KEY = 'cachedRatings'
 
 @observer
@@ -161,19 +163,6 @@ class Leaderboard extends React.Component {
     )
   }
 
-  _getHeaderElement() {
-    return (
-      <div className="user">
-        <div>
-          <span>RANK</span>
-          <span></span>
-          <span>RATING</span>
-          <span className="win-loss-record">W-L</span>
-        </div>
-      </div>
-    )
-  }
-
   _getLeaderboardContent() {
     if (this.state.rankedUsers) {   // leaderboard has loaded
       const subTitleElement = state.me ? <div className="panel-subtitle">Select your opponent to record a match.</div> : <div className="panel-subtitle warning">Login to record a match.</div>
@@ -186,7 +175,7 @@ class Leaderboard extends React.Component {
             </h3>
             {subTitleElement}
             <div className="panel-section">
-              {this._getHeaderElement()}
+              <Header />
               {this.state.rankedUsers.map(this._getUserElement.bind(this))}
             </div>
             {pendingMemo}
