@@ -1,25 +1,15 @@
 import React from 'react'
 
 import SessionControl from './sessionControl'
-import state from './state/'
+import navigator from './utils/navigator'
 
-class TitleBar extends React.Component {
-
-  render() {
-    return (
-      <header>
-        <div className="flex-column">
-          <img src="/app/king-pong-logo-wide.png" className="logo" onClick={this._clickLogo.bind(this)} />
-          <SessionControl />
-        </div>
-      </header>
-    )
-  }
-
-  _clickLogo() {
-    state.setPage('leaderboard')
-  }
-
-}
+const TitleBar = () => (
+  <header>
+    <div className="flex-column">
+      <img src="/app/king-pong-logo-wide.png" className="logo" onClick={ navigator.setPage } />
+      <SessionControl />
+    </div>
+  </header>
+)
 
 export default TitleBar

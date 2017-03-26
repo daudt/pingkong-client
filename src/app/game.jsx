@@ -3,12 +3,14 @@ import { observer } from 'mobx-react'
 import React from 'react'
 
 import Api from './api/'
-import getUserNameElement from './getUserNameElement'
 import MainContent from './mainContent'
 import state from './state/'
 import Panel from './panel'
 import TitleBar from './titleBar'
 import Toast from './toast'
+
+import Avatar from './leaderboard/avatar'
+import UserName from './leaderboard/userName'
 
 @observer
 class Game extends React.Component {
@@ -49,14 +51,6 @@ class Game extends React.Component {
 
   render() {
 
-    const createAvatarElement = (user) => {
-      if (user.image) {
-        return <img className='avatar' src={user.image} />
-      } else {
-        return <div className='avatar' />
-      }
-    }
-
     const createUserSelector = (user, label) => {
       return (
         <div
@@ -64,8 +58,8 @@ class Game extends React.Component {
           className={this._getClass(user)}
           >
           <h1>{label}</h1>
-          {createAvatarElement(user)}
-          {getUserNameElement(user)}
+          <Avatar image={ user.image } />
+          <UserName user={ user } />
           <h1>{this._getResultText(user)}</h1>
         </div>
       )

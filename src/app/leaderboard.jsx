@@ -1,18 +1,16 @@
-import {observable} from 'mobx'
-import {observer} from 'mobx-react'
+import { observable } from 'mobx'
+import { observer } from 'mobx-react'
 import React from 'react'
 
 import Api from './api/'
-import ExpandedInfo from './expandedInfo'
-import getUserNameElement from './getUserNameElement'
-import HistoryPanel from './historyPanel'
 import MainContent from './mainContent'
-import Panel from './panel'
 import state from './state/'
 import TitleBar from './titleBar'
-import Toast from './toast'
 
-const CACHED_RATINGS_KEY = 'cachedRatings'
+import LeaderboardContent from './leaderboard/leaderboardContent'
+
+import navigator from './utils/navigator'
+import ratingsCache from './utils/ratingsCache'
 
 @observer
 class Leaderboard extends React.Component {
@@ -34,167 +32,13 @@ class Leaderboard extends React.Component {
         const stateUpdates = {
           rankedUsers
         }
-        const newDeltas = this._getUserDeltas(rankedUsers) || []
+        const newDeltas = ratingsCache.getUserDeltas(rankedUsers)
         if (newDeltas.length) {
           stateUpdates.deltas = newDeltas
         }
-        this._updateCachedRatings(rankedUsers)
+        ratingsCache.update(rankedUsers)
         this.setState(stateUpdates)
       })
-  }
-
-  _getUserDeltas(rankedUsers) {
-    const cachedRatings = this._getCachedRatings()
-    if (!cachedRatings) {
-      return
-    }
-    return cachedRatings
-      .map((cachedRating) => {
-        const leaderboardUser = rankedUsers.find((user) => user.id === cachedRating.userID)
-        return leaderboardUser && (leaderboardUser.rating !== cachedRating.rating) ? { userID: cachedRating.userID, delta: leaderboardUser.rating - cachedRating.rating } : null
-      })
-      .filter(Boolean)
-  }
-
-  _getCachedRatings() {
-    const ratingsStr = window.localStorage.getItem(CACHED_RATINGS_KEY)
-    if (ratingsStr) {
-      return JSON.parse(ratingsStr)
-    }
-  }
-
-  _updateCachedRatings(rankedUsers) {
-    const ratings = rankedUsers.map((user) => {
-      return {
-        userID: user.id,
-        rating: user.rating
-      }
-    })
-    window.localStorage.setItem(CACHED_RATINGS_KEY, JSON.stringify(ratings))
-  }
-
-  _getUserElement(user, index) {
-    const isExpandedUser = (this._expandedUser === user)
-
-    const getDeltaElement = (userID) => {
-      if (user.num_matches) {
-        const userDelta = this.state.deltas.find((delta) => delta.userID === userID)
-        if (userDelta) {
-          const ratingDelta   = userDelta.delta
-          const className     = (ratingDelta > 0) ? 'increase' : 'decrease'
-          const prefix        = (ratingDelta > 0) ? '+' : '-'
-          const displayValue  = `${prefix}${Math.abs(ratingDelta)}`
-          return (
-            <span className={className}>{displayValue}</span>
-          )
-        }
-      }
-    }
-
-    // check if logged in AND not selecting self
-    const canChallengeOpponent = !!state.me && user.id !== state.me.id
-
-    const className = (() => {
-      const classNames = [ 'user' ]
-      if (canChallengeOpponent) {
-        classNames.push('active')
-      }
-      if (state.me && user.id === state.me.id) {
-        classNames.push('selected')
-      }
-      return classNames.join(' ')
-    })()
-
-    const clickHandler = canChallengeOpponent && this._handleClick.bind(this, user)
-
-    const avatarElement = user.image ? <img className="avatar" src={user.image} /> : <div className="avatar" />
-
-    const getRatingElement = (user) => {
-      const className = [
-        'rating',
-        user.num_pending ? 'subtle' : null
-      ].filter(Boolean).join(' ')
-      return (
-        <span className={className}>
-          {user.num_matches ? user.rating : ''}
-          {user.num_pending ? '*' : ''}
-        </span>
-      )
-    }
-
-    const getRecordElement = (user) => {
-      const className = [
-        'win-loss-record',
-        user.num_pending ? 'subtle' : null
-      ].filter(Boolean).join(' ')
-      return (
-        <span className={className}>
-          {user.num_matches ? `${user.num_wins}-${user.num_losses}` : ''}
-          {user.num_pending ? '*' : ''}
-        </span>
-      )
-    }
-
-    return (
-      <div
-      key={user.id}
-      className={className}
-      onClick={clickHandler}
-      >
-        <div>
-          <span>{index + 1}</span>
-          {avatarElement}
-          {getUserNameElement(user)}
-          {getDeltaElement(user.id)}
-          {getRatingElement(user)}
-          {getRecordElement(user)}
-          {/*
-          <span className="arrow" onClick={this._handleStatsClick.bind(this, user)}>
-            {isExpandedUser ? String.fromCharCode('9650') : String.fromCharCode('9660')}
-          </span>
-          */}
-        </div>
-        {/*
-        {isExpandedUser ? <ExpandedInfo user={user} /> : null}
-        */}
-      </div>
-    )
-  }
-
-  _getHeaderElement() {
-    return (
-      <div className="user">
-        <div>
-          <span>RANK</span>
-          <span></span>
-          <span>RATING</span>
-          <span className="win-loss-record">W-L</span>
-        </div>
-      </div>
-    )
-  }
-
-  _getLeaderboardContent() {
-    if (this.state.rankedUsers) {   // leaderboard has loaded
-      const subTitleElement = state.me ? <div className="panel-subtitle">Select your opponent to record a match.</div> : <div className="panel-subtitle warning">Login to record a match.</div>
-      const pendingMemo = this.state.rankedUsers.some((user) => !!user.num_pending) ? <div className="panel-subtitle">* Has unconfirmed matches</div> : null
-      return (
-        <span>
-          <Panel className='leaderboard'>
-            <h3>
-              LEADERBOARD
-            </h3>
-            {subTitleElement}
-            <div className="panel-section">
-              {this._getHeaderElement()}
-              {this.state.rankedUsers.map(this._getUserElement.bind(this))}
-            </div>
-            {pendingMemo}
-          </Panel>
-          <HistoryPanel />
-        </span>
-      )
-    }
   }
 
   render() {
@@ -202,21 +46,29 @@ class Leaderboard extends React.Component {
       <section>
         <TitleBar />
         <MainContent>
-          {this._getLeaderboardContent()}
+          <LeaderboardContent
+            rankedUsers={ this.state.rankedUsers }
+            me={ state.me }
+            deltas={ this.state.deltas }
+            expandedUser={ this._expandedUser }
+            handleClick={ handleUserClick.bind(null) }
+          />
         </MainContent>
       </section>
     )
   }
 
-  _handleClick(user, evt) {
-    if (user.id !== state.me.id) {
-      state.setPage('game', { you: state.me, them: user })
-    }
-  }
-
   _handleStatsClick(user, evt) {
     evt.stopPropagation()
     this._expandedUser = (this._expandedUser !== user) ? user : null
+  }
+}
+
+function handleUserClick(user, evt) {
+  return function(evt) {
+    if (user.id !== state.me.id) {
+      navigator.openGamePage(user)
+    }
   }
 }
 
